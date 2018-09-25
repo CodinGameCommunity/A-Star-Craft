@@ -1,0 +1,59 @@
+<div class="statement-body">
+    <h1>Nom de code : Chu Chu Rocket</h1>
+    
+    <p>
+        On est sur une grille de 19*10 cases. Chaque case peut &ecirc;tre un mur ou une case vide. Il y a des robots sur cette carte. Le but du jeu est de garder en vie les robots le plus longtemps possible.
+    </p>
+    
+    <p>
+        Pour cela, le joueur doit placer des fl&egrave;ches sur la carte. Il peut poser autant de fl&egrave;che qu'il le souhaite.
+    </p>
+    
+    <p>
+        Les robots ne font qu'avancer dans une direction. Quand elles arrivent sur une fl&egrave;che, elles changent de direction en fonction de la fl&egrave;che. Au premier tour les robots vont dans une direction qui est donn&egrave;e dans les inputs.
+    </p>
+
+    <p>
+        Un robot meurt si : 
+    </p>
+
+    <ul>
+        <li>Il rentre dans un mur</li>
+        <li>Il rentre dans un autre robot<li>
+        <li>Il commence une boucle infinie</li>
+    </ul>
+    
+    <p>
+        Pour calculer le score de joueur, chaque tour rapporte autant de point qu'il y a de robots sur la carte. Au d&eacute;but on a donc 10 points par tour, puis 9 points quand un robot aura r&eacute;ussi &agrave; s'&eacute;chapper, etc ... Le probl&egrave;me est donc ici le chemin le plus long. Un probl&egrave;me connu en informatique mais surtout connu pour ne pas avoir de solution.
+    </p>
+    
+    <p>
+        <strong>La difficult&eacute; du jeu : &eacute;viter la boucle infinie</strong><br/>
+        Si un robot entre dans une boucle infinie, il est retir&eacute;e du jeu
+    </p>
+    
+    <p>
+        Le code ne joue qu'une seule fois. Il re&ccedil;oit tout les inputs, il doit donner toutes les fl&egrave;ches &agrave; poser en une seule ligne. La partie se d&eacute;roule toute seule jusqu'&agrave; la fin.
+    </p>
+    
+    <p>
+        <strong>INPUTS</strong>
+        
+        <ul>
+            <li>1 ligne : Un entier pour le nombre de ligne &agrave; lire</li>
+            <li>X lignes suivantes : la carte du jeu. Un <code>.</code> indique une case vide. Un <code>#</code> indique un mur</li>
+            <li>1 ligne : Le nombre de robots</li>
+            <li>X lignes suivantes : une ligne contenant les 3 informations suivantes dans l'ordre <code>x</code>, <code>y</code>, <code>direction</code>.
+            <ul>
+                <li><code>x</code> : la position x du robot</li>
+                <li><code>y</code> : la position y du robot</li>
+                <li><code>direction</code> : la direction du robot. <code>U</code> pour UP, <code>R</code> pour RIGHT, <code>D</code> pour DOWN et <code>L</code> pour LEFT</li>
+            </ul>
+        </ul>
+        
+        <strong>OUTPUTS</strong>
+        
+        <p>Une seule ligne qui contient autant de triplet qu'on veut s&eacute;par&eacute; par des espaces. Chaque triplet doit &ecirc;tre de la forme <code>x y type</code>. Chaque triplet permet de poser une fl&egrave;che sur une case. Les types possibles sont donc <code>U</code>, <code>R</code>, <code>D</code> et <code>L</code></p>
+        <p>Exemple d'output : <code>8 9 U 13 10 D 15 1 L</code></p>
+    </p>
+</div>
