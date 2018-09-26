@@ -166,7 +166,7 @@ public class Referee extends AbstractReferee {
                 if (robot.death == DEATH_INFINITE_LOOP) {
                     message = "Robot " + robot.id + " is starting an infinite loop.";
                 } else if (robot.death == DEATH_VOID) {
-                    message = "Robot " + robot.id + " crashed into a wall.";
+                    message = "Robot " + robot.id + " fell into deep space.";
                 }
                 
                 manager.addTooltip(player, message);
