@@ -84,7 +84,16 @@ public class Engine {
     }
 
     public void apply(int x, int y, int direction) {
-        get(x, y).type = direction;
+        Cell cell = get(x, y);
+        
+        cell.type = direction;
+        
+        // Check if we need to update a robot direction
+        for (Robot robot : robots) {
+            if (robot.cell == cell) {
+                robot.direction = direction;
+            }
+        }
     }
 
     public void play() {
