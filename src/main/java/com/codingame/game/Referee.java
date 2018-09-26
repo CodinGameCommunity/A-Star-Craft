@@ -107,11 +107,16 @@ public class Referee extends AbstractReferee {
 
                     if (y < 0 || y >= MAP_HEIGHT) {
                         manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
-                        return;
+                        continue;
                     }
 
                     if (engine.get(x, y).type == VOID) {
-                        manager.addToGameSummary(x + " " + y + " is a wall.");
+                        manager.addToGameSummary(x + " " + y + " is a void cell.");
+                        continue;
+                    }
+                    
+                    if (engine.get(x, y).type != NONE) {
+                        manager.addToGameSummary(x + " " + y + " already contains an arrow");
                         continue;
                     }
 
