@@ -41,8 +41,18 @@ public class Referee extends AbstractReferee {
                 StringBuilder sb = new StringBuilder();
 
                 for (int x = 0; x < MAP_WIDTH; ++x) {
-                    if (engine.get(x, y).type == VOID) {
+                    int type = engine.get(x, y).type;
+                    
+                    if (type == VOID) {
                         sb.append("#");
+                    } else if (type == UP) {
+                        sb.append("U");
+                    } else if (type == RIGHT) {
+                        sb.append("R");
+                    } else if (type == DOWN) {
+                        sb.append("D");
+                    } else if (type == LEFT) {
+                        sb.append("L");
                     } else {
                         sb.append(".");
                     }

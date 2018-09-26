@@ -6,7 +6,7 @@ public class Main {
 
         // Adds as many player as you need to test your game
         gameRunner.setAgent(RandomAI.class);
-        gameRunner.setTestCase("test2.json");
+        gameRunner.setTestCase("test4.json");
 
         gameRunner.start(9999);
     }

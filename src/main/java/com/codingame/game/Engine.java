@@ -35,18 +35,20 @@ public class Engine {
             }
         }
 
-        // Place walls and robots
+        // Place void cells, robots and arrow
         int index = 0;
         for (int y = 0; y < MAP_HEIGHT; ++y) {
             for (int x = 0; x < MAP_WIDTH; ++x) {
                 char c = input.charAt(index);
 
                 if (c != '.') {
+                    Cell cell = get(x, y);
+
                     if (c == '#') {
-                        get(x, y).type = VOID;
-                    } else {
+                        cell.type = VOID;
+                    } else if (c == Character.toUpperCase(c)) {
                         Robot robot = new Robot();
-                        robot.cell = get(x, y);
+                        robot.cell = cell;
 
                         if (c == 'U') {
                             robot.direction = UP;
@@ -59,6 +61,16 @@ public class Engine {
                         }
 
                         robots.add(robot);
+                    } else {
+                        if (c == 'u') {
+                            cell.type = UP;
+                        } else if (c == 'r') {
+                            cell.type = RIGHT;
+                        } else if (c == 'd') {
+                            cell.type = DOWN;
+                        } else if (c == 'l') {
+                            cell.type = LEFT;
+                        }
                     }
                 }
 
@@ -85,9 +97,9 @@ public class Engine {
 
     public void apply(int x, int y, int direction) {
         Cell cell = get(x, y);
-        
+
         cell.type = direction;
-        
+
         // Check if we need to update a robot direction
         for (Robot robot : robots) {
             if (robot.cell == cell) {
@@ -101,7 +113,7 @@ public class Engine {
 
         for (Robot robot : robots) {
             Cell next = robot.cell.nexts[robot.direction];
-            
+
             robot.cell = next;
 
             if (next.type == VOID) {
@@ -120,7 +132,7 @@ public class Engine {
                 gones.add(robot);
             }
         }
-        
+
         robots.removeAll(gones);
 
         score += robots.size();

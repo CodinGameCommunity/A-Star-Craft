@@ -37,6 +37,7 @@ public class Viewer {
     private Map<Robot, Sprite> sprites;
     private Map<Robot, Sprite> newSprites = new HashMap<>();
     private Map<Robot, Cell> positions;
+    private Set<Cell> startArrows;
     private Text score;
     private Random random = new Random();
 
@@ -46,6 +47,7 @@ public class Viewer {
         positions = new HashMap<>();
         sprites = new HashMap<>();
         newSprites = new HashMap<>();
+        startArrows = new HashSet<>();
 
         // Background
         module.createSprite().setImage("background.png").setX(0).setY(0).setScale(2.0).setZIndex(Z_BACKGROUND);
@@ -58,10 +60,13 @@ public class Viewer {
             module.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X).setY(OFFSET_Y + CELL_HEIGHT * y).setX2(OFFSET_X + VIEWER_WIDTH).setY2(OFFSET_Y + CELL_HEIGHT * y).setZIndex(Z_GRID);
         }
 
-        // Floor and portals
+        // Floor, portals and arrows
         for (int x = 0; x < MAP_WIDTH; ++x) {
             for (int y = 0; y < MAP_HEIGHT; ++y) {
-                if (engine.get(x, y).type != VOID) {
+                Cell cell = engine.get(x, y);
+                int type = cell.type;
+
+                if (type != VOID) {
                     module.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_FLOOR);
 
                     if (x == 0 && engine.get(x - 1, y).type != VOID) {
@@ -79,13 +84,18 @@ public class Viewer {
                     if (y == MAP_HEIGHT - 1 && engine.get(x, y + 1).type != VOID) {
                         createPortal().setX(x * CELL_WIDTH + OFFSET_X + (CELL_WIDTH / 2)).setY(y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT);
                     }
+                    
+                    if (type != NONE) {
+                        createArrowSprite(x, y, type).setScale(ARROW_SCALE);
+                        startArrows.add(cell);
+                    }
                 }
             }
         }
 
         // Robots
         for (Robot robot : engine.robots) {
-            Sprite sprite = createRobotSprite().setRotation(getRobotRotation(robot.direction));
+            Sprite sprite = createRobotSprite().setRotation(getRotation(robot.direction));
 
             moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
 
@@ -103,7 +113,7 @@ public class Viewer {
         return module.createSprite().setImage("portal.png").setScale(PORTAL_SCALE).setZIndex(Z_PORTAL).setAnchor(0.5);
     }
 
-    private double getRobotRotation(int direction) {
+    private double getRotation(int direction) {
         switch (direction) {
         case UP:
             return Math.PI * 1.50;
@@ -126,33 +136,39 @@ public class Viewer {
         return module.createSprite().setImage("robot.png").setScale(ROBOT_SCALE).setAnchor(0.5);
     }
 
+    private Sprite createArrowSprite(int x, int y, int direction) {
+        return module.createSprite().setImage("arrow.png").setX(CELL_WIDTH / 2 + x * CELL_WIDTH + OFFSET_X).setY(CELL_HEIGHT / 2 + y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_ARROW).setRotation(getRotation(direction)).setAnchor(0.5);
+    }
+
     public void updateMap() {
-        List<Sprite> sprites = new ArrayList<>();
+        List<Sprite> arrows = new ArrayList<>();
 
-        for (int cx = 0; cx < MAP_WIDTH; ++cx) {
-            for (int cy = 0; cy < MAP_HEIGHT; ++cy) {
-                int type = engine.get(cx, cy).type;
-
-                Sprite sprite = module.createSprite().setX(CELL_WIDTH / 2 + +cx * CELL_WIDTH + OFFSET_X).setY(CELL_HEIGHT / 2 + cy * CELL_HEIGHT + OFFSET_Y).setScale(0).setZIndex(Z_ARROW).setAnchor(0.5);
-
-                if (type == UP) {
-                    sprite.setImage("up.png");
-                } else if (type == RIGHT) {
-                    sprite.setImage("right.png");
-                } else if (type == DOWN) {
-                    sprite.setImage("down.png");
-                } else if (type == LEFT) {
-                    sprite.setImage("left.png");
+        for (int x = 0; x < MAP_WIDTH; ++x) {
+            for (int y = 0; y < MAP_HEIGHT; ++y) {
+                Cell cell = engine.get(x, y);
+                
+                if (!startArrows.contains(cell)) {
+                    int type = cell.type;
+    
+                    if (type != VOID && type != NONE) {
+                        arrows.add(createArrowSprite(x, y, type).setScale(0));
+                    }
                 }
-
-                sprites.add(sprite);
             }
         }
 
         module.commitWorldState(0.0);
 
-        for (Sprite sprite : sprites) {
+        for (Sprite sprite : arrows) {
             sprite.setScale(ARROW_SCALE, Curve.ELASTIC);
+        }
+        
+        // Update robots rotation
+        for (Entry<Robot, Sprite> entries : sprites.entrySet()) {
+            Robot robot = entries.getKey();
+            Sprite sprite = entries.getValue();
+            
+            sprite.setRotation(getRotation(robot.direction));
         }
 
         module.commitWorldState(1.0);
@@ -237,7 +253,7 @@ public class Viewer {
                 }
             } else {
                 sprites.put(robot, sprite);
-                sprite.setRotation(getRobotRotation(robot.direction));
+                sprite.setRotation(getRotation(robot.direction));
             }
         }
 
