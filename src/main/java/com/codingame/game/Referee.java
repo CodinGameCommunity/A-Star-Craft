@@ -14,6 +14,7 @@ public class Referee extends AbstractReferee {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("^[0-9][0-9]?$");
     private static final Pattern ACTION_PATTERN = Pattern.compile("^[URDL]$");
+    private static final Pattern INPUT_PATTERN = Pattern.compile("^[.#URDLurdl]{190}$");
 
     @Inject
     private SoloGameManager<Player> manager;
@@ -25,7 +26,21 @@ public class Referee extends AbstractReferee {
     private Player player;
 
     public void init() {
-        engine = new Engine(manager.getTestCaseInput().get(0));
+        String input;
+        
+        try {
+            input = manager.getTestCaseInput().get(0);
+        } catch (Exception exception) {
+            manager.loseGame("Bad referee input");
+            return;
+        }
+        
+        if (!INPUT_PATTERN.matcher(input).matches()) {
+            manager.loseGame("Bad referee input");
+            return;
+        }
+        
+        engine = new Engine(input);
         viewer = new Viewer(module, engine);
 
         player = manager.getPlayer();
@@ -193,6 +208,10 @@ public class Referee extends AbstractReferee {
     }
 
     public void onEnd() {
-        manager.putMetadata("Score", String.valueOf(engine.score));
+        if (engine != null) {
+            manager.putMetadata("Score", String.valueOf(engine.score));
+        } else {
+            manager.putMetadata("Score", "0");
+        }
     }
 }
