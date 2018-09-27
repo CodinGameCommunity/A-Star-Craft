@@ -43,11 +43,11 @@ public class Robot {
         }
     }
 
-    protected int id;
-    protected Cell cell;
-    protected int direction;
-    protected Set<State> states;
-    protected int death;
+    public int id;
+    public Cell cell;
+    public int direction;
+    public Set<State> states;
+    public int death;
 
     public Robot() {
         id = globalId++;

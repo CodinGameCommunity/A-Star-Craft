@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
+import com.codingame.view.Viewer;
 import com.google.inject.Inject;
 
 public class Referee extends AbstractReferee {

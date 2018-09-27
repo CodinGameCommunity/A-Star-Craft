@@ -1,10 +1,11 @@
-package com.codingame.game;
+package com.codingame.view;
 
 import static com.codingame.game.Constants.*;
 
 import java.util.*;
 import java.util.Map.Entry;
 
+import com.codingame.game.*;
 import com.codingame.gameengine.module.entities.*;
 
 public class Viewer {

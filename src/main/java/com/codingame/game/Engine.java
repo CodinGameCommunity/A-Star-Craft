@@ -6,10 +6,10 @@ import java.util.*;
 
 public class Engine {
 
-    protected int score;
-    protected Cell[][] grid;
-    protected List<Robot> robots;
-    protected Set<Robot> gones;
+    public int score;
+    public Cell[][] grid;
+    public List<Robot> robots;
+    public Set<Robot> gones;
 
     public Engine(String input) {
         score = 0;

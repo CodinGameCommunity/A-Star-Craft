@@ -4,11 +4,11 @@ public class Cell {
 
     private static int globalId = 0;
 
-    protected int id;
-    protected int x;
-    protected int y;
-    protected Cell[] nexts;
-    protected int type;
+    public int id;
+    public int x;
+    public int y;
+    public Cell[] nexts;
+    public int type;
 
     public Cell(int x, int y) {
         this.id = globalId++;
