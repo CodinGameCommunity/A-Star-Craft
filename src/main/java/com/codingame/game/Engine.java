@@ -24,6 +24,7 @@ public class Engine {
             }
         }
 
+        // Link cells
         for (int x = 0; x < MAP_WIDTH; ++x) {
             for (int y = 0; y < MAP_HEIGHT; ++y) {
                 Cell cell = get(x, y);
@@ -35,7 +36,7 @@ public class Engine {
             }
         }
 
-        // Place void cells, robots and arrow
+        // Place void cells, robots and arrows
         int index = 0;
         for (int y = 0; y < MAP_HEIGHT; ++y) {
             for (int x = 0; x < MAP_WIDTH; ++x) {
