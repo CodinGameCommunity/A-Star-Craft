@@ -86,7 +86,7 @@ public class Viewer {
                     }
                     
                     if (type != NONE) {
-                        createArrowSprite(x, y, type).setScale(ARROW_SCALE);
+                        createArrowSprite(x, y, type).setScale(ARROW_SCALE).setTint(0x888888);
                         startArrows.add(cell);
                     }
                 }
