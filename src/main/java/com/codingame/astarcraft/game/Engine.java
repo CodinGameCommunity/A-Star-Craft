@@ -1,6 +1,6 @@
-package com.codingame.game;
+package com.codingame.astarcraft.game;
 
-import static com.codingame.game.Constants.*;
+import static com.codingame.astarcraft.Constants.*;
 
 import java.util.*;
 

@@ -1,4 +1,6 @@
-package com.codingame.game;
+package com.codingame.astarcraft.game;
+
+import com.codingame.astarcraft.Constants;
 
 public class Cell {
 

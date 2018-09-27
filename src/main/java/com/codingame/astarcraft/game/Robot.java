@@ -1,4 +1,4 @@
-package com.codingame.game;
+package com.codingame.astarcraft.game;
 
 import java.util.HashSet;
 import java.util.Set;

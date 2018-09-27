@@ -1,4 +1,4 @@
-package com.codingame.game;
+package com.codingame.astarcraft;
 
 public final class Constants {
 

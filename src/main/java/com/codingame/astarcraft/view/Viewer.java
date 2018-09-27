@@ -1,11 +1,11 @@
-package com.codingame.view;
+package com.codingame.astarcraft.view;
 
-import static com.codingame.game.Constants.*;
+import static com.codingame.astarcraft.Constants.*;
 
 import java.util.*;
 import java.util.Map.Entry;
 
-import com.codingame.game.*;
+import com.codingame.astarcraft.game.*;
 import com.codingame.gameengine.module.entities.*;
 
 public class Viewer {

@@ -1,14 +1,17 @@
 package com.codingame.game;
 
-import static com.codingame.game.Constants.*;
+
+import static com.codingame.astarcraft.Constants.*;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.codingame.astarcraft.game.Engine;
+import com.codingame.astarcraft.game.Robot;
+import com.codingame.astarcraft.view.Viewer;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
-import com.codingame.view.Viewer;
 import com.google.inject.Inject;
 
 public class Referee extends AbstractReferee {
