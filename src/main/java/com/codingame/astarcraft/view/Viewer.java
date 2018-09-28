@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 
 import com.codingame.astarcraft.game.*;
 import com.codingame.gameengine.module.entities.*;
-import com.google.inject.Inject;
 
 public class Viewer {
     private GraphicEntityModule module;
