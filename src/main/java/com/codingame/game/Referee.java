@@ -1,6 +1,15 @@
 package com.codingame.game;
 
-import static com.codingame.game.Constants.*;
+import static com.codingame.game.Constants.DEATH_INFINITE_LOOP;
+import static com.codingame.game.Constants.DEATH_VOID;
+import static com.codingame.game.Constants.DOWN;
+import static com.codingame.game.Constants.LEFT;
+import static com.codingame.game.Constants.MAP_HEIGHT;
+import static com.codingame.game.Constants.MAP_WIDTH;
+import static com.codingame.game.Constants.NONE;
+import static com.codingame.game.Constants.RIGHT;
+import static com.codingame.game.Constants.UP;
+import static com.codingame.game.Constants.VOID;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -8,6 +17,7 @@ import java.util.regex.Pattern;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
+import com.codingame.view.TooltipModule;
 import com.codingame.view.Viewer;
 import com.google.inject.Inject;
 
@@ -21,6 +31,8 @@ public class Referee extends AbstractReferee {
     private SoloGameManager<Player> manager;
     @Inject
     private GraphicEntityModule module;
+    @Inject
+    private TooltipModule tooltipModule;
 
     private Engine engine;
     private Viewer viewer;
@@ -42,7 +54,7 @@ public class Referee extends AbstractReferee {
         }
         
         engine = new Engine(input);
-        viewer = new Viewer(module, engine);
+        viewer = new Viewer(module, engine, tooltipModule);
 
         player = manager.getPlayer();
 

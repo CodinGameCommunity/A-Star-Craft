@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.codingame.game.*;
 import com.codingame.gameengine.module.entities.*;
+import com.google.inject.Inject;
 
 public class Viewer {
     private GraphicEntityModule module;
@@ -41,8 +42,10 @@ public class Viewer {
     private Set<Cell> startArrows;
     private Text score;
     private Random random = new Random();
+    private TooltipModule tooltips;
 
-    public Viewer(GraphicEntityModule module, Engine engine) {
+    public Viewer(GraphicEntityModule module, Engine engine, TooltipModule tooltips) {
+        this.tooltips = tooltips;
         this.module = module;
         this.engine = engine;
         positions = new HashMap<>();
