@@ -1,6 +1,5 @@
 package com.codingame.game;
 
-
 import static com.codingame.astarcraft.Constants.*;
 
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.regex.Pattern;
 
 import com.codingame.astarcraft.game.Engine;
 import com.codingame.astarcraft.game.Robot;
+import com.codingame.astarcraft.view.TooltipModule;
 import com.codingame.astarcraft.view.Viewer;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
@@ -24,6 +24,8 @@ public class Referee extends AbstractReferee {
     private SoloGameManager<Player> manager;
     @Inject
     private GraphicEntityModule module;
+    @Inject
+    private TooltipModule tooltipModule;
 
     private Engine engine;
     private Viewer viewer;
@@ -31,21 +33,21 @@ public class Referee extends AbstractReferee {
 
     public void init() {
         String input;
-        
+
         try {
             input = manager.getTestCaseInput().get(0);
         } catch (Exception exception) {
             manager.loseGame("Bad referee input");
             return;
         }
-        
+
         if (!INPUT_PATTERN.matcher(input).matches()) {
             manager.loseGame("Bad referee input");
             return;
         }
-        
+
         engine = new Engine(input);
-        viewer = new Viewer(module, engine);
+        viewer = new Viewer(module, engine, tooltipModule);
 
         player = manager.getPlayer();
 
@@ -61,7 +63,7 @@ public class Referee extends AbstractReferee {
 
                 for (int x = 0; x < MAP_WIDTH; ++x) {
                     int type = engine.get(x, y).type;
-                    
+
                     if (type == VOID) {
                         sb.append("#");
                     } else if (type == UP) {
@@ -143,7 +145,7 @@ public class Referee extends AbstractReferee {
                         manager.addToGameSummary(x + " " + y + " is a void cell.");
                         continue;
                     }
-                    
+
                     if (engine.get(x, y).type != NONE) {
                         manager.addToGameSummary(x + " " + y + " already contains an arrow");
                         continue;
@@ -181,13 +183,13 @@ public class Referee extends AbstractReferee {
 
             for (Robot robot : engine.gones) {
                 String message = "";
-               
+
                 if (robot.death == DEATH_INFINITE_LOOP) {
                     message = "Robot " + robot.id + " is starting an infinite loop.";
                 } else if (robot.death == DEATH_VOID) {
                     message = "Robot " + robot.id + " fell into deep space.";
                 }
-                
+
                 manager.addTooltip(player, message);
                 manager.addToGameSummary(message);
             }

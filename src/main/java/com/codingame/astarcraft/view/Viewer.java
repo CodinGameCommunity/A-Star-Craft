@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.codingame.astarcraft.game.*;
 import com.codingame.gameengine.module.entities.*;
+import com.google.inject.Inject;
 
 public class Viewer {
     private GraphicEntityModule module;
@@ -41,8 +42,10 @@ public class Viewer {
     private Set<Cell> startArrows;
     private Text score;
     private Random random = new Random();
+    private TooltipModule tooltips;
 
-    public Viewer(GraphicEntityModule module, Engine engine) {
+    public Viewer(GraphicEntityModule module, Engine engine, TooltipModule tooltips) {
+        this.tooltips = tooltips;
         this.module = module;
         this.engine = engine;
         positions = new HashMap<>();
@@ -85,7 +88,7 @@ public class Viewer {
                     if (y == MAP_HEIGHT - 1 && engine.get(x, y + 1).type != VOID) {
                         createPortal().setX(x * CELL_WIDTH + OFFSET_X + (CELL_WIDTH / 2)).setY(y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT);
                     }
-                    
+
                     if (type != NONE) {
                         createArrowSprite(x, y, type).setScale(ARROW_SCALE).setTint(0x888888);
                         startArrows.add(cell);
@@ -147,10 +150,10 @@ public class Viewer {
         for (int x = 0; x < MAP_WIDTH; ++x) {
             for (int y = 0; y < MAP_HEIGHT; ++y) {
                 Cell cell = engine.get(x, y);
-                
+
                 if (!startArrows.contains(cell)) {
                     int type = cell.type;
-    
+
                     if (type != VOID && type != NONE) {
                         arrows.add(createArrowSprite(x, y, type).setScale(0));
                     }
@@ -163,12 +166,12 @@ public class Viewer {
         for (Sprite sprite : arrows) {
             sprite.setScale(ARROW_SCALE, Curve.ELASTIC);
         }
-        
+
         // Update robots rotation
         for (Entry<Robot, Sprite> entries : sprites.entrySet()) {
             Robot robot = entries.getKey();
             Sprite sprite = entries.getValue();
-            
+
             sprite.setRotation(getRotation(robot.direction));
         }
 
