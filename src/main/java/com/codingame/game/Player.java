@@ -1,6 +1,6 @@
 package com.codingame.game;
 
-import com.codingame.gameengine.core.AbstractSoloPlayer;;
+import com.codingame.gameengine.core.AbstractSoloPlayer;
 
 public class Player extends AbstractSoloPlayer {
 

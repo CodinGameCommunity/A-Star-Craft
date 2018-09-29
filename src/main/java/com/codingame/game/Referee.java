@@ -2,6 +2,7 @@ package com.codingame.game;
 
 import static com.codingame.astarcraft.Constants.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -108,6 +109,10 @@ public class Referee extends AbstractReferee {
             try {
                 List<String> outputs = player.getOutputs();
 
+                if (outputs == null) {
+                    outputs = Collections.EMPTY_LIST;
+                }
+
                 if (outputs.isEmpty()) {
                     manager.addToGameSummary("No output");
                     return;
@@ -115,12 +120,12 @@ public class Referee extends AbstractReferee {
 
                 String[] output = outputs.get(0).trim().split(" ");
 
-                if (output.length % 3 != 0) {
-                    manager.loseGame("Element amount in the action sequence is not a multiple of 3");
-                    return;
-                }
-
                 for (int i = 0; i < output.length; i += 3) {
+                    if (output.length <= i + 2) {
+                        manager.addToGameSummary("Element amount in the action sequence is not a multiple of 3");
+                        continue;
+                    }
+
                     if (!INTEGER_PATTERN.matcher(output[i]).matches() || !INTEGER_PATTERN.matcher(output[i + 1]).matches() || !ACTION_PATTERN.matcher(output[i + 2]).matches()) {
                         manager.addToGameSummary(output[i] + " " + output[i + 1] + " " + output[i + 2] + " is not a valid action.");
                         continue;
