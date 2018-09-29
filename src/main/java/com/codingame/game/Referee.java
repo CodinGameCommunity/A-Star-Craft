@@ -1,11 +1,5 @@
 package com.codingame.game;
 
-import static com.codingame.astarcraft.Constants.*;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import com.codingame.astarcraft.game.Engine;
 import com.codingame.astarcraft.game.Robot;
 import com.codingame.astarcraft.view.TooltipModule;
@@ -15,11 +9,19 @@ import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
 import com.google.inject.Inject;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.codingame.astarcraft.Constants.*;
+
 public class Referee extends AbstractReferee {
 
     private static final Pattern INTEGER_PATTERN = Pattern.compile("^[0-9][0-9]?$");
     private static final Pattern ACTION_PATTERN = Pattern.compile("^[URDL]$");
     private static final Pattern INPUT_PATTERN = Pattern.compile("^[.#URDLurdl]{190}$");
+    private static final Pattern INPUT_ROBOTS_PATTERN = Pattern.compile("[URDL]");
 
     @Inject
     private SoloGameManager<Player> manager;
@@ -43,6 +45,17 @@ public class Referee extends AbstractReferee {
         }
 
         if (!INPUT_PATTERN.matcher(input).matches()) {
+            manager.loseGame("Bad referee input");
+            return;
+        }
+
+        int count = 0;
+        Matcher matcher = INPUT_ROBOTS_PATTERN.matcher(input);
+        while (matcher.find()) {
+            count += 1;
+        }
+
+        if (count <= 0 || count >= 20) {
             manager.loseGame("Bad referee input");
             return;
         }
