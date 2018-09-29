@@ -23,6 +23,19 @@ public class RefereeTest {
             "...................",
     };
 
+    public static final String[] MAP2 = {
+            "###################",
+            "###################",
+            "###################",
+            "###################",
+            "#######R....#######",
+            "###################",
+            "###################",
+            "###################",
+            "###################",
+            "###################",
+    };
+
     public static final String[] MAP_NO_ROBOT = {
             "###################",
             "...................",
@@ -84,7 +97,7 @@ public class RefereeTest {
     };
 
     @Test
-    public void outputs() throws Exception {
+    public void simples() throws Exception {
         play(19, "", MAP1);
         play(10, "0 0 D", MAP1);
         play(19, "0 0 L", MAP1);
@@ -92,7 +105,16 @@ public class RefereeTest {
         play(19, "0 0 R", MAP1);
         play(11, "2 0 U", MAP1);
         play(27, "9 0 L", MAP1);
+        play(10, "0 0 U 0 0 L", MAP1);
+        play(19, "0 0 L 0 0 U", MAP1);
 
+        play(4, "", MAP2);
+        play(4, "0 0 D", MAP2);
+        play(4, "0 0 D 1 1 L", MAP2);
+    }
+
+    @Test
+    public void badOutputs() throws Exception {
         play(19, "null", MAP1);
         play(19, "coucou", MAP1);
         play(19, "5 5", MAP1);
@@ -100,15 +122,21 @@ public class RefereeTest {
         play(19, "1 2 X", MAP1);
         play(19, "X X X", MAP1);
         play(19, "lol lol lol", MAP1);
+        play(11, "0 0 X 2 0 U", MAP1);
     }
 
     @Test
-    public void inputs() throws Exception {
+    public void badInputs() throws Exception {
         play(0, "", MAP_NO_ROBOT);
         play(0, "", MAP_TOO_MUCH_ROBOTS);
         play(0, "", BAD_MAP1);
         play(0, "", BAD_MAP2);
         play(0, "", BAD_MAP3);
+        play(0, "0 0 U", MAP_TOO_MUCH_ROBOTS);
+        play(0, "0 0 R", MAP_TOO_MUCH_ROBOTS);
+        play(0, "1 1 R", MAP_TOO_MUCH_ROBOTS);
+        play(0, "2 2 L", MAP_TOO_MUCH_ROBOTS);
+        play(0, "3 3 D", MAP_TOO_MUCH_ROBOTS);
     }
 
     private void assertScore(GameResult result, int excepted) {
