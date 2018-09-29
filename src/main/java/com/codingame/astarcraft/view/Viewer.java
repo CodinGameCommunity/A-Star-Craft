@@ -17,11 +17,9 @@ public class Viewer {
     private static final int CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH;
     private static final int CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT;
     private static final double ROBOT_SIZE = Math.round(CELL_WIDTH * 0.75);
-    private static final double ROBOT_SPRITE_SIZE = 154.0;
-    private static final double ROBOT_SCALE = ROBOT_SIZE / ROBOT_SPRITE_SIZE;
     private static final double ARROW_SIZE = Math.round(CELL_WIDTH * 0.70);
-    private static final double ARROW_SPRITE_SIZE = 140.0;
-    private static final double ARROW_SCALE = ARROW_SIZE / ARROW_SPRITE_SIZE;
+    private static final double ROBOT_SCALE = ROBOT_SIZE / 154;
+    private static final double ARROW_SCALE = ARROW_SIZE / 140.0;
     private static final double TILE_SCALE = CELL_WIDTH / 64.0;
     private static final int OFFSET_X = 10;
     private static final int OFFSET_Y = 68;
@@ -36,7 +34,7 @@ public class Viewer {
     private static final double PORTAL_SCALE = CELL_WIDTH / 70.0;
 
     private Map<Robot, Sprite> sprites;
-    private Map<Robot, Sprite> newSprites = new HashMap<>();
+    private Map<Robot, Sprite> newSprites;
     private Map<Robot, Cell> positions;
     private Set<Cell> startArrows;
     private Text score;
