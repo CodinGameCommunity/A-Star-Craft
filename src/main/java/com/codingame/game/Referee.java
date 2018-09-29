@@ -220,9 +220,9 @@ public class Referee extends AbstractReferee {
 
     public void onEnd() {
         if (engine != null) {
-            manager.putMetadata("Score", String.valueOf(engine.score));
+            manager.putMetadata("Points", String.valueOf(engine.score));
         } else {
-            manager.putMetadata("Score", "0");
+            manager.putMetadata("Points", "0");
         }
     }
 }
