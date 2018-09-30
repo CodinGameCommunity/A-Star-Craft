@@ -192,7 +192,9 @@ public class Referee extends AbstractReferee {
                 viewer.updateMap();
             } catch (Exception e) {
                 e.printStackTrace(System.err);
-                manager.loseGame("Referee error");
+                manager.loseGame("Referee error " + e.getClass().getCanonicalName() + " : " + e.getMessage());
+
+                return;
             }
 
             engine.registerStates();
