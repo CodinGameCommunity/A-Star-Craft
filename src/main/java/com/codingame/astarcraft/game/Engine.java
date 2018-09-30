@@ -96,6 +96,12 @@ public class Engine {
         return grid[x][y];
     }
 
+    public void registerStates() {
+        for (Robot robot : robots) {
+            robot.registerState();
+        }
+    }
+
     public void apply(int x, int y, int direction) {
         Cell cell = get(x, y);
 

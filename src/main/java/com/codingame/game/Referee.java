@@ -128,66 +128,65 @@ public class Referee extends AbstractReferee {
 
                 if (outputs.isEmpty()) {
                     manager.addToGameSummary("No output");
-                    return;
-                }
+                } else {
+                    String[] output = outputs.get(0).trim().split(" ");
 
-                String[] output = outputs.get(0).trim().split(" ");
+                    for (int i = 0; i < output.length; i += 3) {
+                        if (output.length <= i + 2) {
+                            manager.addToGameSummary("Element amount in the action sequence is not a multiple of 3");
+                            continue;
+                        }
 
-                for (int i = 0; i < output.length; i += 3) {
-                    if (output.length <= i + 2) {
-                        manager.addToGameSummary("Element amount in the action sequence is not a multiple of 3");
-                        continue;
+                        if (!INTEGER_PATTERN.matcher(output[i]).matches() || !INTEGER_PATTERN.matcher(output[i + 1]).matches() || !ACTION_PATTERN.matcher(output[i + 2]).matches()) {
+                            manager.addToGameSummary(output[i] + " " + output[i + 1] + " " + output[i + 2] + " is not a valid action.");
+                            continue;
+                        }
+
+                        int x = Integer.valueOf(output[i]);
+                        int y = Integer.valueOf(output[i + 1]);
+                        String action = output[i + 2];
+                        int direction;
+
+                        if (x < 0 || x >= MAP_WIDTH) {
+                            manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
+                            continue;
+                        }
+
+                        if (y < 0 || y >= MAP_HEIGHT) {
+                            manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
+                            continue;
+                        }
+
+                        if (engine.get(x, y).type == VOID) {
+                            manager.addToGameSummary(x + " " + y + " is a void cell.");
+                            continue;
+                        }
+
+                        if (engine.get(x, y).type != NONE) {
+                            manager.addToGameSummary(x + " " + y + " already contains an arrow");
+                            continue;
+                        }
+
+                        switch (action) {
+                            case "U":
+                                direction = UP;
+                                break;
+                            case "R":
+                                direction = RIGHT;
+                                break;
+                            case "D":
+                                direction = DOWN;
+                                break;
+                            case "L":
+                                direction = LEFT;
+                                break;
+                            default:
+                                manager.addToGameSummary(action + " is not a valid action.");
+                                continue;
+                        }
+
+                        engine.apply(x, y, direction);
                     }
-
-                    if (!INTEGER_PATTERN.matcher(output[i]).matches() || !INTEGER_PATTERN.matcher(output[i + 1]).matches() || !ACTION_PATTERN.matcher(output[i + 2]).matches()) {
-                        manager.addToGameSummary(output[i] + " " + output[i + 1] + " " + output[i + 2] + " is not a valid action.");
-                        continue;
-                    }
-
-                    int x = Integer.valueOf(output[i]);
-                    int y = Integer.valueOf(output[i + 1]);
-                    String action = output[i + 2];
-                    int direction;
-
-                    if (x < 0 || x >= MAP_WIDTH) {
-                        manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
-                        continue;
-                    }
-
-                    if (y < 0 || y >= MAP_HEIGHT) {
-                        manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
-                        continue;
-                    }
-
-                    if (engine.get(x, y).type == VOID) {
-                        manager.addToGameSummary(x + " " + y + " is a void cell.");
-                        continue;
-                    }
-
-                    if (engine.get(x, y).type != NONE) {
-                        manager.addToGameSummary(x + " " + y + " already contains an arrow");
-                        continue;
-                    }
-
-                    switch (action) {
-                    case "U":
-                        direction = UP;
-                        break;
-                    case "R":
-                        direction = RIGHT;
-                        break;
-                    case "D":
-                        direction = DOWN;
-                        break;
-                    case "L":
-                        direction = LEFT;
-                        break;
-                    default:
-                        manager.addToGameSummary(action + " is not a valid action.");
-                        continue;
-                    }
-
-                    engine.apply(x, y, direction);
                 }
 
                 viewer.updateMap();
@@ -195,6 +194,8 @@ public class Referee extends AbstractReferee {
                 e.printStackTrace(System.err);
                 manager.loseGame("Referee error");
             }
+
+            engine.registerStates();
         } else {
             engine.play();
             viewer.update();
