@@ -3,8 +3,10 @@ package com.codingame.game;
 import com.codingame.gameengine.core.AbstractSoloPlayer;
 
 public class Player extends AbstractSoloPlayer {
+    public int expectedOutputLines = 1;
+    
     public int getExpectedOutputLines() {
-        return 1;
+        return expectedOutputLines;
     }
 
     public void sendInputLine(Object line) {
