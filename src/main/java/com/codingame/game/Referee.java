@@ -4,6 +4,7 @@ import com.codingame.astarcraft.game.Engine;
 import com.codingame.astarcraft.game.Robot;
 import com.codingame.astarcraft.view.TooltipModule;
 import com.codingame.astarcraft.view.Viewer;
+import com.codingame.gameengine.core.AbstractPlayer.TimeoutException;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
@@ -190,6 +191,9 @@ public class Referee extends AbstractReferee {
                 }
 
                 viewer.updateMap();
+            } catch (TimeoutException e) {
+                manager.loseGame("You failed to provide instructions in the provided time.");
+                return;
             } catch (Exception e) {
                 e.printStackTrace(System.err);
                 manager.loseGame("Referee error " + e.getClass().getCanonicalName() + " : " + e.getMessage());
