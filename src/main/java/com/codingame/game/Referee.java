@@ -69,6 +69,7 @@ public class Referee extends AbstractReferee {
         manager.setMaxTurns(2000);
     }
 
+    @SuppressWarnings("unchecked")
     public void gameTurn(int turn) {
         if (turn == 0) {
             player.sendInputLine(MAP_WIDTH);
@@ -77,21 +78,7 @@ public class Referee extends AbstractReferee {
                 StringBuilder sb = new StringBuilder();
 
                 for (int x = 0; x < MAP_WIDTH; ++x) {
-                    int type = engine.get(x, y).type;
-
-                    if (type == VOID) {
-                        sb.append("#");
-                    } else if (type == UP) {
-                        sb.append("U");
-                    } else if (type == RIGHT) {
-                        sb.append("R");
-                    } else if (type == DOWN) {
-                        sb.append("D");
-                    } else if (type == LEFT) {
-                        sb.append("L");
-                    } else {
-                        sb.append(".");
-                    }
+                    sb.append(typeToChar(engine.get(x, y).type));
                 }
 
                 player.sendInputLine(sb);
@@ -99,23 +86,7 @@ public class Referee extends AbstractReferee {
 
             player.sendInputLine(engine.robots.size());
             for (Robot robot : engine.robots) {
-                String direction = "";
-                switch (robot.direction) {
-                case UP:
-                    direction = "U";
-                    break;
-                case RIGHT:
-                    direction = "R";
-                    break;
-                case DOWN:
-                    direction = "D";
-                    break;
-                case LEFT:
-                    direction = "L";
-                    break;
-                }
-
-                player.sendInputLine(robot.cell.x + " " + robot.cell.y + " " + direction);
+                player.sendInputLine(robot.cell.x + " " + robot.cell.y + " " + typeToChar(robot.direction));
             }
 
             player.execute();
@@ -146,7 +117,6 @@ public class Referee extends AbstractReferee {
                         int x = Integer.valueOf(output[i]);
                         int y = Integer.valueOf(output[i + 1]);
                         String action = output[i + 2];
-                        int direction;
 
                         if (x < 0 || x >= MAP_WIDTH) {
                             manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
@@ -168,25 +138,7 @@ public class Referee extends AbstractReferee {
                             continue;
                         }
 
-                        switch (action) {
-                            case "U":
-                                direction = UP;
-                                break;
-                            case "R":
-                                direction = RIGHT;
-                                break;
-                            case "D":
-                                direction = DOWN;
-                                break;
-                            case "L":
-                                direction = LEFT;
-                                break;
-                            default:
-                                manager.addToGameSummary(action + " is not a valid action.");
-                                continue;
-                        }
-
-                        engine.apply(x, y, direction);
+                        engine.apply(x, y, charToType(action.charAt(0)));
                     }
                 }
 

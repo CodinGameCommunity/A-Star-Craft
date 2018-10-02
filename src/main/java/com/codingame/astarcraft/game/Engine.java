@@ -47,31 +47,14 @@ public class Engine {
 
                     if (c == '#') {
                         cell.type = VOID;
-                    } else if (c == Character.toUpperCase(c)) {
+                    } else if (Character.isUpperCase(c)) {
                         Robot robot = new Robot();
                         robot.cell = cell;
-
-                        if (c == 'U') {
-                            robot.direction = UP;
-                        } else if (c == 'R') {
-                            robot.direction = RIGHT;
-                        } else if (c == 'D') {
-                            robot.direction = DOWN;
-                        } else if (c == 'L') {
-                            robot.direction = LEFT;
-                        }
+                        robot.direction = charToType(c);
 
                         robots.add(robot);
                     } else {
-                        if (c == 'u') {
-                            cell.type = UP;
-                        } else if (c == 'r') {
-                            cell.type = RIGHT;
-                        } else if (c == 'd') {
-                            cell.type = DOWN;
-                        } else if (c == 'l') {
-                            cell.type = LEFT;
-                        }
+                        cell.type = charToType(c);
                     }
                 }
 
