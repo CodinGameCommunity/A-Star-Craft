@@ -41,19 +41,17 @@ public class Engine {
         for (int y = 0; y < MAP_HEIGHT; ++y) {
             for (int x = 0; x < MAP_WIDTH; ++x) {
                 char c = input.charAt(index);
+                
+                Cell cell = get(x, y);
 
-                if (c != '.') {
-                    Cell cell = get(x, y);
+                if (Character.isUpperCase(c)) {
+                    Robot robot = new Robot();
+                    robot.cell = cell;
+                    robot.direction = charToType(c);
 
-                    if (Character.isUpperCase(c)) {
-                        Robot robot = new Robot();
-                        robot.cell = cell;
-                        robot.direction = charToType(c);
-
-                        robots.add(robot);
-                    } else {
-                        cell.type = charToType(c);
-                    }
+                    robots.add(robot);
+                } else {
+                    cell.type = charToType(c);
                 }
 
                 index += 1;
