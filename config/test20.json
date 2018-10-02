@@ -1,0 +1,9 @@
+{
+    "title": {
+        "1": "Envoyez moi un signe",
+        "2": "Send me a sign"
+    },
+    "testIn": "...................R.............r....R.............rr...R.............rrr..rrrrrrrrrrrrrrrrrr.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.R.............rrr..R.............rr...R.............r....",
+    "isTest": "true",
+    "isValidator": "true"
+}

@@ -1,0 +1,9 @@
+{
+    "title": {
+        "1": "Les anneaux de Saturne",
+        "2": "Saturn rings"
+    },
+    "testIn": "####################R.......D........##................L##R................#rrrrrrrrrrrrrrrrrrrlllllllllllllllllll#................L##R................##........U.......L####################",
+    "isTest": "true",
+    "isValidator": "true"
+}
