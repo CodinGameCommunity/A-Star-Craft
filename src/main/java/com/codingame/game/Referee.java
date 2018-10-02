@@ -160,9 +160,9 @@ public class Referee extends AbstractReferee {
                 String message = "";
 
                 if (robot.death == DEATH_INFINITE_LOOP) {
-                    message = "Robot " + robot.id + " is starting an infinite loop.";
+                    message = "Automaton2000 (id=" + robot.id + ") is starting an infinite loop.";
                 } else if (robot.death == DEATH_VOID) {
-                    message = "Robot " + robot.id + " fell into deep space.";
+                    message = "Automaton2000 (id= " + robot.id + ") drifted off into deep space.";
                 }
 
                 manager.addTooltip(player, message);
