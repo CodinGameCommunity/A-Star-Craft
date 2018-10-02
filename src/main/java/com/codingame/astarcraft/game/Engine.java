@@ -98,10 +98,13 @@ public class Engine {
         gones.clear();
 
         for (Robot robot : robots) {
+            // Get the next cell
             Cell next = robot.cell.nexts[robot.direction];
-
+            
+            // Move the robot
             robot.cell = next;
-
+            
+            // This is a void cell, RIP robot
             if (next.type == VOID) {
                 robot.death = DEATH_VOID;
                 gones.add(robot);
@@ -109,18 +112,22 @@ public class Engine {
                 continue;
             }
 
+            // Change the direction of the robot if we must
             if (next.type != NONE) {
                 robot.direction = next.type;
             }
 
+            // Register the new state and check for infinite loop
             if (!robot.registerState()) {
                 robot.death = DEATH_INFINITE_LOOP;
                 gones.add(robot);
             }
         }
 
+        // Garbage collection
         robots.removeAll(gones);
 
+        // Increase the score
         score += robots.size();
     }
 }

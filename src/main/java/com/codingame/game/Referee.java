@@ -27,9 +27,9 @@ public class Referee extends AbstractReferee {
     @Inject
     private SoloGameManager<Player> manager;
     @Inject
-    private GraphicEntityModule module;
+    private GraphicEntityModule graphic;
     @Inject
-    private TooltipModule tooltipModule;
+    private TooltipModule tooltip;
 
     private Engine engine;
     private Viewer viewer;
@@ -41,12 +41,12 @@ public class Referee extends AbstractReferee {
         try {
             input = manager.getTestCaseInput().get(0);
         } catch (Exception exception) {
-            manager.loseGame("Bad referee input");
+            manager.loseGame("Bad referee input: Can't read input");
             return;
         }
 
         if (!INPUT_PATTERN.matcher(input).matches()) {
-            manager.loseGame("Bad referee input");
+            manager.loseGame("Bad referee input: Input doesn't match the pattern");
             return;
         }
 
@@ -57,12 +57,12 @@ public class Referee extends AbstractReferee {
         }
 
         if (count <= 0 || count >= 20) {
-            manager.loseGame("Bad referee input");
+            manager.loseGame("Bad referee input: " + count + " is not an acceptable robot count");
             return;
         }
 
         engine = new Engine(input);
-        viewer = new Viewer(module, engine, tooltipModule);
+        viewer = new Viewer(graphic, engine, tooltip);
 
         player = manager.getPlayer();
 
