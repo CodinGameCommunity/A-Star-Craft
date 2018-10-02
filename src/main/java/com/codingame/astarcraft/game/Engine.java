@@ -45,9 +45,7 @@ public class Engine {
                 if (c != '.') {
                     Cell cell = get(x, y);
 
-                    if (c == '#') {
-                        cell.type = VOID;
-                    } else if (Character.isUpperCase(c)) {
+                    if (Character.isUpperCase(c)) {
                         Robot robot = new Robot();
                         robot.cell = cell;
                         robot.direction = charToType(c);
