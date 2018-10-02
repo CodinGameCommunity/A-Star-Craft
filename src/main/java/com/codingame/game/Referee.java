@@ -72,8 +72,6 @@ public class Referee extends AbstractReferee {
     @SuppressWarnings("unchecked")
     public void gameTurn(int turn) {
         if (turn == 0) {
-            player.sendInputLine(MAP_WIDTH);
-            player.sendInputLine(MAP_HEIGHT);
             for (int y = 0; y < MAP_HEIGHT; ++y) {
                 StringBuilder sb = new StringBuilder();
 
