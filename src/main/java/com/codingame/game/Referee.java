@@ -4,6 +4,7 @@ import com.codingame.astarcraft.game.Engine;
 import com.codingame.astarcraft.game.Robot;
 import com.codingame.astarcraft.view.TooltipModule;
 import com.codingame.astarcraft.view.Viewer;
+import com.codingame.gameengine.core.AbstractPlayer.TimeoutException;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
@@ -26,9 +27,9 @@ public class Referee extends AbstractReferee {
     @Inject
     private SoloGameManager<Player> manager;
     @Inject
-    private GraphicEntityModule module;
+    private GraphicEntityModule graphic;
     @Inject
-    private TooltipModule tooltipModule;
+    private TooltipModule tooltip;
 
     private Engine engine;
     private Viewer viewer;
@@ -40,12 +41,12 @@ public class Referee extends AbstractReferee {
         try {
             input = manager.getTestCaseInput().get(0);
         } catch (Exception exception) {
-            manager.loseGame("Bad referee input");
+            manager.loseGame("Bad referee input: Can't read input");
             return;
         }
 
         if (!INPUT_PATTERN.matcher(input).matches()) {
-            manager.loseGame("Bad referee input");
+            manager.loseGame("Bad referee input: Input doesn't match the pattern");
             return;
         }
 
@@ -56,41 +57,26 @@ public class Referee extends AbstractReferee {
         }
 
         if (count <= 0 || count >= 20) {
-            manager.loseGame("Bad referee input");
+            manager.loseGame("Bad referee input: " + count + " is not an acceptable robot count");
             return;
         }
 
         engine = new Engine(input);
-        viewer = new Viewer(module, engine, tooltipModule);
+        viewer = new Viewer(graphic, engine, tooltip);
 
         player = manager.getPlayer();
 
         manager.setMaxTurns(2000);
     }
 
+    @SuppressWarnings("unchecked")
     public void gameTurn(int turn) {
         if (turn == 0) {
-            player.sendInputLine(MAP_WIDTH);
-            player.sendInputLine(MAP_HEIGHT);
             for (int y = 0; y < MAP_HEIGHT; ++y) {
                 StringBuilder sb = new StringBuilder();
 
                 for (int x = 0; x < MAP_WIDTH; ++x) {
-                    int type = engine.get(x, y).type;
-
-                    if (type == VOID) {
-                        sb.append("#");
-                    } else if (type == UP) {
-                        sb.append("U");
-                    } else if (type == RIGHT) {
-                        sb.append("R");
-                    } else if (type == DOWN) {
-                        sb.append("D");
-                    } else if (type == LEFT) {
-                        sb.append("L");
-                    } else {
-                        sb.append(".");
-                    }
+                    sb.append(typeToChar(engine.get(x, y).type));
                 }
 
                 player.sendInputLine(sb);
@@ -98,23 +84,7 @@ public class Referee extends AbstractReferee {
 
             player.sendInputLine(engine.robots.size());
             for (Robot robot : engine.robots) {
-                String direction = "";
-                switch (robot.direction) {
-                case UP:
-                    direction = "U";
-                    break;
-                case RIGHT:
-                    direction = "R";
-                    break;
-                case DOWN:
-                    direction = "D";
-                    break;
-                case LEFT:
-                    direction = "L";
-                    break;
-                }
-
-                player.sendInputLine(robot.cell.x + " " + robot.cell.y + " " + direction);
+                player.sendInputLine(robot.cell.x + " " + robot.cell.y + " " + typeToChar(robot.direction));
             }
 
             player.execute();
@@ -145,7 +115,6 @@ public class Referee extends AbstractReferee {
                         int x = Integer.valueOf(output[i]);
                         int y = Integer.valueOf(output[i + 1]);
                         String action = output[i + 2];
-                        int direction;
 
                         if (x < 0 || x >= MAP_WIDTH) {
                             manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
@@ -167,29 +136,14 @@ public class Referee extends AbstractReferee {
                             continue;
                         }
 
-                        switch (action) {
-                            case "U":
-                                direction = UP;
-                                break;
-                            case "R":
-                                direction = RIGHT;
-                                break;
-                            case "D":
-                                direction = DOWN;
-                                break;
-                            case "L":
-                                direction = LEFT;
-                                break;
-                            default:
-                                manager.addToGameSummary(action + " is not a valid action.");
-                                continue;
-                        }
-
-                        engine.apply(x, y, direction);
+                        engine.apply(x, y, charToType(action.charAt(0)));
                     }
                 }
 
                 viewer.updateMap();
+            } catch (TimeoutException e) {
+                manager.loseGame("You failed to provide instructions in the provided time.");
+                return;
             } catch (Exception e) {
                 e.printStackTrace(System.err);
                 manager.loseGame("Referee error " + e.getClass().getCanonicalName() + " : " + e.getMessage());
@@ -206,9 +160,9 @@ public class Referee extends AbstractReferee {
                 String message = "";
 
                 if (robot.death == DEATH_INFINITE_LOOP) {
-                    message = "Robot " + robot.id + " is starting an infinite loop.";
+                    message = "Automaton2000 (id=" + robot.id + ") is starting an infinite loop.";
                 } else if (robot.death == DEATH_VOID) {
-                    message = "Robot " + robot.id + " fell into deep space.";
+                    message = "Automaton2000 (id= " + robot.id + ") drifted off into deep space.";
                 }
 
                 manager.addTooltip(player, message);

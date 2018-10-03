@@ -8,14 +8,7 @@ public class TestAI {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        scanner.nextInt();
-        int height = scanner.nextInt();
-
-        if (scanner.hasNextLine()) {
-            scanner.nextLine();
-        }
-
-        for (int y = 0; y < height; ++y) {
+        for (int y = 0; y < 10; ++y) {
             scanner.nextLine();
         }
 

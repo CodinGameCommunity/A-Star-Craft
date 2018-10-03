@@ -41,38 +41,17 @@ public class Engine {
         for (int y = 0; y < MAP_HEIGHT; ++y) {
             for (int x = 0; x < MAP_WIDTH; ++x) {
                 char c = input.charAt(index);
+                
+                Cell cell = get(x, y);
 
-                if (c != '.') {
-                    Cell cell = get(x, y);
+                if (Character.isUpperCase(c)) {
+                    Robot robot = new Robot();
+                    robot.cell = cell;
+                    robot.direction = charToType(c);
 
-                    if (c == '#') {
-                        cell.type = VOID;
-                    } else if (c == Character.toUpperCase(c)) {
-                        Robot robot = new Robot();
-                        robot.cell = cell;
-
-                        if (c == 'U') {
-                            robot.direction = UP;
-                        } else if (c == 'R') {
-                            robot.direction = RIGHT;
-                        } else if (c == 'D') {
-                            robot.direction = DOWN;
-                        } else if (c == 'L') {
-                            robot.direction = LEFT;
-                        }
-
-                        robots.add(robot);
-                    } else {
-                        if (c == 'u') {
-                            cell.type = UP;
-                        } else if (c == 'r') {
-                            cell.type = RIGHT;
-                        } else if (c == 'd') {
-                            cell.type = DOWN;
-                        } else if (c == 'l') {
-                            cell.type = LEFT;
-                        }
-                    }
+                    robots.add(robot);
+                } else {
+                    cell.type = charToType(c);
                 }
 
                 index += 1;
@@ -119,10 +98,13 @@ public class Engine {
         gones.clear();
 
         for (Robot robot : robots) {
+            // Get the next cell
             Cell next = robot.cell.nexts[robot.direction];
-
+            
+            // Move the robot
             robot.cell = next;
-
+            
+            // This is a void cell, RIP robot
             if (next.type == VOID) {
                 robot.death = DEATH_VOID;
                 gones.add(robot);
@@ -130,18 +112,22 @@ public class Engine {
                 continue;
             }
 
+            // Change the direction of the robot if we must
             if (next.type != NONE) {
                 robot.direction = next.type;
             }
 
+            // Register the new state and check for infinite loop
             if (!robot.registerState()) {
                 robot.death = DEATH_INFINITE_LOOP;
                 gones.add(robot);
             }
         }
 
+        // Garbage collection
         robots.removeAll(gones);
 
+        // Increase the score
         score += robots.size();
     }
 }

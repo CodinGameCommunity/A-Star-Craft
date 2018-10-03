@@ -6,16 +6,9 @@ public class RandomAI {
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
 
-        int width = scanner.nextInt();
-        int height = scanner.nextInt();
-
-        if (scanner.hasNextLine()) {
-            scanner.nextLine();
-        }
-
         String output = "";
 
-        for (int y = 0; y < height; ++y) {
+        for (int y = 0; y < 10; ++y) {
             String line = scanner.nextLine();
 
             for (int x = 0; x < line.length(); ++x) {

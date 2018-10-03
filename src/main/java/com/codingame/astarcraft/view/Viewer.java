@@ -9,7 +9,7 @@ import com.codingame.astarcraft.game.*;
 import com.codingame.gameengine.module.entities.*;
 
 public class Viewer {
-    private GraphicEntityModule module;
+    private GraphicEntityModule graphic;
     private Engine engine;
 
     private static final int VIEWER_WIDTH = 1900;
@@ -39,11 +39,11 @@ public class Viewer {
     private Set<Cell> startArrows;
     private Text score;
     private Random random = new Random();
-    private TooltipModule tooltips;
+    private TooltipModule tooltip;
 
-    public Viewer(GraphicEntityModule module, Engine engine, TooltipModule tooltips) {
-        this.tooltips = tooltips;
-        this.module = module;
+    public Viewer(GraphicEntityModule graphic, Engine engine, TooltipModule tooltips) {
+        this.tooltip = tooltips;
+        this.graphic = graphic;
         this.engine = engine;
         positions = new HashMap<>();
         sprites = new HashMap<>();
@@ -51,14 +51,14 @@ public class Viewer {
         startArrows = new HashSet<>();
 
         // Background
-        module.createSprite().setImage("background.png").setX(0).setY(0).setScale(2.0).setZIndex(Z_BACKGROUND);
+        graphic.createSprite().setImage("background.png").setX(0).setY(0).setScale(2.0).setZIndex(Z_BACKGROUND);
 
         for (int x = 0; x < MAP_WIDTH + 1; ++x) {
-            module.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X + CELL_WIDTH * x).setY(OFFSET_Y).setX2(OFFSET_X + CELL_WIDTH * x).setY2(OFFSET_Y + VIEWER_HEIGHT).setZIndex(Z_GRID);
+            graphic.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X + CELL_WIDTH * x).setY(OFFSET_Y).setX2(OFFSET_X + CELL_WIDTH * x).setY2(OFFSET_Y + VIEWER_HEIGHT).setZIndex(Z_GRID);
         }
 
         for (int y = 0; y < MAP_HEIGHT + 1; ++y) {
-            module.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X).setY(OFFSET_Y + CELL_HEIGHT * y).setX2(OFFSET_X + VIEWER_WIDTH).setY2(OFFSET_Y + CELL_HEIGHT * y).setZIndex(Z_GRID);
+            graphic.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X).setY(OFFSET_Y + CELL_HEIGHT * y).setX2(OFFSET_X + VIEWER_WIDTH).setY2(OFFSET_Y + CELL_HEIGHT * y).setZIndex(Z_GRID);
         }
 
         // Floor, portals and arrows
@@ -68,7 +68,7 @@ public class Viewer {
                 int type = cell.type;
 
                 if (type != VOID) {
-                    module.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_FLOOR);
+                    graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_FLOOR);
 
                     if (x == 0 && engine.get(x - 1, y).type != VOID) {
                         createPortal().setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y + (CELL_HEIGHT / 2)).setRotation(Math.PI * 0.5);
@@ -104,14 +104,14 @@ public class Viewer {
         }
 
         // Score indicator
-        module.createText("Score").setX(10).setY(20).setFillColor(0xffffff);
-        score = module.createText("0").setX(100).setY(20).setFillColor(0xffffff);
+        graphic.createText("Score").setX(10).setY(20).setFillColor(0xffffff);
+        score = graphic.createText("0").setX(100).setY(20).setFillColor(0xffffff);
 
         storePositions();
     }
 
     private Sprite createPortal() {
-        return module.createSprite().setImage("portal.png").setScale(PORTAL_SCALE).setZIndex(Z_PORTAL).setAnchor(0.5);
+        return graphic.createSprite().setImage("portal.png").setScale(PORTAL_SCALE).setZIndex(Z_PORTAL).setAnchor(0.5);
     }
 
     private double getRotation(int direction) {
@@ -134,11 +134,11 @@ public class Viewer {
     }
 
     private Sprite createRobotSprite() {
-        return module.createSprite().setImage("robot.png").setScale(ROBOT_SCALE).setAnchor(0.5);
+        return graphic.createSprite().setImage("robot.png").setScale(ROBOT_SCALE).setAnchor(0.5);
     }
 
     private Sprite createArrowSprite(int x, int y, int direction) {
-        return module.createSprite().setImage("arrow.png").setX(CELL_WIDTH / 2 + x * CELL_WIDTH + OFFSET_X).setY(CELL_HEIGHT / 2 + y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_ARROW).setRotation(getRotation(direction)).setAnchor(0.5);
+        return graphic.createSprite().setImage("arrow.png").setX(CELL_WIDTH / 2 + x * CELL_WIDTH + OFFSET_X).setY(CELL_HEIGHT / 2 + y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_ARROW).setRotation(getRotation(direction)).setAnchor(0.5);
     }
 
     public void updateMap() {
@@ -158,7 +158,7 @@ public class Viewer {
             }
         }
 
-        module.commitWorldState(0.0);
+        graphic.commitWorldState(0.0);
 
         for (Sprite sprite : arrows) {
             sprite.setScale(ARROW_SCALE, Curve.ELASTIC);
@@ -172,7 +172,7 @@ public class Viewer {
             sprite.setRotation(getRotation(robot.direction));
         }
 
-        module.commitWorldState(1.0);
+        graphic.commitWorldState(1.0);
     }
 
     public void update() {
@@ -207,7 +207,7 @@ public class Viewer {
 
         score.setText(String.valueOf(engine.score));
 
-        module.commitWorldState(0.0);
+        graphic.commitWorldState(0.0);
 
         for (Entry<Robot, Sprite> entries : sprites.entrySet()) {
             Robot robot = entries.getKey();
@@ -240,7 +240,7 @@ public class Viewer {
 
         storePositions();
 
-        module.commitWorldState(0.75);
+        graphic.commitWorldState(0.75);
 
         for (Entry<Robot, Sprite> entries : newSprites.entrySet()) {
             Robot robot = entries.getKey();
@@ -258,7 +258,7 @@ public class Viewer {
             }
         }
 
-        module.commitWorldState(1.0);
+        graphic.commitWorldState(1.0);
     }
 
     private void storePositions() {
