@@ -36,6 +36,7 @@ public class Viewer {
     private Map<Robot, Sprite> sprites;
     private Map<Robot, Sprite> newSprites;
     private Map<Robot, Cell> positions;
+    private Map<Sprite, Text> ids;
     private Set<Cell> startArrows;
     private Text score;
     private Random random = new Random();
@@ -49,6 +50,7 @@ public class Viewer {
         sprites = new HashMap<>();
         newSprites = new HashMap<>();
         startArrows = new HashSet<>();
+        ids = new HashMap<>();
 
         // Background
         graphic.createSprite().setImage("background.png").setX(0).setY(0).setScale(2.0).setZIndex(Z_BACKGROUND);
@@ -69,27 +71,27 @@ public class Viewer {
 
                 if (type != VOID) {
                     graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_FLOOR);
+                }
+                
+                if (type != NONE && type != VOID) {
+                    createArrowSprite(x, y, type).setScale(ARROW_SCALE).setTint(0x888888);
+                    startArrows.add(cell);
+                }
+                
+                if (x == 0 && (type != VOID || engine.get(x - 1, y).type != VOID)) {
+                    createPortal().setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y + (CELL_HEIGHT / 2)).setRotation(Math.PI * 0.5);
+                }
 
-                    if (x == 0 && engine.get(x - 1, y).type != VOID) {
-                        createPortal().setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y + (CELL_HEIGHT / 2)).setRotation(Math.PI * 0.5);
-                    }
+                if (x == MAP_WIDTH - 1 && (type != VOID || engine.get(x + 1, y).type != VOID)) {
+                    createPortal().setX(x * CELL_WIDTH + OFFSET_X + CELL_WIDTH).setY(y * CELL_HEIGHT + OFFSET_Y + (CELL_HEIGHT / 2)).setRotation(Math.PI * 0.5);
+                }
 
-                    if (x == MAP_WIDTH - 1 && engine.get(x + 1, y).type != VOID) {
-                        createPortal().setX(x * CELL_WIDTH + OFFSET_X + CELL_WIDTH).setY(y * CELL_HEIGHT + OFFSET_Y + (CELL_HEIGHT / 2)).setRotation(Math.PI * 0.5);
-                    }
+                if (y == 0 && (type != VOID || engine.get(x, y - 1).type != VOID)) {
+                    createPortal().setX(x * CELL_WIDTH + OFFSET_X + (CELL_WIDTH / 2)).setY(y * CELL_HEIGHT + OFFSET_Y);
+                }
 
-                    if (y == 0 && engine.get(x, y - 1).type != VOID) {
-                        createPortal().setX(x * CELL_WIDTH + OFFSET_X + (CELL_WIDTH / 2)).setY(y * CELL_HEIGHT + OFFSET_Y);
-                    }
-
-                    if (y == MAP_HEIGHT - 1 && engine.get(x, y + 1).type != VOID) {
-                        createPortal().setX(x * CELL_WIDTH + OFFSET_X + (CELL_WIDTH / 2)).setY(y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT);
-                    }
-
-                    if (type != NONE) {
-                        createArrowSprite(x, y, type).setScale(ARROW_SCALE).setTint(0x888888);
-                        startArrows.add(cell);
-                    }
+                if (y == MAP_HEIGHT - 1 && (type != VOID || engine.get(x, y + 1).type != VOID)) {
+                    createPortal().setX(x * CELL_WIDTH + OFFSET_X + (CELL_WIDTH / 2)).setY(y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT);
                 }
             }
         }
@@ -99,6 +101,7 @@ public class Viewer {
             Sprite sprite = createRobotSprite().setRotation(getRotation(robot.direction));
 
             moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
+            ids.put(sprite, createRobotId(sprite, robot.id));
 
             sprites.put(robot, sprite);
         }
@@ -131,6 +134,14 @@ public class Viewer {
 
     private void moveRobotSprite(Sprite sprite, int x, int y) {
         sprite.setX(CELL_WIDTH / 2 + x * CELL_WIDTH + OFFSET_X).setY(CELL_HEIGHT / 2 + y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_ROBOT);
+    }
+    
+    private void moveRobotId(Sprite sprite) {
+        ids.get(sprite).setX(sprite.getX()).setY(sprite.getY());
+    }
+    
+    private Text createRobotId(Sprite sprite, int id) {
+        return graphic.createText(String.valueOf(id)).setFillColor(0xffffff).setZIndex(Z_ROBOT).setX(sprite.getX()).setY(sprite.getY()).setAnchor(0.5);
     }
 
     private Sprite createRobotSprite() {
@@ -198,6 +209,7 @@ public class Viewer {
                 Sprite newSprite = createRobotSprite().setAlpha(0).setRotation(sprite.getRotation()).setTint(sprite.getTint());
 
                 moveRobotSprite(newSprite, x, y);
+                ids.put(newSprite, createRobotId(newSprite, robot.id).setAlpha(0));
 
                 newSprites.put(robot, newSprite);
             } else {
@@ -228,11 +240,16 @@ public class Viewer {
 
                 sprite.setAlpha(0);
                 moveRobotSprite(sprite, x, y);
+                moveRobotId(sprite);
+                ids.get(sprite).setAlpha(0);
 
                 Sprite newSprite = newSprites.get(robot).setAlpha(1);
                 moveRobotSprite(newSprite, robot.cell.x, robot.cell.y);
+                moveRobotId(newSprite);
+                ids.get(newSprite).setAlpha(1);
             } else {
                 moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
+                moveRobotId(sprite);
             }
         }
 
@@ -249,8 +266,10 @@ public class Viewer {
             if (!engine.robots.contains(robot)) {
                 if (robot.death == DEATH_VOID) {
                     sprite.setScale(0);
+                    ids.get(sprite).setScale(0);
                 } else {
                     sprite.setAlpha(0);
+                    ids.get(sprite).setAlpha(0);
                 }
             } else {
                 sprites.put(robot, sprite);
