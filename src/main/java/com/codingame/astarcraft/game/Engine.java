@@ -96,6 +96,9 @@ public class Engine {
 
     public void play() {
         gones.clear();
+        
+        // Increase the score
+        score += robots.size();
 
         for (Robot robot : robots) {
             // Get the next cell
@@ -126,8 +129,5 @@ public class Engine {
 
         // Garbage collection
         robots.removeAll(gones);
-
-        // Increase the score
-        score += robots.size();
     }
 }
