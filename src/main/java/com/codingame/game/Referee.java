@@ -162,7 +162,7 @@ public class Referee extends AbstractReferee {
                 if (robot.death == DEATH_INFINITE_LOOP) {
                     message = "Automaton2000 (id=" + robot.id + ") is starting an infinite loop.";
                 } else if (robot.death == DEATH_VOID) {
-                    message = "Automaton2000 (id= " + robot.id + ") drifted off into deep space.";
+                    message = "Automaton2000 (id=" + robot.id + ") drifted off into deep space.";
                 }
 
                 manager.addTooltip(player, message);
