@@ -7,10 +7,10 @@
       <span>The Goal</span>
     </h1>
     <div class="statement-goal-content">
-      Score as many points as possible.
-      <br>
-      <br>
-      Output a single line as a solution.
+      Score as many points as possible.<br>
+      Output a single line as a solution.<br>
+      <strong>Warning:</strong> the validation tests used to compute the final score are not the same as the ones used
+      during the event. Harcoded solutions will not score highly.<br>
     </div>
   </div>
   <!-- RULES -->
@@ -26,11 +26,12 @@
         <br>
         The game works as follows:
         <ul>
-          <li>The platform is made up of discrete cells of coordinates (x,y)</li>
-          <li>You are given the layout of the platform in ascii form with `#`:void, `.`:platform, `U`:Up arrow, `R`:Right arrow, `D`:Down arrow, `L`:Left arrow</li>
-          <li>Place arrows on your first turn by outputting in the format: `X Y U/R/D/L`</li>
+          <li>The platform is a grid of height <const>10</const> and width <const>19</const></li>
+          <li>You are given the layout of the platform in ascii form with <const>#</const>:void, <const>.</const>:platform, <const>U</const>:Up arrow, <const>R</const>:Right arrow, <const>D</const>:Down arrow, <const>L</const>:Left arrow</li>
+          <li>Place arrows on your first turn by outputting in the format: <const>X Y U/R/D/L</const></li>
           <li>Automaton2000 moves in a straight line and only changes direction when stepping on an arrow</li>
         </ul>
+        You may not place arrows on top of existing ones.
       </div>
     </div>
   </div>
@@ -73,10 +74,6 @@
       to recieve a score against the training validators. <b>You can submit as many times as you like</b>. Your most
       recent submission will be used for the final ranking.<br>
       <br>
-      <strong>Warning:</strong> the validation tests used to compute the final score are not the same as the ones used
-      during the event.
-      Harcoded solutions will not score highly.<br>
-      <br>
       Don't hesitate to change the viewer's options to help debug your code (<img style="opacity:.8;background:#20252a;"
         height="18" src="https://www.codingame.com/servlet/fileservlet?id=3463235186409" width="18">).
     </div>
@@ -97,7 +94,9 @@
     <div class="blk">
       <div class="title">Input</div>
       <div class="text">
-        <p><span class="statement-lineno">Line 1: </span>one string <var>...</var>, the ...</p>
+        <p><span class="statement-lineno"></span>19 strings of 10 characters each representing <const>#</const>:void, <const>.</const>:platform, <const>U</const>:Up arrow, <const>R</const>:Right arrow, <const>D</const>:Down arrow, <const>L</const>:Left arrow</p>
+        <p>1 line containing the number of robots</p>
+        <p>1 line for each robot  of the form <var>X Y DIR</var> with <var>X Y</var> the initial position of the robot and <var>DIR</var> the direction it faces (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>).</p>
       </div>
     </div>
 
@@ -105,7 +104,7 @@
     <div class="blk">
       <div class="title">Output</div>
       <div class="text">
-        <span class="statement-lineno">A single line</span> containing ...
+        <span class="statement-lineno">A single line</span> containing triplets of the form <const>X Y DIR</const> with <const>X Y</const> two integers and <const>DIR</const> a character, either <const>U</const>,<const>R</const>,<const>D</const> or <const>L</const>.
         <br>
       </div>
     </div>
@@ -115,16 +114,15 @@
       <div class="title">Constraints</div>
       <div class="text"><var>...</var> contains between 1 and 500 characters.<br>
         <br>Allotted response time to output
-        is ≤ <const>2</const> seconds.</div>
+        is ≤ <const>1</const> second.</div>
     </div>
   </div>
   <!-- STORY -->
   <div class="statement-story-background">
     <div class="statement-story-cover" style="background-size: cover; background-image: url(https://www.codingame.com/servlet/fileservlet?id=2210505809934)">
       <div class="statement-story" style="min-height: 300px; position: relative">
-        <h1>Title</h1>
-        <div class="story-text">Story
-          <br>
+        <h1>Gospel according to Agade</h1>
+        <div class="story-text">
           In the beginning when Magus created this world, it was formless and void.<br>
           And Magus said "Let there be a platform in the midst of the void, and let it separate the void from the void". And it was so.<br>
           And Magus created Automaton2000 in his image; buggy and simple-minded he created him.<br>
