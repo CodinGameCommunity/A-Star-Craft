@@ -31,7 +31,7 @@ public class Viewer {
     private static final int Z_PORTAL = 5;
     private static final int GRID_COLOR = 0xFFFFFF;
     private static final double GRID_ALPHA = 0.15;
-    private static final double PORTAL_SCALE = CELL_WIDTH / 70.0;
+    private static final double PORTAL_SCALE = CELL_WIDTH / 512.0;
 
     private Map<Robot, Sprite> sprites;
     private Map<Robot, Sprite> newSprites;
@@ -114,7 +114,7 @@ public class Viewer {
     }
 
     private Sprite createPortal() {
-        return graphic.createSprite().setImage("portal.png").setScale(PORTAL_SCALE).setZIndex(Z_PORTAL).setAnchor(0.5);
+        return graphic.createSprite().setImage("portal.png").setScale(PORTAL_SCALE).setZIndex(Z_PORTAL).setAnchor(0.5).setTint(0x00eeff);
     }
 
     private double getRotation(int direction) {
