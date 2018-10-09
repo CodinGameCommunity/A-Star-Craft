@@ -98,31 +98,31 @@ public class RefereeTest {
 
     @Test
     public void simples() throws Exception {
-        play(18, "", MAP1);
-        play(9, "0 0 D", MAP1);
-        play(18, "0 0 L", MAP1);
-        play(9, "0 0 U", MAP1);
-        play(18, "0 0 R", MAP1);
-        play(11, "2 0 U", MAP1);
-        play(27, "9 0 L", MAP1);
-        play(9, "0 0 U 0 0 L", MAP1);
-        play(18, "0 0 L 0 0 U", MAP1);
+        play(19, "", MAP1);
+        play(10, "0 0 D", MAP1);
+        play(19, "0 0 L", MAP1);
+        play(10, "0 0 U", MAP1);
+        play(19, "0 0 R", MAP1);
+        play(12, "2 0 U", MAP1);
+        play(28, "9 0 L", MAP1);
+        play(10, "0 0 U 0 0 L", MAP1);
+        play(19, "0 0 L 0 0 U", MAP1);
 
-        play(4, "", MAP2);
-        play(4, "0 0 D", MAP2);
-        play(4, "0 0 D 1 1 L", MAP2);
+        play(5, "", MAP2);
+        play(5, "0 0 D", MAP2);
+        play(5, "0 0 D 1 1 L", MAP2);
     }
 
     @Test
     public void badOutputs() throws Exception {
-        play(18, "null", MAP1);
-        play(18, "coucou", MAP1);
-        play(18, "5 5", MAP1);
-        play(18, "R R ", MAP1);
-        play(18, "1 2 X", MAP1);
-        play(18, "X X X", MAP1);
-        play(18, "lol lol lol", MAP1);
-        play(11, "0 0 X 2 0 U", MAP1);
+        play(19, "null", MAP1);
+        play(19, "coucou", MAP1);
+        play(19, "5 5", MAP1);
+        play(19, "R R ", MAP1);
+        play(19, "1 2 X", MAP1);
+        play(19, "X X X", MAP1);
+        play(19, "lol lol lol", MAP1);
+        play(12, "0 0 X 2 0 U", MAP1);
     }
 
     @Test
