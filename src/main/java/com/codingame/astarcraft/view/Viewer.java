@@ -75,84 +75,84 @@ public class Viewer {
 
                 int cx = x * CELL_WIDTH + OFFSET_X + CELL_WIDTH / 2;
                 int cy = y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT / 2;
-                
+
                 boolean up = cell.nexts[UP].type != VOID;
                 boolean right = cell.nexts[RIGHT].type != VOID;
                 boolean down = cell.nexts[DOWN].type != VOID;
                 boolean left = cell.nexts[LEFT].type != VOID;
                 boolean floor = type != VOID;
-                
+
                 if (floor) {
                     graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(cx).setY(cy).setZIndex(Z_FLOOR).setAnchor(0.5);
-                    
+
                     if (type != NONE) {
                         createArrowSprite(cx, cy, type).setScale(ARROW_SCALE).setTint(0x888888);
                         startArrows.add(cell);
                     }
+
+                    if (y == 0 && up) {
+                        createPortal().setX(cx).setY(cy - CELL_HEIGHT / 2);
+                    }
+
+                    if (x == MAP_WIDTH - 1 && right) {
+                        createPortal().setX(cx + CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
+                    }
+
+                    if (y == MAP_HEIGHT - 1 && down) {
+                        createPortal().setX(cx).setY(cy + CELL_HEIGHT / 2);
+                    }
+
+                    if (x == 0 && left) {
+                        createPortal().setX(cx - CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
+                    }
                 } else {
-                    if (up) {
+                    if (y != 0 && up) {
                         createBorder(cx, cy).setRotation(Math.PI * 0.5);
                     }
 
-                    if (right) {
+                    if (x != MAP_WIDTH - 1 && right) {
                         createBorder(cx, cy).setRotation(Math.PI * 1.0);
                     }
 
-                    if (down) {
+                    if (y != MAP_HEIGHT - 1 && down) {
                         createBorder(cx, cy).setRotation(Math.PI * 1.5);
                     }
 
-                    if (left) {
+                    if (x != 0 && left) {
                         createBorder(cx, cy);
                     }
-                    
-                    if (up && right) {
+
+                    if (y != 0 && x != MAP_WIDTH - 1 && up && right) {
                         createCorner(cx, cy).setRotation(Math.PI * 0.5);
                     }
-                    
-                    if (right && down) {
+
+                    if (x != MAP_WIDTH - 1 && y != MAP_HEIGHT - 1 && right && down) {
                         createCorner(cx, cy).setRotation(Math.PI * 1.0);
                     }
-                    
-                    if (down && left) {
+
+                    if (y != MAP_HEIGHT - 1 && x != 0 && down && left) {
                         createCorner(cx, cy).setRotation(Math.PI * 1.5);
                     }
-                    
-                    if (left && up) {
+
+                    if (x != 0 && y != 0 && left && up) {
                         createCorner(cx, cy);
                     }
-                    
-                    if (!up && !right && engine.get(x + 1, y - 1).type != VOID) {
+
+                    if (y != 0 && x != MAP_WIDTH - 1 && !up && !right && engine.get(x + 1, y - 1).type != VOID) {
                         createCorner2(cx, cy).setRotation(Math.PI * 0.5);
                     }
-                    
-                    if (!right && !down && engine.get(x + 1, y + 1).type != VOID) {
+
+                    if (x != MAP_WIDTH - 1 && y != MAP_HEIGHT - 1 && !right && !down && engine.get(x + 1, y + 1).type != VOID) {
                         createCorner2(cx, cy).setRotation(Math.PI * 1.0);
                     }
-                    
-                    if (!down && !left && engine.get(x - 1, y + 1).type != VOID) {
+
+                    if (y != MAP_HEIGHT - 1 && x != 0 && !down && !left && engine.get(x - 1, y + 1).type != VOID) {
                         createCorner2(cx, cy).setRotation(Math.PI * 1.5);
                     }
-                    
-                    if (!left && !up && engine.get(x - 1,  y - 1).type != VOID) {
+
+                    if (x != 0 && y != 0 && !left && !up && engine.get(x - 1, y - 1).type != VOID) {
                         createCorner2(cx, cy);
                     }
-                }
-                
-                if (y == 0 && (floor || up)) {
-                    createPortal().setX(cx).setY(cy - CELL_HEIGHT / 2);
-                }
-
-                if (x == MAP_WIDTH - 1 && (floor || right)) {
-                    createPortal().setX(cx + CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
-                }
-
-                if (y == MAP_HEIGHT - 1 && (floor || down)) {
-                    createPortal().setX(cx).setY(cy + CELL_HEIGHT / 2);
-                }
-                
-                if (x == 0 && (floor || left)) {
-                    createPortal().setX(cx - CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
                 }
             }
         }
@@ -173,11 +173,11 @@ public class Viewer {
 
         storePositions();
     }
-    
+
     private Sprite createCorner(int x, int y) {
         return graphic.createSprite().setImage("corner.png").setScale(CORNER_SCALE).setAnchor(0.5).setZIndex(Z_CORNER).setX(x).setY(y);
     }
-    
+
     private Sprite createCorner2(int x, int y) {
         return graphic.createSprite().setImage("corner2.png").setScale(CORNER_SCALE).setAnchor(0.5).setZIndex(Z_CORNER).setX(x).setY(y);
     }
