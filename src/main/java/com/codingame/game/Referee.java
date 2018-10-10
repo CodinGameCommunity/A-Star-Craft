@@ -58,7 +58,7 @@ public class Referee extends AbstractReferee {
             count += 1;
         }
 
-        if (count <= 0 || count >= 20) {
+        if (count < 1 || count > 10) {
             manager.loseGame("Bad referee input: " + count + " is not an acceptable robot count");
             return;
         }
