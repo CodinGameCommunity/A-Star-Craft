@@ -44,6 +44,8 @@ public class Referee extends AbstractReferee {
             manager.loseGame("Bad referee input: Can't read input");
             return;
         }
+        
+        input = input.trim();
 
         if (!INPUT_PATTERN.matcher(input).matches()) {
             manager.loseGame("Bad referee input: Input doesn't match the pattern");
