@@ -21,17 +21,21 @@ public class Viewer {
     private static final double ROBOT_SCALE = ROBOT_SIZE / 154;
     private static final double ARROW_SCALE = ARROW_SIZE / 140.0;
     private static final double TILE_SCALE = CELL_WIDTH / 64.0;
+    private static final double BORDER_SCALE = CELL_WIDTH / 64.0;
+    private static final double CORNER_SCALE = CELL_WIDTH / 64.0;
     private static final int OFFSET_X = 10;
     private static final int OFFSET_Y = 68;
     private static final int Z_BACKGROUND = 0;
     private static final int Z_FLOOR = 1;
-    private static final int Z_ARROW = 2;
-    private static final int Z_GRID = 3;
-    private static final int Z_ROBOT = 4;
-    private static final int Z_PORTAL = 5;
+    private static final int Z_BORDER = 2;
+    private static final int Z_CORNER = 3;
+    private static final int Z_ARROW = 4;
+    private static final int Z_GRID = 5;
+    private static final int Z_ROBOT = 6;
+    private static final int Z_PORTAL = 7;
     private static final int GRID_COLOR = 0xFFFFFF;
     private static final double GRID_ALPHA = 0.15;
-    private static final double PORTAL_SCALE = CELL_WIDTH / 512.0;
+    private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
 
     private Map<Robot, Sprite> sprites;
     private Map<Robot, Sprite> newSprites;
@@ -69,29 +73,86 @@ public class Viewer {
                 Cell cell = engine.get(x, y);
                 int type = cell.type;
 
-                if (type != VOID) {
-                    graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_FLOOR);
+                int cx = x * CELL_WIDTH + OFFSET_X + CELL_WIDTH / 2;
+                int cy = y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT / 2;
+                
+                boolean up = cell.nexts[UP].type != VOID;
+                boolean right = cell.nexts[RIGHT].type != VOID;
+                boolean down = cell.nexts[DOWN].type != VOID;
+                boolean left = cell.nexts[LEFT].type != VOID;
+                boolean floor = type != VOID;
+                
+                if (floor) {
+                    graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(cx).setY(cy).setZIndex(Z_FLOOR).setAnchor(0.5);
+                    
+                    if (type != NONE) {
+                        createArrowSprite(cx, cy, type).setScale(ARROW_SCALE).setTint(0x888888);
+                        startArrows.add(cell);
+                    }
+                } else {
+                    if (up) {
+                        createBorder(cx, cy).setRotation(Math.PI * 0.5);
+                    }
+
+                    if (right) {
+                        createBorder(cx, cy).setRotation(Math.PI * 1.0);
+                    }
+
+                    if (down) {
+                        createBorder(cx, cy).setRotation(Math.PI * 1.5);
+                    }
+
+                    if (left) {
+                        createBorder(cx, cy);
+                    }
+                    
+                    if (up && right) {
+                        createCorner(cx, cy).setRotation(Math.PI * 0.5);
+                    }
+                    
+                    if (right && down) {
+                        createCorner(cx, cy).setRotation(Math.PI * 1.0);
+                    }
+                    
+                    if (down && left) {
+                        createCorner(cx, cy).setRotation(Math.PI * 1.5);
+                    }
+                    
+                    if (left && up) {
+                        createCorner(cx, cy);
+                    }
+                    
+                    if (!up && !right && engine.get(x + 1, y - 1).type != VOID) {
+                        createCorner2(cx, cy).setRotation(Math.PI * 0.5);
+                    }
+                    
+                    if (!right && !down && engine.get(x + 1, y + 1).type != VOID) {
+                        createCorner2(cx, cy).setRotation(Math.PI * 1.0);
+                    }
+                    
+                    if (!down && !left && engine.get(x - 1, y + 1).type != VOID) {
+                        createCorner2(cx, cy).setRotation(Math.PI * 1.5);
+                    }
+                    
+                    if (!left && !up && engine.get(x - 1,  y - 1).type != VOID) {
+                        createCorner2(cx, cy);
+                    }
                 }
                 
-                if (type != NONE && type != VOID) {
-                    createArrowSprite(x, y, type).setScale(ARROW_SCALE).setTint(0x888888);
-                    startArrows.add(cell);
+                if (y == 0 && (floor || up)) {
+                    createPortal().setX(cx).setY(cy - CELL_HEIGHT / 2);
+                }
+
+                if (x == MAP_WIDTH - 1 && (floor || right)) {
+                    createPortal().setX(cx + CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
+                }
+
+                if (y == MAP_HEIGHT - 1 && (floor || down)) {
+                    createPortal().setX(cx).setY(cy + CELL_HEIGHT / 2);
                 }
                 
-                if (x == 0 && (type != VOID || engine.get(x - 1, y).type != VOID)) {
-                    createPortal().setX(x * CELL_WIDTH + OFFSET_X).setY(y * CELL_HEIGHT + OFFSET_Y + (CELL_HEIGHT / 2)).setRotation(Math.PI * 0.5);
-                }
-
-                if (x == MAP_WIDTH - 1 && (type != VOID || engine.get(x + 1, y).type != VOID)) {
-                    createPortal().setX(x * CELL_WIDTH + OFFSET_X + CELL_WIDTH).setY(y * CELL_HEIGHT + OFFSET_Y + (CELL_HEIGHT / 2)).setRotation(Math.PI * 0.5);
-                }
-
-                if (y == 0 && (type != VOID || engine.get(x, y - 1).type != VOID)) {
-                    createPortal().setX(x * CELL_WIDTH + OFFSET_X + (CELL_WIDTH / 2)).setY(y * CELL_HEIGHT + OFFSET_Y);
-                }
-
-                if (y == MAP_HEIGHT - 1 && (type != VOID || engine.get(x, y + 1).type != VOID)) {
-                    createPortal().setX(x * CELL_WIDTH + OFFSET_X + (CELL_WIDTH / 2)).setY(y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT);
+                if (x == 0 && (floor || left)) {
+                    createPortal().setX(cx - CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
                 }
             }
         }
@@ -111,6 +172,18 @@ public class Viewer {
         score = graphic.createText("0").setX(100).setY(20).setFillColor(0xffffff);
 
         storePositions();
+    }
+    
+    private Sprite createCorner(int x, int y) {
+        return graphic.createSprite().setImage("corner.png").setScale(CORNER_SCALE).setAnchor(0.5).setZIndex(Z_CORNER).setX(x).setY(y);
+    }
+    
+    private Sprite createCorner2(int x, int y) {
+        return graphic.createSprite().setImage("corner2.png").setScale(CORNER_SCALE).setAnchor(0.5).setZIndex(Z_CORNER).setX(x).setY(y);
+    }
+
+    private Sprite createBorder(int x, int y) {
+        return graphic.createSprite().setImage("border.png").setScale(BORDER_SCALE).setAnchor(0.5).setZIndex(Z_BORDER).setX(x).setY(y);
     }
 
     private Sprite createPortal() {
@@ -135,11 +208,11 @@ public class Viewer {
     private void moveRobotSprite(Sprite sprite, int x, int y) {
         sprite.setX(CELL_WIDTH / 2 + x * CELL_WIDTH + OFFSET_X).setY(CELL_HEIGHT / 2 + y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_ROBOT);
     }
-    
+
     private void moveRobotId(Sprite sprite) {
         ids.get(sprite).setX(sprite.getX()).setY(sprite.getY());
     }
-    
+
     private Text createRobotId(Sprite sprite, int id) {
         return graphic.createText(String.valueOf(id)).setFillColor(0xffffff).setZIndex(Z_ROBOT).setX(sprite.getX()).setY(sprite.getY()).setAnchor(0.5);
     }
@@ -149,7 +222,7 @@ public class Viewer {
     }
 
     private Sprite createArrowSprite(int x, int y, int direction) {
-        return graphic.createSprite().setImage("arrow.png").setX(CELL_WIDTH / 2 + x * CELL_WIDTH + OFFSET_X).setY(CELL_HEIGHT / 2 + y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_ARROW).setRotation(getRotation(direction)).setAnchor(0.5);
+        return graphic.createSprite().setImage("arrow.png").setX(x).setY(y).setZIndex(Z_ARROW).setRotation(getRotation(direction)).setAnchor(0.5);
     }
 
     public void updateMap() {
@@ -163,7 +236,7 @@ public class Viewer {
                     int type = cell.type;
 
                     if (type != VOID && type != NONE) {
-                        arrows.add(createArrowSprite(x, y, type).setScale(0));
+                        arrows.add(createArrowSprite(x * CELL_WIDTH + OFFSET_X + CELL_WIDTH / 2, y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT / 2, type).setScale(0));
                     }
                 }
             }
