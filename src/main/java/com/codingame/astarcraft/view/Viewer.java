@@ -168,8 +168,8 @@ public class Viewer {
         }
 
         // Score indicator
-        graphic.createText("Score").setX(10).setY(20).setFillColor(0xffffff);
-        score = graphic.createText("0").setX(100).setY(20).setFillColor(0xffffff);
+        graphic.createSprite().setImage("score.png").setX(10).setY(20).setScale(0.6);
+        score = graphic.createText("0").setX(220).setY(10).setFillColor(0xffffff).setFontSize(50);
 
         storePositions();
     }
