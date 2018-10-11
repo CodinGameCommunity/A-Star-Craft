@@ -67,16 +67,30 @@ function getMouseMoveFunc (tooltip, container, module) {
         tooltipBlocks.push('X: ' + x + '\nY: ' + y)
         tooltip.visible = true
 
+        for (let id in module.robotIdToLines) {
+          module.robotIdToLines[id].visible = false
+        }
+
         for (let show of showing) {
           const entity = entityModule.entities.get(show)
           const state = getEntityState(entity, module.currentFrame.number)
           if (state !== null) {
-            let tooltipBlock
+            let tooltipBlock = ''
             const params = module.currentFrame.registered[show]
+            if (params) {
+              for (let key in params) {
+                tooltipBlock += key + ': ' + params[key] + '\n'
+              }
+
+              const lines = module.robotIdToLines[params.id]
+              if (lines) {
+                lines.visible = true
+              }
+            }
 
             const extra = module.currentFrame.extraText[show]
             if (extra && extra.length) {
-              tooltipBlock = extra
+              tooltipBlock += extra
             }
             tooltipBlocks.push(tooltipBlock)
           }
@@ -121,7 +135,7 @@ export class TooltipModule {
     }
     this.lastProgress = 1
     this.lastFrame = 0
-
+    this.robotIdToLines = {}
     this.paths = {}
   }
 
@@ -139,7 +153,7 @@ export class TooltipModule {
     const extra = data[1]
     const paths = data[2] || {}
 
-    const registered = { ...registrations }
+    const registered = { ...this.previousFrame.registered, ...registrations }
     const extraText = { ...this.previousFrame.extraText, ...extra }
 
     for (let idx in paths) {
@@ -168,19 +182,25 @@ export class TooltipModule {
 
   initPaths () {
     const layer = new PIXI.Container()
-    const lines = new PIXI.Graphics()
-    lines.lineStyle(4, 0xF7F0cc)
-    window.lines = lines
+
+    this.robotIdToLines = {}
 
     for (let idx in this.paths) {
       const path = this.paths[idx]
+      const lines = new PIXI.Graphics()
+
+      this.robotIdToLines[idx] = lines
+
+      lines.lineStyle(4, 0xF7F0cc)
       lines.moveTo(path[0].x, path[0].y)
+
       for (let step of path.slice(1)) {
         lines.lineTo(step.x, step.y)
       }
+
+      layer.addChild(lines)
     }
 
-    layer.addChild(lines)
     return layer
   }
 

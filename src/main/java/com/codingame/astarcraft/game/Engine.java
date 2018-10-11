@@ -111,7 +111,7 @@ public class Engine {
             if (next.type == VOID) {
                 robot.death = DEATH_VOID;
                 gones.add(robot);
-
+                robot.registerState();
                 continue;
             }
 

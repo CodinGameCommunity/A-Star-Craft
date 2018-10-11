@@ -160,6 +160,9 @@ public class Viewer {
         // Robots
         for (Robot robot : engine.robots) {
             Sprite sprite = createRobotSprite().setRotation(getRotation(robot.direction));
+            Map<String, Object> params = new HashMap<>();
+            params.put("id", robot.id);
+            tooltip.registerEntity(sprite, params);
 
             moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
             ids.put(sprite, createRobotId(sprite, robot.id));
