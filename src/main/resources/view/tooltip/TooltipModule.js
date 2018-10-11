@@ -67,8 +67,14 @@ function getMouseMoveFunc (tooltip, container, module) {
           const entity = entityModule.entities.get(show)
           const state = getEntityState(entity, module.currentFrame.number)
           if (state !== null) {
-            let tooltipBlock
+            let tooltipBlock = ''
             const params = module.currentFrame.registered[show]
+            
+            if (params) {
+                for (let key in params) {
+                  tooltipBlock += key + ': ' + params[key] + '\n'
+                }
+            }
 
             const extra = module.currentFrame.extraText[show]
             if (extra && extra.length) {

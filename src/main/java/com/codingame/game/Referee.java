@@ -158,7 +158,7 @@ public class Referee extends AbstractReferee {
             engine.play();
             viewer.update();
 
-            for (Robot robot : engine.gones) {
+            for (Robot robot : engine.wrecks) {
                 String message = "";
 
                 if (robot.death == DEATH_INFINITE_LOOP) {
