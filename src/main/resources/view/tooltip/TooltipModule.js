@@ -2,6 +2,15 @@ import { WIDTH, HEIGHT } from '../core/constants.js'
 import {lerp, unlerpUnclamped} from '../core/utils.js'
 import { api as entityModule } from '../entity-module/GraphicEntityModule.js'
 
+const OFFSET_X = 10
+const OFFSET_Y = 68
+const MAP_WIDTH = 19
+const MAP_HEIGHT = 10
+const VIEWER_WIDTH = 1900
+const VIEWER_HEIGHT = 1000
+const CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH
+const CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT
+
 function getMouseOverFunc (id, tooltip) {
   return function () {
     tooltip.inside[id] = true
@@ -47,14 +56,7 @@ function getMouseMoveFunc (tooltip, container, module) {
           }
         }
       }
-      const OFFSET_X = 10
-      const OFFSET_Y = 68
-      const MAP_WIDTH = 19
-      const MAP_HEIGHT = 10
-      const VIEWER_WIDTH = 1900
-      const VIEWER_HEIGHT = 1000
-      const CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH
-      const CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT
+
       var x = Math.floor(lerp(0, MAP_WIDTH, unlerpUnclamped(OFFSET_X, OFFSET_X + CELL_WIDTH * MAP_WIDTH, point.x)))
       var y = Math.floor(lerp(0, MAP_HEIGHT, unlerpUnclamped(OFFSET_Y, OFFSET_Y + CELL_HEIGHT * MAP_HEIGHT, point.y)))
 
@@ -78,7 +80,7 @@ function getMouseMoveFunc (tooltip, container, module) {
 
             const extra = module.currentFrame.extraText[show]
             if (extra && extra.length) {
-              tooltipBlock = extra
+              tooltipBlock += extra
             }
             tooltipBlocks.push(tooltipBlock)
           }
@@ -127,7 +129,7 @@ export class TooltipModule {
   }
 
   handleFrameData (frameInfo, [registrations, extra]) {
-    const registered = { ...registrations }
+    const registered = { ...this.previousFrame.registered, ...registrations }
     const extraText = { ...this.previousFrame.extraText, ...extra }
 
     Object.keys(registrations).forEach(
