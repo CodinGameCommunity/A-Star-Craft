@@ -3,7 +3,7 @@
         "1": "Envoyez moi un signe",
         "2": "Send me a sign"
     },
-    "testIn": "...................R.............r....R.............rr...R.............rrr..rrrrrrrrrrrrrrrrrr.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.R.............rrr..R.............rr...R.............r....",
+    "testIn": ".................................r....R.............rr...R.............rrr..rrrrrrrrrrrrrrrrrr.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.R.............rrr..R.............rr.................r....",
     "isTest": "true",
     "isValidator": "true"
 }

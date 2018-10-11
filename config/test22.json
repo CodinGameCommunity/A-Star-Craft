@@ -3,7 +3,7 @@
         "1": "Sens horaire",
         "2": "Clockwise"
     },
-    "testIn": "rrrrrrrrrrrrrrrrrrduR.......u.......Ddu........u........du........u........dulllL....D........du........U....Rrrrdu........d........du........d........duU.......d.......Ldullllllllllllllllll",
+    "testIn": "rrrrrrrrr#rrrrrrrrduR.......u.......Ddu........u........du........u........d#lllL.............du.............Rrrr#u........d........du........d........duU.......d.......Ldullllllll#lllllllll",
     "isTest": "true",
     "isValidator": "true"
 }
