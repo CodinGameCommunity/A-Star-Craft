@@ -1,12 +1,12 @@
 package com.codingame.astarcraft.game;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Robot {
     private static int globalId = 0;
 
-    private static class State {
+    public static class State {
         private Cell cell;
         private int direction;
 
@@ -41,21 +41,33 @@ public class Robot {
                 return false;
             return true;
         }
+
+        public Cell getCell() {
+            return cell;
+        }
+
+        public int getDirection() {
+            return direction;
+        }
     }
 
     public int id;
     public Cell cell;
     public int direction;
-    public Set<State> states;
+    public List<State> states;
     public int death;
 
     public Robot() {
         id = globalId++;
-        states = new HashSet<>();
+        states = new ArrayList<>();
     }
 
     public boolean registerState() {
-        return states.add(new State(cell, direction));
+        State state = new State(cell, direction);
+        if (states.contains(state)) {
+            return false;
+        }
+        return states.add(state);
     }
 
     public int hashCode() {

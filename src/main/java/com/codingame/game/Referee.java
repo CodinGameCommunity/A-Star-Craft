@@ -161,6 +161,8 @@ public class Referee extends AbstractReferee {
             for (Robot robot : engine.gones) {
                 String message = "";
 
+                tooltip.registerRobotPath(robot.id, robot.states);
+                
                 if (robot.death == DEATH_INFINITE_LOOP) {
                     message = "Automaton2000 (id=" + robot.id + ") is starting an infinite loop.";
                 } else if (robot.death == DEATH_VOID) {

@@ -2,6 +2,8 @@ import { WIDTH, HEIGHT } from '../core/constants.js'
 import {lerp, unlerpUnclamped} from '../core/utils.js'
 import { api as entityModule } from '../entity-module/GraphicEntityModule.js'
 
+/* global PIXI */
+
 function getMouseOverFunc (id, tooltip) {
   return function () {
     tooltip.inside[id] = true
@@ -21,6 +23,15 @@ function getEntityState (entity, frame, progress) {
   }
   return null
 }
+
+const OFFSET_X = 10
+const OFFSET_Y = 68
+const MAP_WIDTH = 19
+const MAP_HEIGHT = 10
+const VIEWER_WIDTH = 1900
+const VIEWER_HEIGHT = 1000
+const CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH
+const CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT
 
 function getMouseMoveFunc (tooltip, container, module) {
   return function (ev) {
@@ -47,14 +58,7 @@ function getMouseMoveFunc (tooltip, container, module) {
           }
         }
       }
-      const OFFSET_X = 10
-      const OFFSET_Y = 68
-      const MAP_WIDTH = 19
-      const MAP_HEIGHT = 10
-      const VIEWER_WIDTH = 1900
-      const VIEWER_HEIGHT = 1000
-      const CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH
-      const CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT
+
       var x = Math.floor(lerp(0, MAP_WIDTH, unlerpUnclamped(OFFSET_X, OFFSET_X + CELL_WIDTH * MAP_WIDTH, point.x)))
       var y = Math.floor(lerp(0, MAP_HEIGHT, unlerpUnclamped(OFFSET_Y, OFFSET_Y + CELL_HEIGHT * MAP_HEIGHT, point.y)))
 
@@ -100,6 +104,14 @@ function getMouseMoveFunc (tooltip, container, module) {
   }
 };
 
+function convertX (x) {
+  return OFFSET_X + CELL_WIDTH * (x + 0.5)
+}
+
+function convertY (y) {
+  return OFFSET_Y + CELL_WIDTH * (y + 0.5)
+}
+
 export class TooltipModule {
   constructor (assets) {
     this.interactive = {}
@@ -109,6 +121,8 @@ export class TooltipModule {
     }
     this.lastProgress = 1
     this.lastFrame = 0
+
+    this.paths = {}
   }
 
   static get name () {
@@ -120,9 +134,26 @@ export class TooltipModule {
     this.currentProgress = progress
   }
 
-  handleFrameData (frameInfo, [registrations, extra]) {
+  handleFrameData (frameInfo, data) {
+    const registrations = data[0]
+    const extra = data[1]
+    const paths = data[2] || {}
+
     const registered = { ...registrations }
     const extraText = { ...this.previousFrame.extraText, ...extra }
+
+    for (let idx in paths) {
+      const rawPath = paths[idx].split(' ')
+      const steps = []
+      for (let k = 0; k < rawPath.length / 3; ++k) {
+        const x = convertX(+rawPath[k * 3])
+        const y = convertY(+rawPath[k * 3 + 1])
+        const dir = +rawPath[k * 3 + 2]
+        const step = {x, y, dir}
+        steps.push(step)
+      }
+      this.paths[idx] = steps
+    }
 
     Object.keys(registrations).forEach(
       k => {
@@ -135,7 +166,27 @@ export class TooltipModule {
     return frame
   }
 
+  initPaths () {
+    const layer = new PIXI.Container()
+    const lines = new PIXI.Graphics()
+    lines.lineStyle(4, 0xF7F0cc)
+    window.lines = lines
+
+    for (let idx in this.paths) {
+      const path = this.paths[idx]
+      lines.moveTo(path[0].x, path[0].y)
+      for (let step of path.slice(1)) {
+        lines.lineTo(step.x, step.y)
+      }
+    }
+
+    layer.addChild(lines)
+    return layer
+  }
+
   reinitScene (container, canvasData) {
+    const pathLayer = this.initPaths()
+
     this.tooltip = this.initTooltip()
     entityModule.entities.forEach(entity => {
       if (this.interactive[entity.id]) {
@@ -147,6 +198,8 @@ export class TooltipModule {
     this.container = container
     container.interactive = true
     container.mousemove = getMouseMoveFunc(this.tooltip, container, this)
+
+    container.addChild(pathLayer)
     container.addChild(this.tooltip)
   }
 

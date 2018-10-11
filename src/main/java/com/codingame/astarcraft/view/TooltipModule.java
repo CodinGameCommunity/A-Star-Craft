@@ -2,8 +2,13 @@ package com.codingame.astarcraft.view;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.codingame.astarcraft.game.Cell;
+import com.codingame.astarcraft.game.Robot;
+import com.codingame.astarcraft.game.Robot.State;
 import com.codingame.game.Player;
 import com.codingame.gameengine.core.Module;
 import com.codingame.gameengine.core.SoloGameManager;
@@ -16,6 +21,8 @@ public class TooltipModule implements Module {
     Map<Integer, Map<String, Object>> registrations;
     Map<Integer, Map<String, Object>> newRegistrations;
     Map<Integer, String[]> extra, newExtra;
+    
+    Map<Integer, List<Robot.State>> paths;
 
     @Inject
     public TooltipModule(SoloGameManager<Player> gameManager) {
@@ -25,6 +32,7 @@ public class TooltipModule implements Module {
         newRegistrations = new HashMap<>();
         extra = new HashMap<>();
         newExtra = new HashMap<>();
+        paths = new HashMap<>();
     }
 
     @Override
@@ -39,14 +47,35 @@ public class TooltipModule implements Module {
 
     @Override
     public void onAfterOnEnd() {
-        sendFrameData();
+        
     }
 
     private void sendFrameData() {
-        Object[] data = { newRegistrations, newExtra };
+        Object[] data = { newRegistrations, newExtra, serializePaths(paths) };
         gameManager.setViewData("tooltips", data);
         newRegistrations.clear();
         newExtra.clear();
+        paths.clear();
+    }
+
+    private Map<Integer, String> serializePaths(Map<Integer, List<State>> paths) {
+        return paths.entrySet()
+            .stream()
+            .collect(
+                Collectors.toMap(
+                    e -> e.getKey(),
+                    e -> {
+                        List<State> states = e.getValue();
+                        return states
+                            .stream()
+                            .map(state -> {
+                                Cell cell = state.getCell();
+                                return cell.x + " " + cell.y + " " + state.getDirection();
+                            })
+                            .collect(Collectors.joining(" "));
+                    }
+                )
+            );
     }
 
     public void registerEntity(Entity<?> entity) {
@@ -71,5 +100,9 @@ public class TooltipModule implements Module {
             newExtra.put(id, lines);
             extra.put(id, lines);
         }
+    }
+
+    public void registerRobotPath(int id, List<State> states) {
+        paths.put(id, states);
     }
 }
