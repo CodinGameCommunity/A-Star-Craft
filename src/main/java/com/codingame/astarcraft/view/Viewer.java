@@ -16,9 +16,9 @@ public class Viewer {
     private static final int VIEWER_HEIGHT = 1000;
     private static final int CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH;
     private static final int CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT;
-    private static final double ROBOT_SIZE = Math.round(CELL_WIDTH * 0.75);
+    private static final double ROBOT_SIZE = Math.round(CELL_WIDTH * 0.90);
     private static final double ARROW_SIZE = Math.round(CELL_WIDTH * 0.70);
-    private static final double ROBOT_SCALE = ROBOT_SIZE / 154;
+    private static final double ROBOT_SCALE = ROBOT_SIZE / 500;
     private static final double ARROW_SCALE = ARROW_SIZE / 140.0;
     private static final double TILE_SCALE = CELL_WIDTH / 64.0;
     private static final double BORDER_SCALE = CELL_WIDTH / 64.0;
@@ -36,15 +36,23 @@ public class Viewer {
     private static final int GRID_COLOR = 0xFFFFFF;
     private static final double GRID_ALPHA = 0.15;
     private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
+    
+    private static final String[] ROBOT_IMAGES = new String[26];
+    
+    static {
+        for (int i = 1; i <= 26; ++i) {
+            ROBOT_IMAGES[i - 1] = "robot" + (i < 10 ? "0" : "") + i;
+        }
+    }
 
-    private Map<Robot, Sprite> sprites;
-    private Map<Robot, Sprite> newSprites;
+    private Map<Robot, SpriteAnimation> sprites;
+    private Map<Robot, SpriteAnimation> newSprites;
     private Map<Robot, Cell> positions;
-    private Map<Sprite, Text> ids;
     private Set<Cell> startArrows;
     private Text score;
     private Random random = new Random();
     private TooltipModule tooltip;
+    
 
     public Viewer(GraphicEntityModule graphic, Engine engine, TooltipModule tooltips) {
         this.tooltip = tooltips;
@@ -54,7 +62,6 @@ public class Viewer {
         sprites = new HashMap<>();
         newSprites = new HashMap<>();
         startArrows = new HashSet<>();
-        ids = new HashMap<>();
 
         // Background
         graphic.createSprite().setImage("background.png").setX(0).setY(0).setScale(2.0).setZIndex(Z_BACKGROUND);
@@ -159,10 +166,9 @@ public class Viewer {
 
         // Robots
         for (Robot robot : engine.robots) {
-            Sprite sprite = createRobotSprite(robot.id).setRotation(getRotation(robot.direction));
+            SpriteAnimation sprite = createRobotSprite(robot.id).setRotation(getRobotRotation(robot.direction));
 
             moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
-            ids.put(sprite, createRobotId(sprite, robot.id));
 
             sprites.put(robot, sprite);
         }
@@ -189,6 +195,21 @@ public class Viewer {
     private Sprite createPortal() {
         return graphic.createSprite().setImage("portal.png").setScale(PORTAL_SCALE).setZIndex(Z_PORTAL).setAnchor(0.5).setTint(0x00eeff);
     }
+    
+    private double getRobotRotation(int direction) {
+        switch (direction) {
+        case UP:
+            return Math.PI * 1.0;
+        case RIGHT:
+            return Math.PI * 1.50;
+        case DOWN:
+            return 0.0;
+        case LEFT:
+            return Math.PI * 0.50;
+        }
+
+        return 0.0;
+    }
 
     private double getRotation(int direction) {
         switch (direction) {
@@ -205,20 +226,12 @@ public class Viewer {
         return 0.0;
     }
 
-    private void moveRobotSprite(Sprite sprite, int x, int y) {
+    private void moveRobotSprite(SpriteAnimation sprite, int x, int y) {
         sprite.setX(CELL_WIDTH / 2 + x * CELL_WIDTH + OFFSET_X).setY(CELL_HEIGHT / 2 + y * CELL_HEIGHT + OFFSET_Y).setZIndex(Z_ROBOT);
     }
 
-    private void moveRobotId(Sprite sprite) {
-        ids.get(sprite).setX(sprite.getX()).setY(sprite.getY());
-    }
-
-    private Text createRobotId(Sprite sprite, int id) {
-        return graphic.createText(String.valueOf(id)).setFillColor(0xffffff).setZIndex(Z_ROBOT).setX(sprite.getX()).setY(sprite.getY()).setAnchor(0.5);
-    }
-
-    private Sprite createRobotSprite(int id) {
-        Sprite sprite = graphic.createSprite().setImage("robot.png").setScale(ROBOT_SCALE).setAnchor(0.5);
+    private SpriteAnimation createRobotSprite(int id) {
+        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5).setDuration(1000).start().setLoop(true);
         
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
@@ -255,11 +268,11 @@ public class Viewer {
         }
 
         // Update robots rotation
-        for (Entry<Robot, Sprite> entries : sprites.entrySet()) {
+        for (Entry<Robot, SpriteAnimation> entries : sprites.entrySet()) {
             Robot robot = entries.getKey();
-            Sprite sprite = entries.getValue();
+            SpriteAnimation sprite = entries.getValue();
 
-            sprite.setRotation(getRotation(robot.direction));
+            sprite.setRotation(getRobotRotation(robot.direction)).stop();
         }
 
         graphic.commitWorldState(1.0);
@@ -268,10 +281,12 @@ public class Viewer {
     public void update() {
         newSprites.clear();
 
-        for (Entry<Robot, Sprite> entries : sprites.entrySet()) {
+        for (Entry<Robot, SpriteAnimation> entries : sprites.entrySet()) {
             Robot robot = entries.getKey();
-            Sprite sprite = entries.getValue();
+            SpriteAnimation sprite = entries.getValue();
             Cell position = positions.get(robot);
+            
+            sprite.start();
 
             if (position.distance(robot.cell) > 1) {
                 int x = robot.cell.x;
@@ -285,10 +300,9 @@ public class Viewer {
                     y = y == 0 ? -1 : MAP_HEIGHT;
                 }
 
-                Sprite newSprite = createRobotSprite(robot.id).setAlpha(0).setRotation(sprite.getRotation()).setTint(sprite.getTint());
+                SpriteAnimation newSprite = createRobotSprite(robot.id).setAlpha(0).setRotation(sprite.getRotation()).setTint(sprite.getTint());
 
                 moveRobotSprite(newSprite, x, y);
-                ids.put(newSprite, createRobotId(newSprite, robot.id).setAlpha(0));
 
                 newSprites.put(robot, newSprite);
             } else {
@@ -300,9 +314,9 @@ public class Viewer {
 
         graphic.commitWorldState(0.0);
 
-        for (Entry<Robot, Sprite> entries : sprites.entrySet()) {
+        for (Entry<Robot, SpriteAnimation> entries : sprites.entrySet()) {
             Robot robot = entries.getKey();
-            Sprite sprite = entries.getValue();
+            SpriteAnimation sprite = entries.getValue();
             Cell position = positions.get(robot);
 
             if (position.distance(robot.cell) > 1) {
@@ -319,16 +333,11 @@ public class Viewer {
 
                 sprite.setAlpha(0);
                 moveRobotSprite(sprite, x, y);
-                moveRobotId(sprite);
-                ids.get(sprite).setAlpha(0);
 
-                Sprite newSprite = newSprites.get(robot).setAlpha(1);
+                SpriteAnimation newSprite = newSprites.get(robot).setAlpha(1);
                 moveRobotSprite(newSprite, robot.cell.x, robot.cell.y);
-                moveRobotId(newSprite);
-                ids.get(newSprite).setAlpha(1);
             } else {
                 moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
-                moveRobotId(sprite);
             }
         }
 
@@ -338,21 +347,21 @@ public class Viewer {
 
         graphic.commitWorldState(0.75);
 
-        for (Entry<Robot, Sprite> entries : newSprites.entrySet()) {
+        for (Entry<Robot, SpriteAnimation> entries : newSprites.entrySet()) {
             Robot robot = entries.getKey();
-            Sprite sprite = entries.getValue();
+            SpriteAnimation sprite = entries.getValue();
+            
+            sprite.stop();
 
             if (!engine.robots.contains(robot)) {
                 if (robot.death == DEATH_VOID) {
                     sprite.setScale(0);
-                    ids.get(sprite).setScale(0);
                 } else {
                     sprite.setAlpha(0);
-                    ids.get(sprite).setAlpha(0);
                 }
             } else {
                 sprites.put(robot, sprite);
-                sprite.setRotation(getRotation(robot.direction));
+                sprite.setRotation(getRobotRotation(robot.direction));
             }
         }
 
