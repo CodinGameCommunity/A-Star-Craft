@@ -16,7 +16,7 @@ public class Viewer {
     private static final int VIEWER_HEIGHT = 1000;
     private static final int CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH;
     private static final int CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT;
-    private static final double ROBOT_SIZE = Math.round(CELL_WIDTH * 0.75);
+    private static final double ROBOT_SIZE = Math.round(CELL_WIDTH * 0.90);
     private static final double ARROW_SIZE = Math.round(CELL_WIDTH * 0.70);
     private static final double ROBOT_SCALE = ROBOT_SIZE / 500;
     private static final double ARROW_SCALE = ARROW_SIZE / 140.0;
@@ -166,7 +166,7 @@ public class Viewer {
 
         // Robots
         for (Robot robot : engine.robots) {
-            SpriteAnimation sprite = createRobotSprite(robot.id).setRotation(getRotation(robot.direction));
+            SpriteAnimation sprite = createRobotSprite(robot.id).setRotation(getRobotRotation(robot.direction));
 
             moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
 
@@ -195,6 +195,21 @@ public class Viewer {
     private Sprite createPortal() {
         return graphic.createSprite().setImage("portal.png").setScale(PORTAL_SCALE).setZIndex(Z_PORTAL).setAnchor(0.5).setTint(0x00eeff);
     }
+    
+    private double getRobotRotation(int direction) {
+        switch (direction) {
+        case UP:
+            return Math.PI * 1.0;
+        case RIGHT:
+            return Math.PI * 1.50;
+        case DOWN:
+            return 0.0;
+        case LEFT:
+            return Math.PI * 0.50;
+        }
+
+        return 0.0;
+    }
 
     private double getRotation(int direction) {
         switch (direction) {
@@ -216,7 +231,7 @@ public class Viewer {
     }
 
     private SpriteAnimation createRobotSprite(int id) {
-        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5).setDuration(1000);
+        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5).setDuration(1000).start().setLoop(true);
         
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
@@ -257,7 +272,7 @@ public class Viewer {
             Robot robot = entries.getKey();
             SpriteAnimation sprite = entries.getValue();
 
-            sprite.setRotation(getRotation(robot.direction));
+            sprite.setRotation(getRobotRotation(robot.direction)).stop();
         }
 
         graphic.commitWorldState(1.0);
@@ -270,6 +285,8 @@ public class Viewer {
             Robot robot = entries.getKey();
             SpriteAnimation sprite = entries.getValue();
             Cell position = positions.get(robot);
+            
+            sprite.start();
 
             if (position.distance(robot.cell) > 1) {
                 int x = robot.cell.x;
@@ -333,6 +350,8 @@ public class Viewer {
         for (Entry<Robot, SpriteAnimation> entries : newSprites.entrySet()) {
             Robot robot = entries.getKey();
             SpriteAnimation sprite = entries.getValue();
+            
+            sprite.stop();
 
             if (!engine.robots.contains(robot)) {
                 if (robot.death == DEATH_VOID) {
@@ -342,7 +361,7 @@ public class Viewer {
                 }
             } else {
                 sprites.put(robot, sprite);
-                sprite.setRotation(getRotation(robot.direction));
+                sprite.setRotation(getRobotRotation(robot.direction));
             }
         }
 
