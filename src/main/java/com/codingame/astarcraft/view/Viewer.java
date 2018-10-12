@@ -37,6 +37,7 @@ public class Viewer {
     private static final double GRID_ALPHA = 0.15;
     private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
     
+    private static final int[] ROBOT_COLORS = {0xffaaaa, 0x004400, 0x000044, 0x440044, 0xffff00, 0x00ffff, 0xff0088, 0xff8800, 0x00ff88, 0x88ff00};
     private static final String[] ROBOT_IMAGES = new String[26];
     
     static {
@@ -231,7 +232,7 @@ public class Viewer {
     }
 
     private SpriteAnimation createRobotSprite(int id) {
-        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5).setDuration(1000).start().setLoop(true);
+        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5).setDuration(1000).start().setLoop(true).setTint(ROBOT_COLORS[id]);
         
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
