@@ -159,10 +159,7 @@ public class Viewer {
 
         // Robots
         for (Robot robot : engine.robots) {
-            Sprite sprite = createRobotSprite().setRotation(getRotation(robot.direction));
-            Map<String, Object> params = new HashMap<>();
-            params.put("id", robot.id);
-            tooltip.registerEntity(sprite, params);
+            Sprite sprite = createRobotSprite(robot.id).setRotation(getRotation(robot.direction));
 
             moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
             ids.put(sprite, createRobotId(sprite, robot.id));
@@ -220,8 +217,14 @@ public class Viewer {
         return graphic.createText(String.valueOf(id)).setFillColor(0xffffff).setZIndex(Z_ROBOT).setX(sprite.getX()).setY(sprite.getY()).setAnchor(0.5);
     }
 
-    private Sprite createRobotSprite() {
-        return graphic.createSprite().setImage("robot.png").setScale(ROBOT_SCALE).setAnchor(0.5);
+    private Sprite createRobotSprite(int id) {
+        Sprite sprite = graphic.createSprite().setImage("robot.png").setScale(ROBOT_SCALE).setAnchor(0.5);
+        
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        tooltip.registerEntity(sprite, params);
+        
+        return sprite;
     }
 
     private Sprite createArrowSprite(int x, int y, int direction) {
@@ -282,7 +285,7 @@ public class Viewer {
                     y = y == 0 ? -1 : MAP_HEIGHT;
                 }
 
-                Sprite newSprite = createRobotSprite().setAlpha(0).setRotation(sprite.getRotation()).setTint(sprite.getTint());
+                Sprite newSprite = createRobotSprite(robot.id).setAlpha(0).setRotation(sprite.getRotation()).setTint(sprite.getTint());
 
                 moveRobotSprite(newSprite, x, y);
                 ids.put(newSprite, createRobotId(newSprite, robot.id).setAlpha(0));

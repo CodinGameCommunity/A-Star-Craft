@@ -9,13 +9,13 @@ public class Engine {
     public int score;
     public Cell[][] grid;
     public List<Robot> robots;
-    public Set<Robot> gones;
+    public Set<Robot> wrecks;
 
     public Engine(String input) {
         score = 0;
         grid = new Cell[MAP_WIDTH][MAP_HEIGHT];
         robots = new ArrayList<>();
-        gones = new HashSet<>();
+        wrecks = new HashSet<>();
 
         // Initialize an empty map
         for (int x = 0; x < MAP_WIDTH; ++x) {
@@ -95,7 +95,7 @@ public class Engine {
     }
 
     public void play() {
-        gones.clear();
+        wrecks.clear();
         
         // Increase the score
         score += robots.size();
@@ -110,8 +110,8 @@ public class Engine {
             // This is a void cell, RIP robot
             if (next.type == VOID) {
                 robot.death = DEATH_VOID;
-                gones.add(robot);
                 robot.registerState();
+                wrecks.add(robot);
                 continue;
             }
 
@@ -123,11 +123,11 @@ public class Engine {
             // Register the new state and check for infinite loop
             if (!robot.registerState()) {
                 robot.death = DEATH_INFINITE_LOOP;
-                gones.add(robot);
+                wrecks.add(robot);
             }
         }
 
         // Garbage collection
-        robots.removeAll(gones);
+        robots.removeAll(wrecks);
     }
 }

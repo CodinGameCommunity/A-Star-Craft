@@ -4,6 +4,15 @@ import { api as entityModule } from '../entity-module/GraphicEntityModule.js'
 
 /* global PIXI */
 
+const OFFSET_X = 10
+const OFFSET_Y = 68
+const MAP_WIDTH = 19
+const MAP_HEIGHT = 10
+const VIEWER_WIDTH = 1900
+const VIEWER_HEIGHT = 1000
+const CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH
+const CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT
+
 function getMouseOverFunc (id, tooltip) {
   return function () {
     tooltip.inside[id] = true
@@ -77,15 +86,15 @@ function getMouseMoveFunc (tooltip, container, module) {
           if (state !== null) {
             let tooltipBlock = ''
             const params = module.currentFrame.registered[show]
+            
             if (params) {
-              for (let key in params) {
-                tooltipBlock += key + ': ' + params[key] + '\n'
-              }
-
-              const lines = module.robotIdToLines[params.id]
-              if (lines) {
-                lines.visible = true
-              }
+                for (let key in params) {
+                  tooltipBlock += key + ': ' + params[key] + '\n'
+                }
+              // const lines = module.robotIdToLines[params.id]
+              // if (lines) {
+              //   lines.visible = true
+              // }
             }
 
             const extra = module.currentFrame.extraText[show]
