@@ -1,8 +1,13 @@
 import { WIDTH, HEIGHT } from '../core/constants.js'
-import {lerp, unlerpUnclamped} from '../core/utils.js'
+import {lerp, unlerp, unlerpUnclamped} from '../core/utils.js'
 import { api as entityModule } from '../entity-module/GraphicEntityModule.js'
 
 /* global PIXI */
+
+export const options = {
+  linesAlwaysVisible: false,
+  resetLines: () => {}
+}
 
 const OFFSET_X = 10
 const OFFSET_Y = 68
@@ -33,15 +38,6 @@ function getEntityState (entity, frame, progress) {
   return null
 }
 
-const OFFSET_X = 10
-const OFFSET_Y = 68
-const MAP_WIDTH = 19
-const MAP_HEIGHT = 10
-const VIEWER_WIDTH = 1900
-const VIEWER_HEIGHT = 1000
-const CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH
-const CELL_HEIGHT = VIEWER_HEIGHT / MAP_HEIGHT
-
 function getMouseMoveFunc (tooltip, container, module) {
   return function (ev) {
     if (tooltip) {
@@ -71,13 +67,13 @@ function getMouseMoveFunc (tooltip, container, module) {
       var x = Math.floor(lerp(0, MAP_WIDTH, unlerpUnclamped(OFFSET_X, OFFSET_X + CELL_WIDTH * MAP_WIDTH, point.x)))
       var y = Math.floor(lerp(0, MAP_HEIGHT, unlerpUnclamped(OFFSET_Y, OFFSET_Y + CELL_HEIGHT * MAP_HEIGHT, point.y)))
 
-      if (showing.length || x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT) {
+      if (showing.length || (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT)) {
         const tooltipBlocks = []
         tooltipBlocks.push('X: ' + x + '\nY: ' + y)
         tooltip.visible = true
 
         for (let id in module.robotIdToLines) {
-          module.robotIdToLines[id].visible = false
+          module.robotIdToLines[id].visible = options.linesAlwaysVisible
         }
 
         for (let show of showing) {
@@ -86,15 +82,18 @@ function getMouseMoveFunc (tooltip, container, module) {
           if (state !== null) {
             let tooltipBlock = ''
             const params = module.currentFrame.registered[show]
-            
+
             if (params) {
-                for (let key in params) {
-                  tooltipBlock += key + ': ' + params[key] + '\n'
+              for (let key in params) {
+                tooltipBlock += key + ': ' + params[key] + '\n'
+              }
+              const lines = module.robotIdToLines[params.id]
+              if (lines) {
+                if (!lines.visible) {
+                  lines.visible = true
+                  module.redrawLines(lines, module.currentFrame.number, module.paths[params.id], module.currentProgress)
                 }
-              // const lines = module.robotIdToLines[params.id]
-              // if (lines) {
-              //   lines.visible = true
-              // }
+              }
             }
 
             const extra = module.currentFrame.extraText[show]
@@ -146,15 +145,92 @@ export class TooltipModule {
     this.lastFrame = 0
     this.robotIdToLines = {}
     this.paths = {}
+    options.resetLines = () => {
+      this.redrawAllLines()
+    }
   }
 
   static get name () {
     return 'tooltips'
   }
 
+  redrawAllLines () {
+    for (let id in this.robotIdToLines) {
+      const lines = this.robotIdToLines[id]
+      lines.visible = options.linesAlwaysVisible
+      if (lines.visible) {
+        this.redrawLines(lines, this.currentFrame.number, this.paths[id], this.currentProgress)
+      }
+    }
+  }
+
+  redrawLines (lines, frameNumber, path, progress) {
+    const firstStep = path[0]
+    const finalStep = path[frameNumber - 1]
+
+    lines.clear()
+    lines.lineStyle(4, 0xF7F0cc)
+    lines.moveTo(firstStep.x, firstStep.y)
+
+    let prevStep = firstStep
+    for (let step of path.slice(1, frameNumber)) {
+      // Deal with portals
+      let firstP = unlerp(0, 0.5, progress)
+      let secondP = unlerp(0.5, 1, progress)
+      if (step.x === convertX(0) && prevStep.x === convertX(MAP_WIDTH - 1)) {
+        let curX
+        if (step === finalStep) {
+          curX = lerp(prevStep.x, prevStep.x + CELL_WIDTH, firstP)
+        } else {
+          curX = prevStep.x + CELL_WIDTH
+        }
+        lines.lineTo(curX, step.y)
+        lines.moveTo(step.x - CELL_WIDTH, step.y)
+
+        if (step === finalStep) {
+          curX = lerp(step.x - CELL_WIDTH, step.x, secondP)
+        } else {
+          curX = step.x
+        }
+        lines.lineTo(curX, step.y)
+      } else {
+        let x, y
+        if (step === finalStep) {
+          x = lerp(prevStep.x, step.x, progress)
+          y = lerp(prevStep.y, step.y, progress)
+        } else {
+          x = step.x
+          y = step.y
+        }
+
+        // NOTE: Example of something you can do with the dir information
+
+        // const lineOffset = 5
+        // if (step.dir === RIGHT) {
+        //   y += lineOffset
+        // } else if (step.dir === LEFT) {
+        //   y -= lineOffset
+        // } else if (step.dir === UP) {
+        //   x += lineOffset
+        // } else if (step.dir === DOWN) {
+        //   x -= lineOffset
+        // }
+        lines.lineTo(x, y)
+      }
+      prevStep = step
+    }
+  }
+
   updateScene (previousData, currentData, progress) {
     this.currentFrame = currentData
     this.currentProgress = progress
+
+    for (let id in this.paths) {
+      const lines = this.robotIdToLines[id]
+      if (lines.visible) {
+        this.redrawLines(lines, currentData.number, this.paths[id], progress)
+      }
+    }
   }
 
   handleFrameData (frameInfo, data) {
@@ -207,6 +283,7 @@ export class TooltipModule {
         lines.lineTo(step.x, step.y)
       }
 
+      lines.visible = options.linesAlwaysVisible
       layer.addChild(lines)
     }
 

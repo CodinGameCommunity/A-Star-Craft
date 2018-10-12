@@ -64,10 +64,11 @@ public class Robot {
 
     public boolean registerState() {
         State state = new State(cell, direction);
-        if (states.contains(state)) {
-            return false;
-        }
-        return states.add(state);
+        
+        boolean alreadyRegistered = states.contains(state);
+        states.add(state);
+        
+        return !alreadyRegistered;
     }
 
     public int hashCode() {
