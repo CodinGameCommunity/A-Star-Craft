@@ -1,0 +1,534 @@
+{
+    "frames": {
+        "robot01": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot02": {
+            "frame": {
+                "x": 0,
+                "y": 501,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot03": {
+            "frame": {
+                "x": 501,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot04": {
+            "frame": {
+                "x": 501,
+                "y": 501,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot05": {
+            "frame": {
+                "x": 0,
+                "y": 1002,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot06": {
+            "frame": {
+                "x": 501,
+                "y": 1002,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot07": {
+            "frame": {
+                "x": 1002,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot08": {
+            "frame": {
+                "x": 1002,
+                "y": 501,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot09": {
+            "frame": {
+                "x": 1002,
+                "y": 1002,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot10": {
+            "frame": {
+                "x": 0,
+                "y": 1503,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot11": {
+            "frame": {
+                "x": 501,
+                "y": 1503,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot12": {
+            "frame": {
+                "x": 1002,
+                "y": 1503,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot13": {
+            "frame": {
+                "x": 1503,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot14": {
+            "frame": {
+                "x": 1503,
+                "y": 501,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot15": {
+            "frame": {
+                "x": 1503,
+                "y": 1002,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot16": {
+            "frame": {
+                "x": 1503,
+                "y": 1503,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot17": {
+            "frame": {
+                "x": 0,
+                "y": 2004,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot18": {
+            "frame": {
+                "x": 501,
+                "y": 2004,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot19": {
+            "frame": {
+                "x": 1002,
+                "y": 2004,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot20": {
+            "frame": {
+                "x": 1503,
+                "y": 2004,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot21": {
+            "frame": {
+                "x": 2004,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot22": {
+            "frame": {
+                "x": 2004,
+                "y": 501,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot23": {
+            "frame": {
+                "x": 2004,
+                "y": 1002,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot24": {
+            "frame": {
+                "x": 2004,
+                "y": 1503,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot25": {
+            "frame": {
+                "x": 2004,
+                "y": 2004,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        },
+        "robot26": {
+            "frame": {
+                "x": 0,
+                "y": 2505,
+                "w": 500,
+                "h": 500
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 500,
+                "h": 500
+            },
+            "sourceSize": {
+                "w": 500,
+                "h": 500
+            }
+        }
+    },
+    "meta": {
+        "app": "https://www.leshylabs.com/apps/sstool/",
+        "version": "Leshy SpriteSheet Tool v0.8.4",
+        "image": "robot.png",
+        "size": {
+            "w": 2504,
+            "h": 3005
+        },
+        "scale": 1
+    }
+}
