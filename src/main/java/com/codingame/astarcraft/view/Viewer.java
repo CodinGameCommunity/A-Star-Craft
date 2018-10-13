@@ -37,8 +37,8 @@ public class Viewer {
     private static final int GRID_COLOR = 0xFFFFFF;
     private static final double GRID_ALPHA = 0.15;
     private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
-    
-    private static final int[] ROBOT_COLORS = {0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0xffffff, 0x000000, 0xff8888, 0x88ff88, 0x8888ff};
+
+    private static final int[] ROBOT_COLORS = {0xb4141e, 0x0042ff, 0x1ca7ea, 0x331ac8, 0xebe129, 0xfe8a0e, 0x168000, 0xd0a6fc, 0x1f01c9, 0x525494};
     private static final String[] ROBOT_IMAGES = new String[26];
     
     static {
