@@ -38,7 +38,7 @@ public class Viewer {
     private static final double GRID_ALPHA = 0.15;
     private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
     
-    private static final int[] ROBOT_COLORS = {0xff8888, 0x88ff8, 0x8888ff, 0xff88ff, 0xffff88, 0x88ffff, 0x88ffff, 0xff4444, 0x44ff44, 0x4444ff};
+    private static final int[] ROBOT_COLORS = {0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0xffffff, 0x000000, 0xff8888, 0x88ff88, 0x8888ff};
     private static final String[] ROBOT_IMAGES = new String[26];
     
     static {
@@ -279,12 +279,12 @@ public class Viewer {
         }
 
         // Update robots rotation
-        for (Entry<Robot, SpriteAnimation> entries : sprites.entrySet()) {
-            Robot robot = entries.getKey();
-            SpriteAnimation sprite = entries.getValue();
+        for (Entry<Robot, SpriteAnimation> entry : sprites.entrySet()) {
+            Robot robot = entry.getKey();
+            SpriteAnimation sprite = entry.getValue();
 
             double rotation = getRobotRotation(robot.direction);
-            sprite.setRotation(rotation).stop();
+            sprite.setRotation(rotation);
             robotMasks.get(sprite.getId()).setRotation(rotation);
         }
 
@@ -294,12 +294,10 @@ public class Viewer {
     public void update() {
         newSprites.clear();
 
-        for (Entry<Robot, SpriteAnimation> entries : sprites.entrySet()) {
-            Robot robot = entries.getKey();
-            SpriteAnimation sprite = entries.getValue();
+        for (Entry<Robot, SpriteAnimation> entry : sprites.entrySet()) {
+            Robot robot = entry.getKey();
+            SpriteAnimation sprite = entry.getValue();
             Cell position = positions.get(robot);
-            
-            sprite.start();
 
             if (position.distance(robot.cell) > 1) {
                 int x = robot.cell.x;
@@ -328,9 +326,9 @@ public class Viewer {
 
         graphic.commitWorldState(0.0);
 
-        for (Entry<Robot, SpriteAnimation> entries : sprites.entrySet()) {
-            Robot robot = entries.getKey();
-            SpriteAnimation sprite = entries.getValue();
+        for (Entry<Robot, SpriteAnimation> entry : sprites.entrySet()) {
+            Robot robot = entry.getKey();
+            SpriteAnimation sprite = entry.getValue();
             Cell position = positions.get(robot);
 
             if (position.distance(robot.cell) > 1) {
@@ -363,11 +361,9 @@ public class Viewer {
 
         graphic.commitWorldState(0.75);
 
-        for (Entry<Robot, SpriteAnimation> entries : newSprites.entrySet()) {
-            Robot robot = entries.getKey();
-            SpriteAnimation sprite = entries.getValue();
-            
-            sprite.stop();
+        for (Entry<Robot, SpriteAnimation> entry : newSprites.entrySet()) {
+            Robot robot = entry.getKey();
+            SpriteAnimation sprite = entry.getValue();
 
             if (!engine.robots.contains(robot)) {
                 if (robot.death == DEATH_VOID) {
