@@ -2,7 +2,7 @@ package com.codingame.game;
 
 import com.codingame.astarcraft.game.Engine;
 import com.codingame.astarcraft.game.Robot;
-import com.codingame.astarcraft.view.TooltipModule;
+import com.codingame.astarcraft.view.AStarCraftModule;
 import com.codingame.astarcraft.view.Viewer;
 import com.codingame.gameengine.core.AbstractPlayer.TimeoutException;
 import com.codingame.gameengine.core.AbstractReferee;
@@ -29,7 +29,7 @@ public class Referee extends AbstractReferee {
     @Inject
     private GraphicEntityModule graphic;
     @Inject
-    private TooltipModule tooltip;
+    private AStarCraftModule module;
 
     private Engine engine;
     private Viewer viewer;
@@ -64,7 +64,7 @@ public class Referee extends AbstractReferee {
         }
 
         engine = new Engine(input);
-        viewer = new Viewer(graphic, engine, tooltip);
+        viewer = new Viewer(graphic, engine, module);
 
         player = manager.getPlayer();
 

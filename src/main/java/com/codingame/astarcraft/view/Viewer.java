@@ -55,10 +55,10 @@ public class Viewer {
     private Set<Cell> startArrows;
     private Text score;
     private Random random = new Random();
-    private TooltipModule tooltip;
+    private AStarCraftModule module;
 
-    public Viewer(GraphicEntityModule graphic, Engine engine, TooltipModule tooltips) {
-        this.tooltip = tooltips;
+    public Viewer(GraphicEntityModule graphic, Engine engine, AStarCraftModule module) {
+        this.module = module;
         this.graphic = graphic;
         this.engine = engine;
         positions = new HashMap<>();
@@ -245,7 +245,7 @@ public class Viewer {
         
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
-        tooltip.registerEntity(sprite, params);
+        module.registerEntity(sprite, params);
 
         robotMasks.put(sprite.getId(), graphic.createSprite().setImage("robot_mask.png").setScale(ROBOT_SCALE).setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(Z_ROBOT_MASK));
 

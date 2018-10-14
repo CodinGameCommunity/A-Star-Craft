@@ -78,10 +78,6 @@ function getMouseMoveFunc (tooltip, container, module) {
                 }
             }
 
-            const extra = module.currentFrame.extraText[show]
-            if (extra && extra.length) {
-              tooltipBlock += extra
-            }
             tooltipBlocks.push(tooltipBlock)
           }
         }
@@ -108,12 +104,11 @@ function getMouseMoveFunc (tooltip, container, module) {
   }
 };
 
-export class TooltipModule {
+export class AStarCraftModule {
   constructor (assets) {
     this.interactive = {}
     this.previousFrame = {
-      registrations: {},
-      extra: {}
+      registrations: {}
     }
     this.lastProgress = 1
     this.lastFrame = 0
@@ -128,9 +123,8 @@ export class TooltipModule {
     this.currentProgress = progress
   }
 
-  handleFrameData (frameInfo, [registrations, extra]) {
+  handleFrameData (frameInfo, [registrations]) {
     const registered = { ...this.previousFrame.registered, ...registrations }
-    const extraText = { ...this.previousFrame.extraText, ...extra }
 
     Object.keys(registrations).forEach(
       k => {
@@ -138,7 +132,7 @@ export class TooltipModule {
       }
     )
 
-    const frame = { registered, extraText, number: frameInfo.number }
+    const frame = { registered, number: frameInfo.number }
     this.previousFrame = frame
     return frame
   }
@@ -174,7 +168,7 @@ export class TooltipModule {
     }
 
     return textEl
-  };
+  }
 
   initTooltip () {
     var tooltip = new PIXI.Container()
@@ -195,7 +189,7 @@ export class TooltipModule {
 
     tooltip.interactiveChildren = false
     return tooltip
-  };
+  }
 
   animateScene (delta) {
 
@@ -203,13 +197,5 @@ export class TooltipModule {
 
   handleGlobalData (players, globalData) {
 
-  }
-}
-
-class NotYetImplemented extends Error {
-  constructor (feature) {
-    super('Not yet implemented: "' + feature)
-    this.feature = feature
-    this.name = 'NotYetImplemented'
   }
 }
