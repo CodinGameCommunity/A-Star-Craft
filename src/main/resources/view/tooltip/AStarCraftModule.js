@@ -60,6 +60,10 @@ function getMouseMoveFunc (tooltip, container, module) {
       var x = Math.floor(lerp(0, MAP_WIDTH, unlerpUnclamped(OFFSET_X, OFFSET_X + CELL_WIDTH * MAP_WIDTH, point.x)))
       var y = Math.floor(lerp(0, MAP_HEIGHT, unlerpUnclamped(OFFSET_Y, OFFSET_Y + CELL_HEIGHT * MAP_HEIGHT, point.y)))
 
+      for (let id in module.currentFrame.paths) {
+        module.currentFrame.paths[id].forEach(entity => entityModule.entities.get(entity).container.alpha = 0.0);
+      }
+
       if (showing.length || x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT) {
         const tooltipBlocks = []
         tooltipBlocks.push('X: ' + x + '\nY: ' + y)
@@ -84,11 +88,7 @@ function getMouseMoveFunc (tooltip, container, module) {
           // Show paths
           const id = module.currentFrame.ownerships[show]
           if (id !== undefined) {
-              module.currentFrame.paths[id].forEach(entity => {
-                  // TODO afficher l'élément
-                  // console.log('show', entityModule.entities.get(entity))
-                  // entityModule.entities.get(entity).container.visible = true
-              })
+              module.currentFrame.paths[id].forEach(entity => entityModule.entities.get(entity).container.alpha = 1.0)
           }
         }
         tooltip.label.text = tooltipBlocks.join('\n──────────\n')
