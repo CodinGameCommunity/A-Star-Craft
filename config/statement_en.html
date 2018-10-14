@@ -20,9 +20,9 @@
       <span>Rules</span>
     </h1>
     <div>
-      <div class="statement-rules-content">The game is played on a platform in space. Help Automaton2000 patrol his platform by placing arrows to guide him!<br>
-        Automaton2000 scores 1 point per cell he visits. If he steps off the platform and drifts into space he won't be able to score any more points!<br>
-        Due to Magus' poor coding Automaton2000 crashes if he revisits a state he's been in, as he realises he's going in circles!
+      <div class="statement-rules-content">The game is played on a platform in space. Due to Magus' poor AI skills Automaton2000 only walks in straight lines. Guide Automaton2000 with arrows to save him from stepping off the platform!<br>
+        Unfortunately, due to Magus' poor coding Automaton2000 also crashes if he revisits a state he's been in, as he realises he's going in circles!<br>
+        Try to keep Automaton2000 alive as long as possible, you score 1 point per turn that he is.<br>
         <br>
         The game works as follows:
         <ul>
@@ -45,10 +45,13 @@
       Order of events in a turn:
       <ul>
         <li>Score is incremented by 1 for each Automaton2000 alive</li>
-        <li>Automaton2000 changes direction if he's located on an arrow</li>
         <li>Automaton2000 moves by 1 cell in the direction he's facing</li>
+        <li>Automaton2000 changes direction if he's located on an arrow</li>
         <li>Automaton2000 dies if he has stepped into the void or entered a (position,direction) state he has been in before</li>
       </ul>
+      For the first turn Automaton2000 changes direction if he's standing on an arrow (i.e: You can change the initial direction of a robot by placing an arrow under it).
+      You can run custom test cases in the IDE.
+      You can access the referee code on a public github.
     </div>
   </div>
   <!-- WARNING -->
@@ -59,7 +62,7 @@
     </h1>
     <div class="statement-warning-content">
       <b>Don’t forget to run the tests by launching them from the “Test cases” window</b>. You can submit at any time
-      to recieve a score against the training validators. <b>You can submit as many times as you like</b>. Your most
+      to recieve a score against the training validators. There are some limitations on submits per unit time. Your most
       recent submission will be used for the final ranking.<br>
       <br>
       Don't hesitate to change the viewer's options to help debug your code (<img style="opacity:.8;background:#20252a;"
@@ -108,14 +111,9 @@
   <div class="statement-story-background">
     <div class="statement-story-cover" style="background-size: cover; background-image: url(https://www.codingame.com/servlet/fileservlet?id=2210505809934)">
       <div class="statement-story" style="min-height: 300px; position: relative">
-        <h1>Gospel according to Agade</h1>
+        <h1>Title</h1>
         <div class="story-text">
-          In the beginning when Magus created this world, it was formless and void.<br>
-          And Magus said "Let there be a platform in the midst of the void, and let it separate the void from the void". And it was so.<br>
-          And Magus created Automaton2000 in his image; buggy and simple-minded he created him.<br>
-          And Magus saw everything that he had made, and indeed, it was not very good. And there was evening and there was morning, the sixth day.<br>
-          Thus the cosmos was created.<br>
-          And on the seventh day, while Magus is resting, we find ourselves having to guide his creation, delaying its perdition.<br> 
+          Story?
         </div>
       </div>
     </div>
