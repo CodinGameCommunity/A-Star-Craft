@@ -262,7 +262,7 @@ public class Viewer {
     }
 
     private void createPath(Robot robot, SpriteAnimation sprite) {
-        module.addPath(robot.id, graphic.createSprite().setImage("path.png").setScale(PATH_SCALE).setTint(ROBOT_COLORS[robot.id]).setRotation(getRotation(robot.direction)).setAnchor(0.5).setX(sprite.getX()).setY(sprite.getY()).setZIndex(Z_PATH).setAlpha(0));
+        module.addPath(robot.id, graphic.createSprite().setImage("path.png").setScale(PATH_SCALE).setTint(ROBOT_COLORS[robot.id]).setRotation(getRotation(robot.direction)).setAnchor(0.5).setX(sprite.getX()).setY(sprite.getY()).setZIndex(Z_PATH).setAlpha(1.0).setVisible(true));
     }
 
     public void updateMap() {
