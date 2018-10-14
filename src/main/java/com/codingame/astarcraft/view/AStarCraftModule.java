@@ -63,6 +63,6 @@ public class AStarCraftModule implements Module {
     }
 
     public void addOwnership(int id, Entity<?> owner) {
-        ownerships.put(id, owner.getId());
+        ownerships.put(owner.getId(), id);
     }
 }

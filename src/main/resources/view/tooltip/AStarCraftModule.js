@@ -70,7 +70,7 @@ function getMouseMoveFunc (tooltip, container, module) {
           const state = getEntityState(entity, module.currentFrame.number)
           if (state !== null) {
             let tooltipBlock = ''
-            const params = module.currentFrame.registered[show]
+            const params = module.currentFrame.tooltips[show]
             
             if (params) {
                 for (let key in params) {
@@ -79,6 +79,16 @@ function getMouseMoveFunc (tooltip, container, module) {
             }
 
             tooltipBlocks.push(tooltipBlock)
+          }
+
+          // Show paths
+          const id = module.currentFrame.ownerships[show]
+          if (id !== undefined) {
+              module.currentFrame.paths[id].forEach(entity => {
+                  // TODO afficher l'élément
+                  // console.log('show', entityModule.entities.get(entity))
+                  // entityModule.entities.get(entity).container.visible = true
+              })
           }
         }
         tooltip.label.text = tooltipBlocks.join('\n──────────\n')
@@ -102,13 +112,15 @@ function getMouseMoveFunc (tooltip, container, module) {
       }
     }
   }
-};
+}
 
 export class AStarCraftModule {
   constructor (assets) {
     this.interactive = {}
     this.previousFrame = {
-      registrations: {}
+      tooltips: {},
+      paths: {},
+      ownerships: {}
     }
     this.lastProgress = 1
     this.lastFrame = 0
@@ -124,7 +136,17 @@ export class AStarCraftModule {
   }
 
   handleFrameData (frameInfo, {tooltips, paths, ownerships}) {
-    const registered = { ...this.previousFrame.registered, ...tooltips }
+    tooltips = { ...this.previousFrame.tooltips, ...tooltips }
+    ownerships = { ...this.previousFrame.ownerships, ...ownerships }
+
+    const allPaths = this.previousFrame.paths;
+    for (let key in paths) {
+        if (!allPaths[key]) {
+            allPaths[key] = [];
+        }
+
+        allPaths[key].push(paths[key]);
+    }
 
     Object.keys(tooltips).forEach(
       k => {
@@ -132,7 +154,8 @@ export class AStarCraftModule {
       }
     )
 
-    const frame = { registered, number: frameInfo.number }
+    const frame = { tooltips, number: frameInfo.number, paths: allPaths, ownerships }
+
     this.previousFrame = frame
     return frame
   }

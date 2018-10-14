@@ -22,7 +22,6 @@ public class Viewer {
     private static final double ROBOT_SCALE = ROBOT_SIZE / 500.0;
     private static final double ARROW_SCALE = ARROW_SIZE / 140.0;
     private static final double PATH_SCALE = PATH_SIZE / 140.0;
-    private static final double PATH_OPACITY = 0.5;
     private static final double TILE_SCALE = CELL_WIDTH / 64.0;
     private static final double BORDER_SCALE = CELL_WIDTH / 64.0;
     private static final double CORNER_SCALE = CELL_WIDTH / 64.0;
@@ -263,7 +262,7 @@ public class Viewer {
     }
 
     private void createPath(Robot robot, SpriteAnimation sprite) {
-        module.addPath(robot.id, graphic.createSprite().setImage("path.png").setScale(PATH_SCALE).setTint(ROBOT_COLORS[robot.id]).setRotation(getRotation(robot.direction)).setAnchor(0.5).setX(sprite.getX()).setY(sprite.getY()).setZIndex(Z_PATH).setAlpha(PATH_OPACITY));
+        module.addPath(robot.id, graphic.createSprite().setImage("path.png").setScale(PATH_SCALE).setTint(ROBOT_COLORS[robot.id]).setRotation(getRotation(robot.direction)).setAnchor(0.5).setX(sprite.getX()).setY(sprite.getY()).setZIndex(Z_PATH).setAlpha(0));
     }
 
     public void updateMap() {
