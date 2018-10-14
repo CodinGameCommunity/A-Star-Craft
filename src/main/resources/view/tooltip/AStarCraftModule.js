@@ -115,7 +115,7 @@ export class AStarCraftModule {
   }
 
   static get name () {
-    return 'tooltips'
+    return 'astarcraft'
   }
 
   updateScene (previousData, currentData, progress) {
@@ -123,10 +123,10 @@ export class AStarCraftModule {
     this.currentProgress = progress
   }
 
-  handleFrameData (frameInfo, [registrations]) {
-    const registered = { ...this.previousFrame.registered, ...registrations }
+  handleFrameData (frameInfo, {tooltips, paths, ownerships}) {
+    const registered = { ...this.previousFrame.registered, ...tooltips }
 
-    Object.keys(registrations).forEach(
+    Object.keys(tooltips).forEach(
       k => {
         this.interactive[k] = true
       }
