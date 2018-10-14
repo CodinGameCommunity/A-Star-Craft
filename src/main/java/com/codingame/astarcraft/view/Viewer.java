@@ -37,6 +37,7 @@ public class Viewer {
     private static final int GRID_COLOR = 0xFFFFFF;
     private static final double GRID_ALPHA = 0.15;
     private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
+    private static final int ROBOT_ANIMATION_DURATION = 2000;
 
     private static final int[] ROBOT_COLORS = {0xb4141e, 0x0042ff, 0x1ca7ea, 0x331ac8, 0xebe129, 0xfe8a0e, 0x168000, 0xd0a6fc, 0x1f01c9, 0x525494};
     private static final String[] ROBOT_IMAGES = new String[26];
@@ -240,7 +241,7 @@ public class Viewer {
     }
 
     private SpriteAnimation createRobotSprite(int id) {
-        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5).setDuration(1000).start().setLoop(true).setZIndex(Z_ROBOT);
+        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5).setDuration(Integer.MAX_VALUE).start().setLoop(true).setZIndex(Z_ROBOT);
         
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
@@ -299,6 +300,8 @@ public class Viewer {
             SpriteAnimation sprite = entry.getValue();
             Cell position = positions.get(robot);
 
+            sprite.setDuration(ROBOT_ANIMATION_DURATION);
+
             if (position.distance(robot.cell) > 1) {
                 int x = robot.cell.x;
                 int y = robot.cell.y;
@@ -311,7 +314,7 @@ public class Viewer {
                     y = y == 0 ? -1 : MAP_HEIGHT;
                 }
 
-                SpriteAnimation newSprite = createRobotSprite(robot.id).setAlpha(0).setRotation(sprite.getRotation());
+                SpriteAnimation newSprite = createRobotSprite(robot.id).setAlpha(0).setRotation(sprite.getRotation()).setDuration(ROBOT_ANIMATION_DURATION);;
                 robotMasks.get(newSprite.getId()).setAlpha(0).setRotation(sprite.getRotation());
 
                 moveRobotSprite(newSprite, x, y);
