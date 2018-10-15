@@ -1,13 +1,13 @@
 package com.codingame.astarcraft.view;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.codingame.game.Player;
 import com.codingame.gameengine.core.Module;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.Entity;
 import com.google.inject.Inject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AStarCraftModule implements Module {
 

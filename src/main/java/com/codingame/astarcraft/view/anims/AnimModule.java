@@ -1,18 +1,19 @@
 package com.codingame.astarcraft.view.anims;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.codingame.gameengine.core.AbstractPlayer;
 import com.codingame.gameengine.core.GameManager;
 import com.codingame.gameengine.core.Module;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AnimModule implements Module {
 
     GameManager<AbstractPlayer> gameManager;
-    @Inject GraphicEntityModule entityModule;
+    @Inject
+    GraphicEntityModule entityModule;
     List<Anim> animEvents;
 
     @Inject

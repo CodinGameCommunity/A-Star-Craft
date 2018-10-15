@@ -1,8 +1,11 @@
 package com.codingame.astarcraft.game;
 
-import static com.codingame.astarcraft.Constants.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import java.util.*;
+import static com.codingame.astarcraft.Constants.*;
 
 public class Engine {
 
@@ -41,7 +44,7 @@ public class Engine {
         for (int y = 0; y < MAP_HEIGHT; ++y) {
             for (int x = 0; x < MAP_WIDTH; ++x) {
                 char c = input.charAt(index);
-                
+
                 Cell cell = get(x, y);
 
                 if (Character.isUpperCase(c)) {
@@ -96,17 +99,17 @@ public class Engine {
 
     public void play() {
         wrecks.clear();
-        
+
         // Increase the score
         score += robots.size();
 
         for (Robot robot : robots) {
             // Get the next cell
             Cell next = robot.cell.nexts[robot.direction];
-            
+
             // Move the robot
             robot.cell = next;
-            
+
             // This is a void cell, RIP robot
             if (next.type == VOID) {
                 robot.death = DEATH_VOID;

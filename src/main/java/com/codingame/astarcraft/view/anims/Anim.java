@@ -11,7 +11,7 @@ public class Anim {
     public Anim(String id, double t) {
         this.t = t;
         this.id = id;
-        this.params = new HashMap<>(); 
+        this.params = new HashMap<>();
     }
 
     public Anim(String id) {
@@ -29,6 +29,7 @@ public class Anim {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
