@@ -1,16 +1,41 @@
 package com.codingame.astarcraft.view;
 
-import static com.codingame.astarcraft.Constants.*;
+import static com.codingame.astarcraft.Constants.DEATH_VOID;
+import static com.codingame.astarcraft.Constants.DOWN;
+import static com.codingame.astarcraft.Constants.LEFT;
+import static com.codingame.astarcraft.Constants.MAP_HEIGHT;
+import static com.codingame.astarcraft.Constants.MAP_WIDTH;
+import static com.codingame.astarcraft.Constants.NONE;
+import static com.codingame.astarcraft.Constants.RIGHT;
+import static com.codingame.astarcraft.Constants.UP;
+import static com.codingame.astarcraft.Constants.VOID;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Set;
 
-import com.codingame.astarcraft.game.*;
-import com.codingame.gameengine.module.entities.*;
+import com.codingame.astarcraft.game.Cell;
+import com.codingame.astarcraft.game.Engine;
+import com.codingame.astarcraft.game.Robot;
+import com.codingame.astarcraft.view.anims.Anim;
+import com.codingame.astarcraft.view.anims.AnimModule;
+import com.codingame.gameengine.module.entities.Curve;
+import com.codingame.gameengine.module.entities.Entity;
+import com.codingame.gameengine.module.entities.GraphicEntityModule;
+import com.codingame.gameengine.module.entities.Sprite;
+import com.codingame.gameengine.module.entities.SpriteAnimation;
+import com.codingame.gameengine.module.entities.Text;
+import com.codingame.gameengine.module.entities.TextureBasedEntity.BlendMode;
 
 public class Viewer {
     private GraphicEntityModule graphic;
     private Engine engine;
+    private AnimModule anims; 
 
     private static final int VIEWER_WIDTH = 1900;
     private static final int VIEWER_HEIGHT = 1000;
@@ -60,10 +85,11 @@ public class Viewer {
     private Random random = new Random();
     private AStarCraftModule module;
 
-    public Viewer(GraphicEntityModule graphic, Engine engine, AStarCraftModule module) {
+    public Viewer(GraphicEntityModule graphic, Engine engine, AStarCraftModule module, AnimModule anims) {
         this.module = module;
         this.graphic = graphic;
         this.engine = engine;
+        this.anims = anims;
         positions = new HashMap<>();
         sprites = new HashMap<>();
         newSprites = new HashMap<>();
@@ -248,14 +274,14 @@ public class Viewer {
 
     private SpriteAnimation createRobotSprite(int id) {
         SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5)
-            .setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(Z_ROBOT);
+            .setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(Z_ROBOT).setTint(ROBOT_COLORS[id]);
 
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         module.addTooltip(sprite, params);
 
         robotMasks.put(
-            sprite.getId(), graphic.createSprite().setImage("robot_mask.png").setScale(ROBOT_SCALE).setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(Z_ROBOT_MASK)
+            sprite.getId(), graphic.createSprite().setImage("robot_mask.png").setScale(ROBOT_SCALE).setBlendMode(BlendMode.ADD).setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(Z_ROBOT_MASK)
         );
 
         module.addOwnership(id, sprite);
@@ -433,7 +459,9 @@ public class Viewer {
                 } else {
                     sprite.setAlpha(0);
                     robotMasks.get(sprite.getId()).setAlpha(0);
+                    explode(sprite);
                 }
+                
             } else {
                 sprites.put(robot, sprite);
                 sprite.setRotation(getRobotRotation(robot.direction));
@@ -451,6 +479,14 @@ public class Viewer {
         }
     }
 
+    private void explode(Entity<?> sprite) {
+        Anim a = anims.createAnimationEvent("boom", 0.75);
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("x", sprite.getX());
+        params.put("y", sprite.getY());
+        a.setParams(params);
+    }
+    
     private void storePositions() {
         for (Robot robot : engine.robots) {
             positions.put(robot, robot.cell);

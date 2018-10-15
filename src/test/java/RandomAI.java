@@ -15,7 +15,7 @@ public class RandomAI {
                 char c = line.charAt(x);
 
                 if (c == '.') {
-                    int r = random.nextInt(19);
+                    int r = random.nextInt(4);
 
                     switch (r) {
                     case 0:

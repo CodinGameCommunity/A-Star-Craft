@@ -4,6 +4,7 @@ import com.codingame.astarcraft.game.Engine;
 import com.codingame.astarcraft.game.Robot;
 import com.codingame.astarcraft.view.AStarCraftModule;
 import com.codingame.astarcraft.view.Viewer;
+import com.codingame.astarcraft.view.anims.AnimModule;
 import com.codingame.gameengine.core.AbstractPlayer.TimeoutException;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
@@ -30,6 +31,8 @@ public class Referee extends AbstractReferee {
     private GraphicEntityModule graphic;
     @Inject
     private AStarCraftModule module;
+    @Inject
+    private AnimModule anims;
 
     private Engine engine;
     private Viewer viewer;
@@ -64,7 +67,7 @@ public class Referee extends AbstractReferee {
         }
 
         engine = new Engine(input);
-        viewer = new Viewer(graphic, engine, module);
+        viewer = new Viewer(graphic, engine, module, anims);
 
         player = manager.getPlayer();
 

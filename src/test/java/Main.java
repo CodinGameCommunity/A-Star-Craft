@@ -5,7 +5,7 @@ public class Main {
         SoloGameRunner gameRunner = new SoloGameRunner();
 
         gameRunner.setAgent(RandomAI.class);
-        gameRunner.setTestCase("test24.json");
+        gameRunner.setTestCase("test19.json");
 
         gameRunner.start(9999);
     }
