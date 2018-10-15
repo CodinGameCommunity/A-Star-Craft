@@ -1,42 +1,19 @@
 package com.codingame.astarcraft.view;
 
-import static com.codingame.astarcraft.Constants.DEATH_VOID;
-import static com.codingame.astarcraft.Constants.DOWN;
-import static com.codingame.astarcraft.Constants.LEFT;
-import static com.codingame.astarcraft.Constants.MAP_HEIGHT;
-import static com.codingame.astarcraft.Constants.MAP_WIDTH;
-import static com.codingame.astarcraft.Constants.NONE;
-import static com.codingame.astarcraft.Constants.RIGHT;
-import static com.codingame.astarcraft.Constants.UP;
-import static com.codingame.astarcraft.Constants.VOID;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Set;
-
 import com.codingame.astarcraft.game.Cell;
 import com.codingame.astarcraft.game.Engine;
 import com.codingame.astarcraft.game.Robot;
 import com.codingame.astarcraft.view.anims.Anim;
 import com.codingame.astarcraft.view.anims.AnimModule;
-import com.codingame.gameengine.module.entities.Curve;
-import com.codingame.gameengine.module.entities.Entity;
-import com.codingame.gameengine.module.entities.GraphicEntityModule;
-import com.codingame.gameengine.module.entities.Sprite;
-import com.codingame.gameengine.module.entities.SpriteAnimation;
-import com.codingame.gameengine.module.entities.Text;
+import com.codingame.gameengine.module.entities.*;
 import com.codingame.gameengine.module.entities.TextureBasedEntity.BlendMode;
 
-public class Viewer {
-    private GraphicEntityModule graphic;
-    private Engine engine;
-    private AnimModule anims; 
+import java.util.*;
+import java.util.Map.Entry;
 
+import static com.codingame.astarcraft.Constants.*;
+
+public class Viewer {
     private static final int VIEWER_WIDTH = 1900;
     private static final int VIEWER_HEIGHT = 1000;
     private static final int CELL_WIDTH = VIEWER_WIDTH / MAP_WIDTH;
@@ -67,7 +44,7 @@ public class Viewer {
     private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
     private static final int ROBOT_ANIMATION_DURATION = 2000;
 
-    private static final int[] ROBOT_COLORS = { 0xb4141e, 0x0042ff, 0x1ca7ea, 0x331ac8, 0xebe129, 0xfe8a0e, 0x168000, 0xd0a6fc, 0x1f01c9, 0x525494 };
+    private static final int[] ROBOT_COLORS = {0xb4141e, 0x0042ff, 0x1ca7ea, 0x331ac8, 0xebe129, 0xfe8a0e, 0x168000, 0xd0a6fc, 0x1f01c9, 0x525494};
     private static final String[] ROBOT_IMAGES = new String[26];
 
     static {
@@ -76,14 +53,17 @@ public class Viewer {
         }
     }
 
-    private Map<Robot, SpriteAnimation> sprites;
-    private Map<Robot, SpriteAnimation> newSprites;
-    private Map<Integer, Sprite> robotMasks;
+    private GraphicEntityModule graphic;
+    private Engine engine;
+    private AnimModule anims;
+    private AStarCraftModule module;
+    private Set<SpriteAnimation> robotSprites;
+    private Map<Robot, Group> sprites;
+    private Map<Robot, Group> newSprites;
     private Map<Robot, Cell> positions;
     private Set<Cell> startArrows;
     private Text score;
     private Random random = new Random();
-    private AStarCraftModule module;
 
     public Viewer(GraphicEntityModule graphic, Engine engine, AStarCraftModule module, AnimModule anims) {
         this.module = module;
@@ -94,19 +74,19 @@ public class Viewer {
         sprites = new HashMap<>();
         newSprites = new HashMap<>();
         startArrows = new HashSet<>();
-        robotMasks = new HashMap<>();
+        robotSprites = new HashSet<>();
 
         // Background
         graphic.createSprite().setImage("background.png").setX(0).setY(0).setScale(2.0).setZIndex(Z_BACKGROUND);
 
         for (int x = 0; x < MAP_WIDTH + 1; ++x) {
             graphic.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X + CELL_WIDTH * x).setY(OFFSET_Y)
-                .setX2(OFFSET_X + CELL_WIDTH * x).setY2(OFFSET_Y + VIEWER_HEIGHT).setZIndex(Z_GRID);
+                    .setX2(OFFSET_X + CELL_WIDTH * x).setY2(OFFSET_Y + VIEWER_HEIGHT).setZIndex(Z_GRID);
         }
 
         for (int y = 0; y < MAP_HEIGHT + 1; ++y) {
             graphic.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X).setY(OFFSET_Y + CELL_HEIGHT * y)
-                .setX2(OFFSET_X + VIEWER_WIDTH).setY2(OFFSET_Y + CELL_HEIGHT * y).setZIndex(Z_GRID);
+                    .setX2(OFFSET_X + VIEWER_WIDTH).setY2(OFFSET_Y + CELL_HEIGHT * y).setZIndex(Z_GRID);
         }
 
         // Floor, portals and arrows
@@ -126,7 +106,7 @@ public class Viewer {
 
                 if (floor) {
                     graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(cx).setY(cy).setZIndex(Z_FLOOR)
-                        .setAnchor(0.5);
+                            .setAnchor(0.5);
 
                     if (type != NONE) {
                         createArrowSprite(cx, cy, type).setScale(ARROW_SCALE).setTint(0x888888);
@@ -203,12 +183,15 @@ public class Viewer {
         // Robots
         for (Robot robot : engine.robots) {
             double rotation = getRobotRotation(robot.direction);
-            SpriteAnimation sprite = createRobotSprite(robot.id).setRotation(rotation).setDuration(Integer.MAX_VALUE);
-            robotMasks.get(sprite.getId()).setRotation(rotation);
+            Group sprite = createRobot(robot.id).setRotation(rotation);
 
-            moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
+            moveRobot(sprite, robot.cell.x, robot.cell.y);
 
             sprites.put(robot, sprite);
+        }
+
+        for (SpriteAnimation sprite : robotSprites) {
+            sprite.setDuration(Integer.MAX_VALUE);
         }
 
         // Score indicator
@@ -236,14 +219,14 @@ public class Viewer {
 
     private double getRobotRotation(int direction) {
         switch (direction) {
-        case UP:
-            return Math.PI * 1.0;
-        case RIGHT:
-            return Math.PI * 1.50;
-        case DOWN:
-            return 0.0;
-        case LEFT:
-            return Math.PI * 0.50;
+            case UP:
+                return Math.PI * 1.0;
+            case RIGHT:
+                return Math.PI * 1.50;
+            case DOWN:
+                return 0.0;
+            case LEFT:
+                return Math.PI * 0.50;
         }
 
         return 0.0;
@@ -251,42 +234,41 @@ public class Viewer {
 
     private double getRotation(int direction) {
         switch (direction) {
-        case UP:
-            return Math.PI * 1.50;
-        case RIGHT:
-            return 0.0;
-        case DOWN:
-            return Math.PI * 0.50;
-        case LEFT:
-            return Math.PI * 1.00;
+            case UP:
+                return Math.PI * 1.50;
+            case RIGHT:
+                return 0.0;
+            case DOWN:
+                return Math.PI * 0.50;
+            case LEFT:
+                return Math.PI * 1.00;
         }
 
         return 0.0;
     }
 
-    private void moveRobotSprite(SpriteAnimation sprite, int x, int y) {
+    private void moveRobot(Group group, int x, int y) {
         x = CELL_WIDTH / 2 + x * CELL_WIDTH + OFFSET_X;
         y = CELL_HEIGHT / 2 + y * CELL_HEIGHT + OFFSET_Y;
-        sprite.setX(x).setY(y);
-
-        robotMasks.get(sprite.getId()).setX(x).setY(y);
+        group.setX(x).setY(y);
     }
 
-    private SpriteAnimation createRobotSprite(int id) {
-        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5)
-            .setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(Z_ROBOT).setTint(ROBOT_COLORS[id]);
+    private Group createRobot(int id) {
+        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setAnchor(0.5)
+                .setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(Z_ROBOT).setTint(ROBOT_COLORS[id]);
+
+        Sprite mask = graphic.createSprite().setImage("robot_mask.png").setBlendMode(BlendMode.ADD).setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(Z_ROBOT_MASK);
+
+        Group group = graphic.createGroup(sprite, mask).setZIndex(Z_ROBOT).setScale(ROBOT_SCALE);
 
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
-        module.addTooltip(sprite, params);
+        module.addTooltip(group, params);
+        module.addOwnership(id, group);
 
-        robotMasks.put(
-            sprite.getId(), graphic.createSprite().setImage("robot_mask.png").setScale(ROBOT_SCALE).setBlendMode(BlendMode.ADD).setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(Z_ROBOT_MASK)
-        );
+        robotSprites.add(sprite);
 
-        module.addOwnership(id, sprite);
-
-        return sprite;
+        return group;
     }
 
     private Sprite createArrowSprite(int x, int y, int direction) {
@@ -295,39 +277,39 @@ public class Viewer {
 
     private int getArrowXOffsetFromDirection(int direction) {
         switch (direction) {
-        case UP:
-            return -1;
-        case DOWN:
-            return 1;
-        default:
-            return 0;
+            case UP:
+                return -1;
+            case DOWN:
+                return 1;
+            default:
+                return 0;
         }
     }
 
     private int getArrowYOffsetFromDirection(int direction) {
         switch (direction) {
-        case RIGHT:
-            return -1;
-        case LEFT:
-            return 1;
-        default:
-            return 0;
+            case RIGHT:
+                return -1;
+            case LEFT:
+                return 1;
+            default:
+                return 0;
         }
     }
 
-    private void createPath(Robot robot, SpriteAnimation sprite) {
+    private void createPath(Robot robot, Group sprite) {
         module.addPath(
-            robot.id, graphic.createSprite()
-                .setImage("path.png")
-                .setScale(PATH_SCALE)
-                .setTint(ROBOT_COLORS[robot.id])
-                .setRotation(getRotation(robot.direction))
-                .setAnchor(0.5)
-                .setX(sprite.getX() + getArrowXOffsetFromDirection(robot.direction) * CELL_WIDTH / 6)
-                .setY(sprite.getY() + getArrowYOffsetFromDirection(robot.direction) * CELL_HEIGHT / 6)
-                .setZIndex(Z_PATH)
-                .setAlpha(1.0)
-                .setVisible(true)
+                robot.id, graphic.createSprite()
+                        .setImage("path.png")
+                        .setScale(PATH_SCALE)
+                        .setTint(ROBOT_COLORS[robot.id])
+                        .setRotation(getRotation(robot.direction))
+                        .setAnchor(0.5)
+                        .setX(sprite.getX() + getArrowXOffsetFromDirection(robot.direction) * CELL_WIDTH / 6)
+                        .setY(sprite.getY() + getArrowYOffsetFromDirection(robot.direction) * CELL_HEIGHT / 6)
+                        .setZIndex(Z_PATH)
+                        .setAlpha(1.0)
+                        .setVisible(true)
         );
     }
 
@@ -343,7 +325,7 @@ public class Viewer {
 
                     if (type != VOID && type != NONE) {
                         arrows.add(
-                            createArrowSprite(x * CELL_WIDTH + OFFSET_X + CELL_WIDTH / 2, y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT / 2, type).setScale(0)
+                                createArrowSprite(x * CELL_WIDTH + OFFSET_X + CELL_WIDTH / 2, y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT / 2, type).setScale(0)
                         );
                     }
                 }
@@ -357,33 +339,34 @@ public class Viewer {
         }
 
         // Update robots rotation
-        for (Entry<Robot, SpriteAnimation> entry : sprites.entrySet()) {
+        for (Entry<Robot, Group> entry : sprites.entrySet()) {
             Robot robot = entry.getKey();
-            SpriteAnimation sprite = entry.getValue();
+            Group sprite = entry.getValue();
 
             double rotation = getRobotRotation(robot.direction);
             sprite.setRotation(rotation);
-            robotMasks.get(sprite.getId()).setRotation(rotation);
         }
 
         graphic.commitWorldState(1.0);
 
-        for (Entry<Robot, SpriteAnimation> entry : sprites.entrySet()) {
+        for (Entry<Robot, Group> entry : sprites.entrySet()) {
             Robot robot = entry.getKey();
-            SpriteAnimation sprite = entry.getValue();
-
-            sprite.setDuration(ROBOT_ANIMATION_DURATION);
+            Group sprite = entry.getValue();
 
             createPath(robot, sprite);
+        }
+
+        for (SpriteAnimation sprite : robotSprites) {
+            sprite.setDuration(ROBOT_ANIMATION_DURATION);
         }
     }
 
     public void update() {
         newSprites.clear();
 
-        for (Entry<Robot, SpriteAnimation> entry : sprites.entrySet()) {
+        for (Entry<Robot, Group> entry : sprites.entrySet()) {
             Robot robot = entry.getKey();
-            SpriteAnimation sprite = entry.getValue();
+            Group sprite = entry.getValue();
             Cell position = positions.get(robot);
 
             if (position.distance(robot.cell) > 1) {
@@ -398,10 +381,8 @@ public class Viewer {
                     y = y == 0 ? -1 : MAP_HEIGHT;
                 }
 
-                SpriteAnimation newSprite = createRobotSprite(robot.id).setAlpha(0).setRotation(sprite.getRotation());
-                robotMasks.get(newSprite.getId()).setAlpha(0).setRotation(sprite.getRotation());
-
-                moveRobotSprite(newSprite, x, y);
+                Group newSprite = createRobot(robot.id).setAlpha(0).setRotation(sprite.getRotation());
+                moveRobot(newSprite, x, y);
 
                 newSprites.put(robot, newSprite);
             } else {
@@ -413,9 +394,9 @@ public class Viewer {
 
         graphic.commitWorldState(0.0);
 
-        for (Entry<Robot, SpriteAnimation> entry : sprites.entrySet()) {
+        for (Entry<Robot, Group> entry : sprites.entrySet()) {
             Robot robot = entry.getKey();
-            SpriteAnimation sprite = entry.getValue();
+            Group sprite = entry.getValue();
             Cell position = positions.get(robot);
 
             if (position.distance(robot.cell) > 1) {
@@ -431,14 +412,12 @@ public class Viewer {
                 }
 
                 sprite.setAlpha(0);
-                robotMasks.get(sprite.getId()).setAlpha(0);
-                moveRobotSprite(sprite, x, y);
+                moveRobot(sprite, x, y);
 
-                SpriteAnimation newSprite = newSprites.get(robot).setAlpha(1);
-                moveRobotSprite(newSprite, robot.cell.x, robot.cell.y);
-                robotMasks.get(newSprite.getId()).setAlpha(1);
+                Group newSprite = newSprites.get(robot).setAlpha(1);
+                moveRobot(newSprite, robot.cell.x, robot.cell.y);
             } else {
-                moveRobotSprite(sprite, robot.cell.x, robot.cell.y);
+                moveRobot(sprite, robot.cell.x, robot.cell.y);
             }
         }
 
@@ -448,32 +427,29 @@ public class Viewer {
 
         graphic.commitWorldState(0.75);
 
-        for (Entry<Robot, SpriteAnimation> entry : newSprites.entrySet()) {
+        for (Entry<Robot, Group> entry : newSprites.entrySet()) {
             Robot robot = entry.getKey();
-            SpriteAnimation sprite = entry.getValue();
+            Group sprite = entry.getValue();
 
             if (!engine.robots.contains(robot)) {
                 if (robot.death == DEATH_VOID) {
                     sprite.setScale(0);
-                    robotMasks.get(sprite.getId()).setScale(0);
                 } else {
                     sprite.setAlpha(0);
-                    robotMasks.get(sprite.getId()).setAlpha(0);
                     explode(sprite);
                 }
-                
+
             } else {
                 sprites.put(robot, sprite);
                 sprite.setRotation(getRobotRotation(robot.direction));
-                robotMasks.get(sprite.getId()).setRotation(getRobotRotation(robot.direction));
             }
         }
 
         graphic.commitWorldState(1.0);
 
-        for (Entry<Robot, SpriteAnimation> entry : newSprites.entrySet()) {
+        for (Entry<Robot, Group> entry : newSprites.entrySet()) {
             Robot robot = entry.getKey();
-            SpriteAnimation sprite = entry.getValue();
+            Group sprite = entry.getValue();
 
             createPath(robot, sprite);
         }
@@ -486,7 +462,7 @@ public class Viewer {
         params.put("y", sprite.getY());
         a.setParams(params);
     }
-    
+
     private void storePositions() {
         for (Robot robot : engine.robots) {
             positions.put(robot, robot.cell);
