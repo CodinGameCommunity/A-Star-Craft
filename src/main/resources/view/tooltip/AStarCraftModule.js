@@ -173,6 +173,12 @@ export class AStarCraftModule {
     container.interactive = true
     container.mousemove = getMouseMoveFunc(this.tooltip, container, this)
     container.addChild(this.tooltip)
+
+    for (let id in this.previousFrame.paths) {
+      this.previousFrame.paths[id].forEach(entity => {
+        entityModule.entities.get(entity).graphics.visible = false
+      })
+    }
   }
 
   generateText (text, size, color, align) {
