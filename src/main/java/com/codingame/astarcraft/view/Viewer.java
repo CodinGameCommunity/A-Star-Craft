@@ -42,9 +42,9 @@ public class Viewer {
     private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
     private static final int ROBOT_ANIMATION_DURATION = 2000;
 
-    private static final int[] ROBOT_COLORS = {0xb4141e, 0x0042ff, 0x1ca7ea, 0x331ac8, 0xebe129, 0xfe8a0e, 0x168000, 0xd0a6fc, 0x1f01c9, 0x525494};
+    private static final int[] ROBOT_COLORS = { 0xb4141e, 0x0042ff, 0x1ca7ea, 0x331ac8, 0xebe129, 0xfe8a0e, 0x168000, 0xd0a6fc, 0x1f01c9, 0x525494 };
     private static final String[] ROBOT_IMAGES = new String[26];
-    
+
     static {
         for (int i = 1; i <= 26; ++i) {
             ROBOT_IMAGES[i - 1] = "robot" + (i < 10 ? "0" : "") + i;
@@ -74,11 +74,13 @@ public class Viewer {
         graphic.createSprite().setImage("background.png").setX(0).setY(0).setScale(2.0).setZIndex(Z_BACKGROUND);
 
         for (int x = 0; x < MAP_WIDTH + 1; ++x) {
-            graphic.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X + CELL_WIDTH * x).setY(OFFSET_Y).setX2(OFFSET_X + CELL_WIDTH * x).setY2(OFFSET_Y + VIEWER_HEIGHT).setZIndex(Z_GRID);
+            graphic.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X + CELL_WIDTH * x).setY(OFFSET_Y)
+                .setX2(OFFSET_X + CELL_WIDTH * x).setY2(OFFSET_Y + VIEWER_HEIGHT).setZIndex(Z_GRID);
         }
 
         for (int y = 0; y < MAP_HEIGHT + 1; ++y) {
-            graphic.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X).setY(OFFSET_Y + CELL_HEIGHT * y).setX2(OFFSET_X + VIEWER_WIDTH).setY2(OFFSET_Y + CELL_HEIGHT * y).setZIndex(Z_GRID);
+            graphic.createLine().setLineWidth(1).setLineColor(GRID_COLOR).setAlpha(GRID_ALPHA).setX(OFFSET_X).setY(OFFSET_Y + CELL_HEIGHT * y)
+                .setX2(OFFSET_X + VIEWER_WIDTH).setY2(OFFSET_Y + CELL_HEIGHT * y).setZIndex(Z_GRID);
         }
 
         // Floor, portals and arrows
@@ -97,7 +99,8 @@ public class Viewer {
                 boolean floor = type != VOID;
 
                 if (floor) {
-                    graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(cx).setY(cy).setZIndex(Z_FLOOR).setAnchor(0.5);
+                    graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(cx).setY(cy).setZIndex(Z_FLOOR)
+                        .setAnchor(0.5);
 
                     if (type != NONE) {
                         createArrowSprite(cx, cy, type).setScale(ARROW_SCALE).setTint(0x888888);
@@ -204,7 +207,7 @@ public class Viewer {
     private Sprite createPortal() {
         return graphic.createSprite().setImage("portal.png").setScale(PORTAL_SCALE).setZIndex(Z_PORTAL).setAnchor(0.5).setTint(0x00eeff);
     }
-    
+
     private double getRobotRotation(int direction) {
         switch (direction) {
         case UP:
@@ -244,13 +247,16 @@ public class Viewer {
     }
 
     private SpriteAnimation createRobotSprite(int id) {
-        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5).setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(Z_ROBOT);
-        
+        SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setScale(ROBOT_SCALE).setAnchor(0.5)
+            .setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(Z_ROBOT);
+
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         module.addTooltip(sprite, params);
 
-        robotMasks.put(sprite.getId(), graphic.createSprite().setImage("robot_mask.png").setScale(ROBOT_SCALE).setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(Z_ROBOT_MASK));
+        robotMasks.put(
+            sprite.getId(), graphic.createSprite().setImage("robot_mask.png").setScale(ROBOT_SCALE).setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(Z_ROBOT_MASK)
+        );
 
         module.addOwnership(id, sprite);
 
@@ -261,8 +267,42 @@ public class Viewer {
         return graphic.createSprite().setImage("arrow.png").setX(x).setY(y).setZIndex(Z_ARROW).setRotation(getRotation(direction)).setAnchor(0.5);
     }
 
+    private int getArrowXOffsetFromDirection(int direction) {
+        switch (direction) {
+        case UP:
+            return -1;
+        case DOWN:
+            return 1;
+        default:
+            return 0;
+        }
+    }
+
+    private int getArrowYOffsetFromDirection(int direction) {
+        switch (direction) {
+        case RIGHT:
+            return -1;
+        case LEFT:
+            return 1;
+        default:
+            return 0;
+        }
+    }
+
     private void createPath(Robot robot, SpriteAnimation sprite) {
-        module.addPath(robot.id, graphic.createSprite().setImage("path.png").setScale(PATH_SCALE).setTint(ROBOT_COLORS[robot.id]).setRotation(getRotation(robot.direction)).setAnchor(0.5).setX(sprite.getX()).setY(sprite.getY()).setZIndex(Z_PATH).setAlpha(1.0).setVisible(true));
+        module.addPath(
+            robot.id, graphic.createSprite()
+                .setImage("path.png")
+                .setScale(PATH_SCALE)
+                .setTint(ROBOT_COLORS[robot.id])
+                .setRotation(getRotation(robot.direction))
+                .setAnchor(0.5)
+                .setX(sprite.getX() + getArrowXOffsetFromDirection(robot.direction) * CELL_WIDTH / 6)
+                .setY(sprite.getY() + getArrowYOffsetFromDirection(robot.direction) * CELL_HEIGHT / 6)
+                .setZIndex(Z_PATH)
+                .setAlpha(1.0)
+                .setVisible(true)
+        );
     }
 
     public void updateMap() {
@@ -276,7 +316,9 @@ public class Viewer {
                     int type = cell.type;
 
                     if (type != VOID && type != NONE) {
-                        arrows.add(createArrowSprite(x * CELL_WIDTH + OFFSET_X + CELL_WIDTH / 2, y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT / 2, type).setScale(0));
+                        arrows.add(
+                            createArrowSprite(x * CELL_WIDTH + OFFSET_X + CELL_WIDTH / 2, y * CELL_HEIGHT + OFFSET_Y + CELL_HEIGHT / 2, type).setScale(0)
+                        );
                     }
                 }
             }
