@@ -43,7 +43,7 @@ public class AStarCraftModule implements Module {
 
     @Override
     public void onAfterOnEnd() {
-        sendFrameData();
+        // Do nothing
     }
 
     private void sendFrameData() {
