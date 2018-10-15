@@ -78,7 +78,7 @@ function getMouseMoveFunc (tooltip, container, module) {
             
             if (params) {
                 for (let key in params) {
-                  tooltipBlock += key + ': ' + params[key] + '\n'
+                  tooltipBlock += key + ': ' + params[key]
                 }
             }
 
