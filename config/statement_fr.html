@@ -1,0 +1,100 @@
+<div id="statement_back" class="statement_back" style="display:none"></div>
+<div class="statement-body">
+  <!-- GOAL -->
+  <div class="statement-section statement-goal">
+    <h1>
+      <span class="icon icon-goal">&nbsp;</span>
+      <span>But du jeu</span>
+    </h1>
+    <div class="statement-goal-content">
+      Marquez autant de points que possible.<br>
+      <strong>Les tests de validation finaux seront différents de ceux utilisés pendant le concours.</strong><br>
+    </div>
+  </div>
+  <!-- RULES -->
+  <div class="statement-section statement-rules">
+    <h1>
+      <span class="icon icon-rules">&nbsp;</span>
+      <span>Règles</span>
+    </h1>
+    <div>
+      <div class="statement-rules-content">Le jeux se déroule sur une plateforme dans l'espace. Due aux compétences de Magus en IA, Automaton2000 ne marche qu'en lignes droites. Guidez Automaton2000 à l'aide de flèches pour lui éviter de marcher hors de la plateforme et de dériver dans l'espace!<br>
+        Malheureusement, due aux capacités limités de Magus en terme de développement, Automaton2000 plante s'il revisite un état déjà vécu; se rendant compte qu'il tourne en rond!<br>
+        Essayez de garder Automaton2000 en vie aussi longtemps que possible; vous marquez un point par tour où il l'est.<br>
+        <br>
+        Le jeux fonctionne ainsi:
+        <ul>
+          <li>La plateforme est une grille de hauteur <const>10</const> et de largeur <const>19</const></li>
+          <li>La topologie de la plateforme vous est fournie ligne par ligne de haut en bas sous forme de chaîne de caractères avec <const>#</const>:vide, <const>.</const>:plateforme, <const>U</const>:Flèche vers le haut, <const>R</const>:Flèche vers la droite, <const>D</const>:Flèche vers le bas, <const>L</const>:Flèche vers la gauche</li>
+          <li>Placez des flèches lors de votre premier tour en sortant une ligne sous la forme: <var>X Y U/R/D/L</var></li>
+          <li>Automaton2000 avance en ligne droite et ne change de direction que s'il marche sur une flèche</li>
+        </ul>
+        Vous ne pouvez placer une flèche sur une autre.
+      </div>
+    </div>
+  </div>
+  <!-- EXPERT RULES -->
+  <div class="statement-section statement-expertrules">
+    <h1>
+      <span class="icon icon-expertrules">&nbsp;</span>
+      <span>Règles d'experts</span>
+    </h1>
+    <div class="statement-expert-rules-content">
+      Ordre des événements lors d'un tour:
+      <ul>
+        <li>Le score est incrémenté de 1 pour chaque robot en vie</li>
+        <li>Automaton2000 avance d'une case dans la direction vers laquelle il fait face</li>
+        <li>Automaton2000 change de direction s'il est sur une flèche</li>
+        <li>Automaton2000 meurt s'il a marché dans le vide ou s'il est dans un état (position,direction) qu'il a déjà visité</li>
+      </ul>
+      Au premier tour Automaton2000 change de direction s'il est sur une flèche (i.e: vous pouvez changer la direction initiale d'Automaton2000 en plaçant une flèche sous lui).<br>
+      Vous pouvez lancer des jeux de tests customisés dans l'IDE.<br>
+      Vous pouvez accéder au code de l'arbitre sur github.
+    </div>
+  </div>
+  <!-- WARNING -->
+  <div class="statement-section statement-warning">
+    <h1>
+      <span class="icon icon-warning">&nbsp;</span>
+      <span>Remarques</span>
+    </h1>
+    <div class="statement-warning-content">
+      <b>N'oubliez pas de tester votre code avec les "Jeu de tests".</b>. Vous pouvez soumettre votre code à tout moment pour recevoir un score sur les validateurs de test. Il y a une limite sur le nombre de soumissions par unité de temps. Votre soumission la plus récente sera utilisée pour le classement final.<br>
+      <br>
+      N’hésitez pas à changer les paramètres graphiques pour mieux déboguer votre code (<img style="opacity:.8;background:#20252a;"
+        height="18" src="https://www.codingame.com/servlet/fileservlet?id=3463235186409" width="18">).
+    </div>
+  </div>
+  <!-- PROTOCOL -->
+  <div class="statement-section statement-protocol">
+    <h1>
+      <span class="icon icon-protocol">&nbsp;</span>
+      <span>Entrées du jeu</span>
+    </h1>
+
+    <!-- Protocol block -->
+    <div class="blk">
+      <div class="title">Entrées pour un tour de jeu</div>
+      <div class="text">
+        <p><span class="statement-lineno"></span><const>19</const> chaînes de caractères de longueur <const>10</const> avec <const>#</const>:vide, <const>.</const>:plateforme, <const>U</const>:Flèche vers le haut, <const>R</const>:Flèche vers la droite, <const>D</const>:Flèche vers le bas, <const>L</const>:Flèche vers la gauche</p>
+        <p>1 ligne donnant le nombre entier de robots</p>
+        <p>1 ligne pour chaque robot de la forme <var>X Y DIR</var> avec <var>X Y</var> la position initiale du robot et <var>DIR</var> la direction vers laquelle il fait face (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>).</p>
+      </div>
+    </div>
+
+    <!-- Protocol block -->
+    <div class="blk">
+      <div class="title">Sortie pour un tour de jeu</div>
+      <div class="text">
+        <span class="statement-lineno">Une ligne</span> composée de triplets de la forme <var>X Y DIR</var> avec <var>X Y</var> deux entiers et <var>DIR</var> un caractère, soit <const>U</const>,<const>R</const>,<const>D</const> ou <const>L</const>.
+        <br>
+      </div>
+    </div>
+
+    <!-- Protocol block -->
+    <div class="blk">
+      <div class="title">Contraintes</div>
+      <div class="text">1≤<var>robots</var>≤18.<br>
+        <br>Temps de réponse ≤ <const>1</const>s.</div>
+    </div>
+  </div>
