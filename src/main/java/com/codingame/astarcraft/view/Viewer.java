@@ -7,6 +7,7 @@ import com.codingame.astarcraft.view.anims.Anim;
 import com.codingame.astarcraft.view.anims.AnimModule;
 import com.codingame.gameengine.module.entities.*;
 import com.codingame.gameengine.module.entities.TextureBasedEntity.BlendMode;
+import com.google.inject.Inject;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -53,10 +54,14 @@ public class Viewer {
         }
     }
 
+    @Inject
     private GraphicEntityModule graphic;
-    private Engine engine;
+    @Inject
     private AnimModule anims;
+    @Inject
     private AStarCraftModule module;
+    
+    private Engine engine;
     private Set<SpriteAnimation> robotSprites;
     private Map<Robot, Group> sprites;
     private Map<Robot, Group> newSprites;
@@ -65,11 +70,9 @@ public class Viewer {
     private Text score;
     private Random random = new Random();
 
-    public Viewer(GraphicEntityModule graphic, Engine engine, AStarCraftModule module, AnimModule anims) {
-        this.module = module;
-        this.graphic = graphic;
+    
+    public void init(Engine engine) {
         this.engine = engine;
-        this.anims = anims;
         positions = new HashMap<>();
         sprites = new HashMap<>();
         newSprites = new HashMap<>();

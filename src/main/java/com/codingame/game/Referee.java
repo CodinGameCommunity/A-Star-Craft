@@ -33,9 +33,10 @@ public class Referee extends AbstractReferee {
     private AStarCraftModule module;
     @Inject
     private AnimModule anims;
-
-    private Engine engine;
+    @Inject
     private Viewer viewer;
+    
+    private Engine engine;    
     private Player player;
 
     public void init() {
@@ -75,7 +76,7 @@ public class Referee extends AbstractReferee {
         }
 
         engine = new Engine(input);
-        viewer = new Viewer(graphic, engine, module, anims);
+        viewer.init(engine);
 
         player = manager.getPlayer();
 
