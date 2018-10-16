@@ -38,6 +38,7 @@ public class Referee extends AbstractReferee {
     
     private Engine engine;    
     private Player player;
+    private boolean soft = false;
 
     public void init() {
         String input;
@@ -54,6 +55,11 @@ public class Referee extends AbstractReferee {
             }
             
             input = sb.toString().trim();
+            
+            if (input.startsWith("!")) {
+                soft = true;
+                input = input.substring(1);
+            }
         } catch (Exception exception) {
             manager.loseGame("Bad referee input: Can't read input");
             return;
@@ -156,7 +162,12 @@ public class Referee extends AbstractReferee {
 
                 viewer.updateMap();
             } catch (TimeoutException e) {
-                manager.loseGame("You failed to provide instructions in the provided time.");
+                if (soft) {
+                    manager.winGame("You failed to provide instructions in the provided time.");
+                } else {
+                    manager.loseGame("You failed to provide instructions in the provided time.");
+                }
+                
                 return;
             } catch (Exception e) {
                 e.printStackTrace(System.err);
