@@ -77,7 +77,7 @@ Automaton2000 will stop functioning if it steps off the platform.
 <strong>Output</strong>
 <ul style="padding-bottom: 0;">
   <li>
-Place an arrow by outputting the following command <action>X Y d</action> where <const>d</const> is the direction (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>) and <const>X</const>,<const>Y</const> are the coordinates of the cell.
+Place an arrow by outputting the command <action>X Y d</action> where <const>d</const> is the direction (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>) and <const>X</const>,<const>Y</const> are the coordinates of the cell.
 </li>
 <li>
 Place multiple arrows by separating your commands with a space.
@@ -133,7 +133,7 @@ Place multiple arrows by separating your commands with a space.
     <div class="blk">
       <div class="title">Game Input</div>
       <div class="text">
-        <div><span class="statement-lineno">First <const>19</const> lines:</span> a String <var>line</var> of <const>10</const> characters. Each character represents a cell:
+        <div><span class="statement-lineno">First <const>10</const> lines:</span> a String <var>line</var> of <const>19</const> characters. Each character represents a cell:
                 <ul style="padding-bottom: 0; padding-top:0;">
                     <li><const>#</const>: void cell</li>
                     <li><const>.</const>: empty platform cell</li>
@@ -153,7 +153,7 @@ Place multiple arrows by separating your commands with a space.
 2 Integers <var>X</var> and <var>Y</var>, its coordinates,
 </li>
 <li>
-1 String <var>direction</var>, the direction if faces (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>).
+1 Character <var>direction</var>, the direction if faces (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>).
         </li>
 </ul>
 </div>
