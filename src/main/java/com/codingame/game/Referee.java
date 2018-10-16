@@ -42,13 +42,21 @@ public class Referee extends AbstractReferee {
         String input;
 
         try {
-            input = manager.getTestCaseInput().get(0);
+            List<String> lines = manager.getTestCaseInput();
+            
+            StringBuilder sb = new StringBuilder();
+            
+            if (lines != null) {
+                for (String line : lines) {
+                    sb.append(line);
+                }
+            }
+            
+            input = sb.toString().trim();
         } catch (Exception exception) {
             manager.loseGame("Bad referee input: Can't read input");
             return;
         }
-
-        input = input.trim();
 
         if (!INPUT_PATTERN.matcher(input).matches()) {
             manager.loseGame("Bad referee input: Input doesn't match the pattern");

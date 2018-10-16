@@ -3,7 +3,7 @@
         "1": "A droite",
         "2": "To the Right"
     },
-    "testIn": ".................................r....R.............rr...R.............rrr..rrrrrrrrrrrrrrrrrr.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.R.............rrr..R.............rr.................r....",
+    "testIn": "...................\n..............r....\nR.............rr...\nR.............rrr..\nrrrrrrrrrrrrrrrrrr.\nrrrrrrrrrrrrrrrrrrr\nrrrrrrrrrrrrrrrrrr.\nR.............rrr..\nR.............rr...\n..............r....",
     "isTest": "true",
     "isValidator": "true"
 }

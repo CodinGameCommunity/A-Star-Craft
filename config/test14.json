@@ -3,7 +3,7 @@
         "1": "Le meilleur chemin",
         "2": "The Best Way"
     },
-    "testIn": "####################LrrrrrrrulllllllR##drdrdrdrdldldldld##dudududududududud##rurururu.ulululul##rdrdrdrd.dldldldl##ududududududududu##ururururululululu##LrrrrrrrdlllllllR####################",
+    "testIn": "###################\n#LrrrrrrrulllllllR#\n#drdrdrdrdldldldld#\n#dudududududududud#\n#rurururu.ulululul#\n#rdrdrdrd.dldldldl#\n#ududududududududu#\n#ururururululululu#\n#LrrrrrrrdlllllllR#\n###################",
     "isTest": "true",
     "isValidator": "true"
 }

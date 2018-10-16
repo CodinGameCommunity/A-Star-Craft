@@ -3,7 +3,7 @@
         "1": "Wings of Liberty",
         "2": "Wings of Liberty"
     },
-    "testIn": ".......................................U.......U.......U.u#ddddddd#ddddddd#uuu#ddddd#u#ddddd#uuuuu#ddd#uuu#ddd#uuuuuuu#d#uuuuu#d#uuuuuuuuu#uuuuuuu#uuuuu.....D.......D........................",
+    "testIn": "...................\n...................\n.U.......U.......U.\nu#ddddddd#ddddddd#u\nuu#ddddd#u#ddddd#uu\nuuu#ddd#uuu#ddd#uuu\nuuuu#d#uuuuu#d#uuuu\nuuuuu#uuuuuuu#uuuuu\n.....D.......D.....\n...................",
     "isTest": "true",
     "isValidator": "true"
 }

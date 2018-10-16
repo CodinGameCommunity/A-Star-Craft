@@ -3,7 +3,7 @@
         "1": "Sens horaire",
         "2": "Round the Clock"
     },
-    "testIn": "rrrrrrrrr#rrrrrrrrduR.......u.......Ddu........u........du........u........d#lllL.............du.............Rrrr#u........d........du........d........duU.......d.......Ldullllllll#lllllllll",
+    "testIn": "rrrrrrrrr#rrrrrrrrd\nuR.......u.......Dd\nu........u........d\nu........u........d\n#lllL.............d\nu.............Rrrr#\nu........d........d\nu........d........d\nuU.......d.......Ld\nullllllll#lllllllll",
     "isTest": "true",
     "isValidator": "true"
 }

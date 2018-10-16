@@ -3,7 +3,7 @@
         "1": "Les anneaux de Saturne",
         "2": "Saturn Rings"
     },
-    "testIn": "####################R.......D........##................L##R................#rrrrrrrrrrrrrrrrrrrlllllllllllllllllll#................L##R................##........U.......L####################",
+    "testIn": "###################\n#R.......D........#\n#................L#\n#R................#\nrrrrrrrrrrrrrrrrrrr\nlllllllllllllllllll\n#................L#\n#R................#\n#........U.......L#\n###################",
     "isTest": "true",
     "isValidator": "true"
 }
