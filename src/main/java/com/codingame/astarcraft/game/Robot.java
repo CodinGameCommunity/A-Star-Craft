@@ -10,6 +10,7 @@ public class Robot {
     public int direction;
     public Set<State> states;
     public int death;
+
     public Robot() {
         id = globalId++;
         states = new HashSet<>();

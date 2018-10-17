@@ -35,8 +35,8 @@ public class Referee extends AbstractReferee {
     private AnimModule anims;
     @Inject
     private Viewer viewer;
-    
-    private Engine engine;    
+
+    private Engine engine;
     private Player player;
     private boolean soft = false;
 
@@ -45,17 +45,17 @@ public class Referee extends AbstractReferee {
 
         try {
             List<String> lines = manager.getTestCaseInput();
-            
+
             StringBuilder sb = new StringBuilder();
-            
+
             if (lines != null) {
                 for (String line : lines) {
                     sb.append(line);
                 }
             }
-            
+
             input = sb.toString().trim();
-            
+
             if (input.startsWith("!")) {
                 soft = true;
                 input = input.substring(1);
@@ -167,7 +167,7 @@ public class Referee extends AbstractReferee {
                 } else {
                     manager.loseGame("You failed to provide instructions in the provided time.");
                 }
-                
+
                 return;
             } catch (Exception e) {
                 e.printStackTrace(System.err);

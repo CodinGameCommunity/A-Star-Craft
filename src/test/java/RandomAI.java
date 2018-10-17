@@ -18,18 +18,18 @@ public class RandomAI {
                     int r = random.nextInt(4);
 
                     switch (r) {
-                    case 0:
-                        output += " " + x + " " + y + " U";
-                        break;
-                    case 1:
-                        output += " " + x + " " + y + " R";
-                        break;
-                    case 2:
-                        output += " " + x + " " + y + " D";
-                        break;
-                    case 3:
-                        output += " " + x + " " + y + " L";
-                        break;
+                        case 0:
+                            output += " " + x + " " + y + " U";
+                            break;
+                        case 1:
+                            output += " " + x + " " + y + " R";
+                            break;
+                        case 2:
+                            output += " " + x + " " + y + " D";
+                            break;
+                        case 3:
+                            output += " " + x + " " + y + " L";
+                            break;
                     }
                 }
             }

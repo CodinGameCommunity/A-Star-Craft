@@ -60,7 +60,7 @@ public class Viewer {
     private AnimModule anims;
     @Inject
     private AStarCraftModule module;
-    
+
     private Engine engine;
     private Set<SpriteAnimation> robotSprites;
     private Map<Robot, Group> sprites;
@@ -70,7 +70,7 @@ public class Viewer {
     private Text score;
     private Random random = new Random();
 
-    
+
     public void init(Engine engine) {
         this.engine = engine;
         positions = new HashMap<>();
@@ -258,11 +258,14 @@ public class Viewer {
 
     private Group createRobot(int id) {
         SpriteAnimation sprite = graphic.createSpriteAnimation().setImages(ROBOT_IMAGES).setAnchor(0.5)
-                .setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(Z_ROBOT).setTint(ROBOT_COLORS[id]);
+                .setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(2);
 
-        Sprite mask = graphic.createSprite().setImage("robot_mask.png").setBlendMode(BlendMode.ADD).setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(Z_ROBOT_MASK);
-
-        Group group = graphic.createGroup(sprite, mask).setZIndex(Z_ROBOT).setScale(ROBOT_SCALE);
+        Group group = graphic.createGroup(sprite,
+                graphic.createSprite().setImage("white2.png").setAnchor(0.5).setZIndex(0),
+                graphic.createSprite().setImage("light2.png").setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(1),
+                graphic.createSprite().setImage("light1.png").setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(3),
+                graphic.createSprite().setImage("white1.png").setAnchor(0.5).setZIndex(4)
+        ).setZIndex(Z_ROBOT).setScale(ROBOT_SCALE);
 
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);

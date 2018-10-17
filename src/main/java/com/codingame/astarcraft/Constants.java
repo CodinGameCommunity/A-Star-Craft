@@ -13,6 +13,7 @@ public final class Constants {
     static public final int VOID = 5;
     static public final int DEATH_INFINITE_LOOP = 0;
     static public final int DEATH_VOID = 1;
+
     private Constants() {
     }
 
