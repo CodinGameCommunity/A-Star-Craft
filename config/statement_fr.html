@@ -1,167 +1,205 @@
 <div id="statement_back" class="statement_back" style="display:none"></div>
 <div class="statement-body">
 <div style="color: #7cc576;
-        background-color: rgba(124, 197, 118,.1);
-        padding: 20px;
-        margin-right: 15px;
-        margin-left: 15px;
-        margin-bottom: 10px;
-        text-align: left;">
-          <div style="text-align: center; font-weight: 700; margin-bottom: 6px;">
-            Important
-          </div>
-          <span class="statement-league-alert-content">
-            Les tests de validation finaux seront différents de ceux utilisés pendant le concours. Votre score final pourra donc être différent.
-          </span>
-      </div>
-  <!-- GOAL -->
-  <div class="statement-section statement-goal">
+    background-color: rgba(124, 197, 118,.1);
+    padding: 20px;
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    text-align: left;">
+    <div style="text-align: center; font-weight: 700; margin-bottom: 6px;">
+        Important
+    </div>
+    <span class="statement-league-alert-content">
+        Les tests de validation finaux seront différents de ceux utilisés pendant le concours. Votre score final pourra donc être différent.
+    </span>
+</div>
+<!-- GOAL -->
+<div class="statement-section statement-goal">
     <h1>
-      <span class="icon icon-goal">&nbsp;</span>
-      <span>But du jeu</span>
+        <span class="icon icon-goal">&nbsp;</span>
+        <span>But du jeu</span>
     </h1>
     <div class="statement-goal-content">
-      Marquez autant de points que possible en guidant vos robots sur les plateformes.<br>
-      <strong></strong><br>
+        Marquez autant de points que possible en guidant vos robots sur les plateformes.
     </div>
-  </div>
-  <!-- RULES -->
-  <div class="statement-section statement-rules">
+</div>
+<!-- RULES -->
+<div class="statement-section statement-rules">
     <h1>
-      <span class="icon icon-rules">&nbsp;</span>
-      <span>Règles</span>
+        <span class="icon icon-rules">&nbsp;</span>
+        <span>Règles</span>
     </h1>
-
-
-    <div>
-    Vous devez guider des robots <const>Automaton2000</const> en plaçant des flèches au premier tour. A chaque tour vous marquez autant de points qu'il y a de robots fonctionnels.
-    <br><br>
+    <div class="statement-rules-content">
+        <div>
+            Vous devez guider des robots <const>Automaton2000</const> en plaçant des flèches au premier tour. A chaque tour vous marquez autant de points qu'il y a de robots fonctionnels.
+        </div>
+        <strong>La carte</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Le jeux se joue sur une grille de <const>19</const> unités de largeur et <const>10</const> unités de hauteur.
+            </li>
+            <li>
+                La cellule <const>X=0, Y=0</const> se trouve en haut à gauche.
+            </li>
+            <li>
+                Chaque cellule est d'un type parmis trois: plateforme, flèche et vide.
+            </li>
+        </ul>
+        <strong>Automaton2000</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Automaton2000 avance en ligne droite d'une cellule par tour.
+            </li>
+            <li>
+                Automaton2000 ne change de direction que s'il marche sur une flèche.
+            </li>
+            <li>
+                Automaton2000 cesse de fonctionner s'il visite un état (position,direction) déjà visité.
+            </li>
+            <li>
+                Automaton2000 cesse de fonctionner s'il marche hors de la plateforme.
+            </li>
+        </ul>
+        <strong>Flèches</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Les flèches pointent vers l'une des quatres directions cardinales : <const>U</const> (Haut), <const>R</const> (Droite), <const>D</const> (Bas) and <const>L</const> (Gauche).
+            </li>
+            <li>
+                Les flèches doivent être placées sur des cellules de plateforme sans flèches. Toute autre action sera ignorée.
+            </li>
+        </ul>
+        <strong>Sortie</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Placez une flèche en sortant la commande <action>X Y d</action> où <const>d</const> est la direction (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>) et <const>X</const>, <const>Y</const> sont les coordonnées de la cellule.
+            </li>
+            <li>
+                Placez de multiples flèches en séparant les commandes par des espaces.
+            </li>
+        </ul>
     </div>
-    <strong>La carte</strong>
-    <ul style="padding-bottom: 0;">
-      <li>
-    Le jeux se joue sur une grille de <const>19</const> unités de largeur et <const>10</const> unités de hauteur.
-    </li>
-    <li>
-     La cellule <const>X=0, Y=0</const> se trouve en haut à gauche.
-    </li>
-    <li>
-    Chaque cellule est d'un type parmis trois: plateforme, flèche et vide.
-    </li>
-    </ul>
-    <strong>Automaton2000</strong>
-    <ul style="padding-bottom: 0;">
-      <li>Automaton2000 avance en ligne droite d'une cellule par tour.
-    </li>
-    <li>
-    Automaton2000 ne change de direction que s'il marche sur une flèche.
-    </li>
-    <li>
-    Automaton2000 cesse de fonctionner s'il visite un état (position,direction) déjà visité.
-    </li>
-    <li>
-    Automaton2000 cesse de fonctionner s'il marche hors de la plateforme.
-    </li>
-    </ul>
-    <strong>Flèches</strong>
-    <ul style="padding-bottom: 0;">
-      <li>Les flèches pointent vers l'une des quatres directions cardinales: <const>U</const> (Haut), <const>R</const> (Droite), <const>D</const> (Bas) and <const>L</const> (Gauche).
-    </li>
-    <li> Les flèches doivent être placées sur des cellules de plateforme sans flèches. Toute autre action sera ignorée.
-    </li>
-    </ul>
-    <strong>Sortie</strong>
-    <ul style="padding-bottom: 0;">
-      <li>
-    Placez une flèche en sortant la commande <action>X Y d</action> où <const>d</const> est la direction (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>) et <const>X</const>,<const>Y</const> sont les coordonnées de la cellule.
-    </li>
-    <li>
-    Placez de multiples flèches en séparant les commandes par des espaces.
-    </li>
-    </ul>
-  <!-- EXPERT RULES -->
-  <div class="statement-section statement-expertrules">
+</div>
+<!-- EXPERT RULES -->
+<div class="statement-section statement-expertrules">
     <h1>
-      <span class="icon icon-expertrules">&nbsp;</span>
-      <span>Détails</span>
+        <span class="icon icon-expertrules">&nbsp;</span>
+        <span>Détails</span>
     </h1>
     <div class="statement-expert-rules-content">
-      <b>Ordre des événements lors d'un tour:</b>
-      <ul>
-        <li>Le score est incrémenté de 1 pour chaque robot en vie.</li>
-        <li>Les Automaton2000 avancent d'une case dans la direction vers laquelle il fait face.</li>
-        <li>Les Automaton2000 changent de direction s'ils sont sur une flèche.</li>
-        <li>Les Automaton2000 meurent s'ils ont marchés dans le vide ou s'ils sont dans un état (position,direction) déjà visité (Les Automaton2000 ne partagent pas leur historique d'états).</li>
-      </ul>
-      Au premier tour Automaton2000 change de direction s'il est sur une flèche (i.e: vous pouvez changer la direction initiale d'Automaton2000 en plaçant une flèche sous lui).<br>
-      Vous pouvez lancer des jeux de tests customisés dans l'IDE.<br>
-      Vous pouvez accéder au code de l'arbitre sur github.
+        <strong>Ordre des événements lors d'un tour :</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Le score est incrémenté de 1 pour chaque robot en vie.
+            </li>
+            <li>
+                Les Automaton2000 avancent d'une case dans la direction vers laquelle il fait face.
+            </li>
+            <li>
+                Les Automaton2000 changent de direction s'ils sont sur une flèche.
+            </li>
+            <li>
+                Les Automaton2000 meurent s'ils ont marchés dans le vide ou s'ils sont dans un état (position,direction) déjà visité (Les Automaton2000 ne partagent pas leur historique d'états).
+            </li>
+        </ul>
+        <div>
+            <p>
+                Au premier tour Automaton2000 change de direction s'il est sur une flèche (i.e: vous pouvez changer la direction initiale d'Automaton2000 en plaçant une flèche sous lui).
+            </p>
+            <p>
+                Vous pouvez lancer des jeux de tests customisés dans l'IDE en sélectionnant le "Mode expert" dans les paramètres de l'IDE.
+            </p>
+            <p>
+                Vous pouvez accéder au code de l'arbitre sur github : **insert link**.
+            </p>
+        </div>
     </div>
-  </div>
-  <!-- WARNING -->
-  <div class="statement-section statement-warning">
+</div>
+<!-- WARNING -->
+<div class="statement-section statement-warning">
     <h1>
-      <span class="icon icon-warning">&nbsp;</span>
-      <span>Remarques</span>
+        <span class="icon icon-warning">&nbsp;</span>
+        <span>Remarques</span>
     </h1>
     <div class="statement-warning-content">
-      <b>N'oubliez pas de tester votre code avec les "Jeu de tests".</b>. Vous pouvez soumettre votre code à tout moment pour recevoir un score sur les validateurs de test. Il y a une limite sur le nombre de soumissions par unité de temps. Votre soumission la plus récente sera utilisée pour le classement final.<br>
-      <br>
-      N’hésitez pas à changer les paramètres graphiques pour mieux déboguer votre code (<img style="opacity:.8;background:#20252a;"
-        height="18" src="https://www.codingame.com/servlet/fileservlet?id=3463235186409" width="18">).
+        <p>
+            <strong>N'oubliez pas de tester votre code avec les "Jeu de tests".</strong>. Vous pouvez soumettre votre code à tout moment pour recevoir un score sur les validateurs de test. Il y a une limite sur le nombre de soumissions par unité de temps. Votre soumission la plus récente sera utilisée pour le classement final.
+        </p>
+        <p>
+            N’hésitez pas à changer les paramètres graphiques pour mieux déboguer votre code (<img style="opacity:.8;background:#20252a;" height="18" src="https://www.codingame.com/servlet/fileservlet?id=3463235186409" width="18">).
+        </p>
     </div>
-  </div>
-  <!-- PROTOCOL -->
-  <div class="statement-section statement-protocol">
+</div>
+<!-- PROTOCOL -->
+<div class="statement-section statement-protocol">
     <h1>
-      <span class="icon icon-protocol">&nbsp;</span>
-      <span>Entrées du jeu</span>
+        <span class="icon icon-protocol">&nbsp;</span>
+        <span>Entrées du jeu</span>
     </h1>
-
-     <!-- Protocol block -->
+    <!-- Protocol block -->
     <div class="blk">
-      <div class="title">Entrées pour un tour de jeu</div>
-      <div class="text">
-        <div><span class="statement-lineno"><const>10</const> lignes:</span> une chaîne de caractères de longueur <const>19</const> dont chaque caractère représente:
+        <div class="title">Entrées pour un tour de jeu</div>
+        <div class="text">
+            <div>
+                <span class="statement-lineno">
+                    <const>10</const> lignes:
+                </span>
+                une chaîne de caractères de longueur <const>19</const> dont chaque caractère représente:
                 <ul style="padding-bottom: 0; padding-top:0;">
-                    <li><const>#</const>: cellule de vide</li>
-                    <li><const>.</const>: cellule de plateforme vide</li>
-                    <li><const>U</const>: cellule de plateforme avec une flèche vers le haut</li>
-                    <li><const>R</const>: cellule de plateforme avec une flèche vers la droite</li>
-                    <li><const>D</const>: cellule de plateforme avec une flèche vers la bas</li>
-                    <li><const>L</const>: cellule de plateforme avec une flèche vers la gauche</li>
+                    <li>
+                        <const>#</const> : cellule de vide
+                    </li>
+                    <li>
+                        <const>.</const> : cellule de plateforme vide
+                    </li>
+                    <li>
+                        <const>U</const> : cellule de plateforme avec une flèche vers le haut
+                    </li>
+                    <li>
+                        <const>R</const> : cellule de plateforme avec une flèche vers la droite
+                    </li>
+                    <li>
+                        <const>D</const> : cellule de plateforme avec une flèche vers la bas
+                    </li>
+                    <li>
+                        <const>L</const> : cellule de plateforme avec une flèche vers la gauche
+                    </li>
                 </ul>
-</div>
-<div>
-<span class="statement-lineno">Ligne suivante:</span> un entier <var>robotCount</var>, le nombre total de robots Automaton2000,
-</div>
-<div>
-<span class="statement-lineno"><var>robotCount</var> lignes suivantes:</span> pour chaque robot Automaton2000,
-        <ul style="padding-bottom: 0;">
-<li>
-2 entiers <var>X</var> et <var>Y</var>, ses coordonnées,
-</li>
-<li>
-1 caractère <var>direction</var>, la direction vers laquelle il fait face (<const>U</const>, <const>R</const>, <const>D</const> ou <const>L</const>).
-        </li>
-</ul>
-</div>
-      </div>
+            </div>
+            <div>
+                <span class="statement-lineno">Ligne suivante:</span> un entier <var>robotCount</var>, le nombre total de robots Automaton2000,
+            </div>
+            <div>
+                <span class="statement-lineno"><var>robotCount</var> lignes suivantes:</span> pour chaque robot Automaton2000,
+                <ul style="padding-bottom: 0;">
+                    <li>
+                        2 entiers <var>X</var> et <var>Y</var>, ses coordonnées,
+                    </li>
+                    <li>
+                        1 caractère <var>direction</var>, la direction vers laquelle il fait face (<const>U</const>, <const>R</const>, <const>D</const> ou <const>L</const>).
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-
     <!-- Protocol block -->
     <div class="blk">
-      <div class="title">Sortie pour un tour de jeu</div>
-      <div class="text">
-        <span class="statement-lineno">Une ligne</span> composée de triplets de la forme <var>X Y DIR</var> avec <var>X Y</var> deux entiers et <var>DIR</var> un caractère, soit <const>U</const>,<const>R</const>,<const>D</const> ou <const>L</const>.
-        <br>
-      </div>
+        <div class="title">Sortie pour un tour de jeu</div>
+        <div class="text">
+            <span class="statement-lineno">Une ligne</span> composée de triplets de la forme <var>X Y DIR</var> avec <var>X Y</var> deux entiers et <var>DIR</var> un caractère, soit <const>U</const>, <const>R</const>, <const>D</const> ou <const>L</const>.
+        </div>
     </div>
-
     <!-- Protocol block -->
     <div class="blk">
-      <div class="title">Contraintes</div>
-      <div class="text">1 ≤ <var>robots</var> ≤ 10.<br>
-        <br>Temps de réponse ≤ <const>1</const>s.</div>
+        <div class="title">Contraintes</div>
+        <div class="text">
+            <p>
+                1 ≤ <var>robots</var> ≤ 10.
+            </p>
+            <p>
+                Temps de réponse ≤<const>1</const>s.
+            </p>
+        </div>
     </div>
-  </div>
+</div>

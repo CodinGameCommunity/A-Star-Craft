@@ -21,9 +21,7 @@
         <span>The Goal</span>
     </h1>
     <div class="statement-goal-content">
-        <div>
-            Score as many points as possible by guiding your robots on the platforms.
-        </div>
+        Score as many points as possible by guiding your robots on the platforms.
     </div>
 </div>
 <!-- RULES -->
@@ -32,57 +30,55 @@
         <span class="icon icon-rules">&nbsp;</span>
         <span>Rules</span>
     </h1>
-    <div>
-        <div class="statement-rules-content">
-            <div>
-                You must guide multiple <const>Automaton2000</const> robots by placing arrows on your first turn. Every turn, you score as many points as the number of Automaton2000 robots still functioning.
-            </div>
-            <strong>The map</strong>
-            <ul style="padding-bottom: 0;">
-                <li>
-                    The game is played on a grid <const>19</const> units wide and <const>10</const> units high.
-                </li>
-                <li>
-                    The coordinate <const>X=0, Y=0</const> is the top left cell.
-                </li>
-                <li>
-                    Each cell can be of 1 of 3 different types: platform, arrow and void.
-                </li>
-            </ul>
-            <strong>Automaton2000</strong>
-            <ul style="padding-bottom: 0;">
-                <li>
-                    Automaton2000 moves in a straight line by 1 cell every turn.
-                </li>
-                <li>
-                    Automaton2000 only changes direction when stepping on an arrow.
-                </li>
-                <li>
-                    Automaton2000 will stop functioning if it revisits a state (position + direction) it's been in.
-                </li>
-                <li>
-                    Automaton2000 will stop functioning if it steps off the platform.
-                </li>
-            </ul>
-            <strong>Arrows</strong>
-            <ul style="padding-bottom: 0;">
-                <li>
-                    Arrows point to one of the 4 cardinal directions: <const>U</const> (Up), <const>R</const> (Right), <const>D</const> (Down) and <const>L</const> (Left).
-                </li>
-                <li>
-                    Arrows should be placed on empty platform cells only. Any other action will be ignored.
-                </li>
-            </ul>
-            <strong>Output</strong>
-            <ul style="padding-bottom: 0;">
-                <li>
-                    Place an arrow by outputting the command <action>X Y d</action> where <const>d</const> is the direction ( <const>U</const> , <const>R</const> , <const>D</const> or <const>L</const> ) and <const>X</const> , <const>Y</const> are the coordinates of the cell.
-                </li>
-                <li>
-                    Place multiple arrows by separating your commands with a space.
-                </li>
-            </ul>
+    <div class="statement-rules-content">
+        <div>
+            You must guide multiple <const>Automaton2000</const> robots by placing arrows on your first turn. Every turn, you score as many points as the number of Automaton2000 robots still functioning.
         </div>
+        <strong>The map</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                The game is played on a grid <const>19</const> units wide and <const>10</const> units high.
+            </li>
+            <li>
+                The coordinate <const>X=0, Y=0</const> is the top left cell.
+            </li>
+            <li>
+                Each cell can be of 1 of 3 different types: platform, arrow and void.
+            </li>
+        </ul>
+        <strong>Automaton2000</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Automaton2000 moves in a straight line by 1 cell every turn.
+            </li>
+            <li>
+                Automaton2000 only changes direction when stepping on an arrow.
+            </li>
+            <li>
+                Automaton2000 will stop functioning if it revisits a state (position + direction) it's been in.
+            </li>
+            <li>
+                Automaton2000 will stop functioning if it steps off the platform.
+            </li>
+        </ul>
+        <strong>Arrows</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Arrows point to one of the 4 cardinal directions: <const>U</const> (Up), <const>R</const> (Right), <const>D</const> (Down) and <const>L</const> (Left).
+            </li>
+            <li>
+                Arrows should be placed on empty platform cells only. Any other action will be ignored.
+            </li>
+        </ul>
+        <strong>Output</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Place an arrow by outputting the command <action>X Y d</action> where <const>d</const> is the direction ( <const>U</const> , <const>R</const> , <const>D</const> or <const>L</const> ) and <const>X</const> , <const>Y</const> are the coordinates of the cell.
+            </li>
+            <li>
+                Place multiple arrows by separating your commands with a space.
+            </li>
+        </ul>
     </div>
 </div>
 <!-- Details -->
