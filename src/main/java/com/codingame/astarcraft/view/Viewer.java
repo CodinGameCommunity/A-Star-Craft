@@ -6,7 +6,6 @@ import com.codingame.astarcraft.game.Robot;
 import com.codingame.astarcraft.view.anims.Anim;
 import com.codingame.astarcraft.view.anims.AnimModule;
 import com.codingame.gameengine.module.entities.*;
-import com.codingame.gameengine.module.entities.TextureBasedEntity.BlendMode;
 import com.google.inject.Inject;
 
 import java.util.*;
