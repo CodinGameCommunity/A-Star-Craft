@@ -302,19 +302,33 @@ public class Viewer {
     }
 
     private void createPath(Robot robot, Group sprite) {
-        module.addPath(
-                robot.id, graphic.createSprite()
-                        .setImage("path.png")
-                        .setScale(PATH_SCALE)
-                        .setTint(ROBOT_COLORS[robot.id])
-                        .setRotation(getRotation(robot.direction))
-                        .setAnchor(0.5)
-                        .setX(sprite.getX() + getArrowXOffsetFromDirection(robot.direction) * CELL_WIDTH / 6)
-                        .setY(sprite.getY() + getArrowYOffsetFromDirection(robot.direction) * CELL_HEIGHT / 6)
-                        .setZIndex(Z_PATH)
-                        .setAlpha(1.0)
-                        .setVisible(true)
-        );
+        createPath(robot, sprite, false);
+    }
+    
+    private void createPath(Robot robot, Group sprite, boolean first) {
+        int x = sprite.getX() + getArrowXOffsetFromDirection(robot.direction) * CELL_WIDTH / 6;
+        int y = sprite.getY() + getArrowYOffsetFromDirection(robot.direction) * CELL_HEIGHT / 6;
+        
+        Entity<?> entity = graphic.createSprite()
+            .setImage("path.png")
+            .setScale(PATH_SCALE)
+            .setTint(ROBOT_COLORS[robot.id])
+            .setRotation(getRotation(robot.direction))
+            .setAnchor(0.5)
+            .setX(x)
+            .setY(y)
+            .setAlpha(1.0)
+            .setVisible(true);
+        
+        if (first) {
+            Circle circle = graphic.createCircle().setFillAlpha(0.0).setLineColor(ROBOT_COLORS[robot.id]).setLineWidth(4).setX(x).setY(y).setRadius(20).setVisible(true).setAlpha(1.0);
+            
+            entity = graphic.createGroup(entity, circle).setVisible(true).setZIndex(Z_PATH);
+        } else {
+            entity.setZIndex(Z_PATH);
+        }
+        
+        module.addPath(robot.id, entity);
     }
 
     public void updateMap() {
@@ -357,7 +371,7 @@ public class Viewer {
             Robot robot = entry.getKey();
             Group sprite = entry.getValue();
 
-            createPath(robot, sprite);
+            createPath(robot, sprite, true);
         }
 
         for (SpriteAnimation sprite : robotSprites) {
