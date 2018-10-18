@@ -1,178 +1,206 @@
 <div id="statement_back" class="statement_back" style="display:none"></div>
 <div class="statement-body">
 <div style="color: #7cc576;
-        background-color: rgba(124, 197, 118,.1);
-        padding: 20px;
-        margin-right: 15px;
-        margin-left: 15px;
-        margin-bottom: 10px;
-        text-align: left;">
-          <div style="text-align: center; font-weight: 700; margin-bottom: 6px;">
-            Important
-          </div>
-          <span class="statement-league-alert-content">
-            The validation tests used to compute the final score are not the same as the ones used during the event. Your final score may thus differ from your score during the contest.
-          </span>
-      </div>
-  <!-- GOAL -->
-  <div class="statement-section statement-goal">
+    background-color: rgba(124, 197, 118,.1);
+    padding: 20px;
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    text-align: left;">
+    <div style="text-align: center; font-weight: 700; margin-bottom: 6px;">
+        Important
+    </div>
+    <span class="statement-league-alert-content">
+        The validation tests used to compute the final score are not the same as the ones used during the event. Your final score may thus differ from your score during the contest.
+    </span>
+</div>
+<!-- GOAL -->
+<div class="statement-section statement-goal">
     <h1>
-      <span class="icon icon-goal">&nbsp;</span>
-      <span>The Goal</span>
+        <span class="icon icon-goal">&nbsp;</span>
+        <span>The Goal</span>
     </h1>
     <div class="statement-goal-content">
-      <div>
-Score as many points as possible by guiding your robots on the platforms.
-</div>
+        <div>
+            Score as many points as possible by guiding your robots on the platforms.
+        </div>
     </div>
-  </div>
-  <!-- RULES -->
-  <div class="statement-section statement-rules">
+</div>
+<!-- RULES -->
+<div class="statement-section statement-rules">
     <h1>
-      <span class="icon icon-rules">&nbsp;</span>
-      <span>Rules</span>
+        <span class="icon icon-rules">&nbsp;</span>
+        <span>Rules</span>
     </h1>
     <div>
-      <div class="statement-rules-content">
-<div>
-
-</div>
-<div>
-You must guide multiple <const>Automaton2000</const> robots by placing arrows on your first turn. Every turn, you score as many points as the number of Automaton2000 robots still functioning.
-<br><br>
-</div>
-<strong>The map</strong>
-<ul style="padding-bottom: 0;">
-  <li>
-The game is played on a grid <const>19</const> units wide and <const>10</const> units high.
-</li>
-<li>
- The coordinate <const>X=0, Y=0</const> is the top left cell.
-</li>
-<li>
-Each cell can be of 1 of 3 different types: platform, arrow and void.
-</li>
-</ul>
-<strong>Automaton2000</strong>
-<ul style="padding-bottom: 0;">
-  <li>Automaton2000 moves in a straight line by 1 cell every turn.
-</li>
-<li>
-Automaton2000 only changes direction when stepping on an arrow.
-</li>
-<li>
-Automaton2000 will stop functioning if it revisits a state (position + direction) it's been in.
-</li>
-<li>
-Automaton2000 will stop functioning if it steps off the platform.
-</li>
-</ul>
-<strong>Arrows</strong>
-<ul style="padding-bottom: 0;">
-  <li>Arrows point to one of the 4 cardinal directions: <const>U</const> (Up), <const>R</const> (Right), <const>D</const> (Down) and <const>L</const> (Left).
-</li>
-<li> Arrows should be placed on empty platform cells only. Any other action will be ignored.
-</li>
-</ul>
-<strong>Output</strong>
-<ul style="padding-bottom: 0;">
-  <li>
-Place an arrow by outputting the command <action>X Y d</action> where <const>d</const> is the direction (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>) and <const>X</const>,<const>Y</const> are the coordinates of the cell.
-</li>
-<li>
-Place multiple arrows by separating your commands with a space.
-</li>
-</ul>
-      </div>
+        <div class="statement-rules-content">
+            <div>
+                You must guide multiple <const>Automaton2000</const> robots by placing arrows on your first turn. Every turn, you score as many points as the number of Automaton2000 robots still functioning.
+            </div>
+            <strong>The map</strong>
+            <ul style="padding-bottom: 0;">
+                <li>
+                    The game is played on a grid <const>19</const> units wide and <const>10</const> units high.
+                </li>
+                <li>
+                    The coordinate <const>X=0, Y=0</const> is the top left cell.
+                </li>
+                <li>
+                    Each cell can be of 1 of 3 different types: platform, arrow and void.
+                </li>
+            </ul>
+            <strong>Automaton2000</strong>
+            <ul style="padding-bottom: 0;">
+                <li>
+                    Automaton2000 moves in a straight line by 1 cell every turn.
+                </li>
+                <li>
+                    Automaton2000 only changes direction when stepping on an arrow.
+                </li>
+                <li>
+                    Automaton2000 will stop functioning if it revisits a state (position + direction) it's been in.
+                </li>
+                <li>
+                    Automaton2000 will stop functioning if it steps off the platform.
+                </li>
+            </ul>
+            <strong>Arrows</strong>
+            <ul style="padding-bottom: 0;">
+                <li>
+                    Arrows point to one of the 4 cardinal directions: <const>U</const> (Up), <const>R</const> (Right), <const>D</const> (Down) and <const>L</const> (Left).
+                </li>
+                <li>
+                    Arrows should be placed on empty platform cells only. Any other action will be ignored.
+                </li>
+            </ul>
+            <strong>Output</strong>
+            <ul style="padding-bottom: 0;">
+                <li>
+                    Place an arrow by outputting the command <action>X Y d</action> where <const>d</const> is the direction ( <const>U</const> , <const>R</const> , <const>D</const> or <const>L</const> ) and <const>X</const> , <const>Y</const> are the coordinates of the cell.
+                </li>
+                <li>
+                    Place multiple arrows by separating your commands with a space.
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
-  <!-- Details -->
-  <div class="statement-section statement-expertrules">
+</div>
+<!-- Details -->
+<div class="statement-section statement-expertrules">
     <h1>
-      <span class="icon icon-expertrules">&nbsp;</span>
-      <span>Details</span>
+        <span class="icon icon-expertrules">&nbsp;</span>
+        <span>Details</span>
     </h1>
     <div class="statement-expert-rules-content">
-      <b>Order of events in a turn:</b>
-      <ul style="padding-bottom: 0;">
-        <li>Score is incremented by the number of robots in function.</li>
-        <li>Automaton2000 robots move by 1 cell in the direction they're facing.</li>
-        <li>Automaton2000 robots change their direction if they're located on an arrow.</li>
-        <li>Automaton2000 robots stop functioning if they're located on a void cell or if they've entered a state (position,direction) they've been in before. (Automaton2000 robots don't share their state history)</li>
-      </ul>
-<div>
-      During the first turn, Automaton2000 changes its direction if it's standing on an arrow (i.e: You can change the initial direction of a robot by placing an arrow under it).<br><br>
-      You can run custom test cases in the IDE by selecting "Expert mode" in the IDE settings.<br><br>
-      The referee code of the game is accessible on GitHub: **insert link**.
+        <strong>Order of events in a turn:</strong>
+        <ul style="padding-bottom: 0;">
+            <li>
+                Score is incremented by the number of robots in function.
+            </li>
+            <li>
+                Automaton2000 robots move by 1 cell in the direction they're facing.
+            </li>
+            <li>
+                Automaton2000 robots change their direction if they're located on an arrow.
+            </li>
+            <li>
+                Automaton2000 robots stop functioning if they're located on a void cell or if they've entered a state (position,direction) they've been in before. (Automaton2000 robots don't share their state history)
+            </li>
+        </ul>
+        <div>
+            <p>
+                During the first turn, Automaton2000 changes its direction if it's standing on an arrow (i.e: You can change the initial direction of a robot by placing an arrow under it).
+            </p>>
+            <p>
+                You can run custom test cases in the IDE by selecting "Expert mode" in the IDE settings.
+            </p>
+            <p>
+                The referee code of the game is accessible on GitHub: **insert link**.
+            </p>
+        </div>
     </div>
-  </div>
 </div>
-  <!-- WARNING -->
-  <div class="statement-section statement-warning">
+<!-- WARNING -->
+<div class="statement-section statement-warning">
     <h1>
-      <span class="icon icon-warning">&nbsp;</span>
-      <span>Note</span>
+        <span class="icon icon-warning">&nbsp;</span>
+        <span>Note</span>
     </h1>
     <div class="statement-warning-content">
-      <b>Don’t forget to run the tests by launching them from the “Test cases” window</b>. You can submit at any time
-      to receive a score against the training validators. There are some limitations on submits per unit time. Your most
-      recent submission will be used for the final ranking.<br>
-      <br>
-      Don't hesitate to change the viewer's options to help debug your code (<img style="opacity:.8;background:#20252a;"
-        height="18" src="https://www.codingame.com/servlet/fileservlet?id=3463235186409" width="18">).
+        <p>
+            <strong>Don’t forget to run the tests by launching them from the “Test cases” window</strong>. You can submit at any time to receive a score against the training validators. There are some limitations on submits per unit time. Your most recent submission will be used for the final ranking.
+        </p>
+        <p>
+            Don't hesitate to change the viewer's options to help debug your code (<img style="opacity:.8;background:#20252a;" height="18" src="https://www.codingame.com/servlet/fileservlet?id=3463235186409" width="18">).
+        </p>
     </div>
-  </div>
-  <!-- PROTOCOL -->
-  <div class="statement-section statement-protocol">
+</div>
+<!-- PROTOCOL -->
+<div class="statement-section statement-protocol">
     <h1>
-      <span class="icon icon-protocol">&nbsp;</span>
-      <span>Game Protocol</span>
+        <span class="icon icon-protocol">&nbsp;</span>
+        <span>Game Protocol</span>
     </h1>
-
     <!-- Protocol block -->
     <div class="blk">
-      <div class="title">Game Input</div>
-      <div class="text">
-        <div><span class="statement-lineno">First <const>10</const> lines:</span> a String <var>line</var> of <const>19</const> characters. Each character represents a cell:
+        <div class="title">Game Input</div>
+        <div class="text">
+            <div>
+                <span class="statement-lineno">
+                    First <const>10</const> lines:
+                </span>
+                a String <var>line</var> of <const>19</const> characters. Each character represents a cell:
                 <ul style="padding-bottom: 0; padding-top:0;">
-                    <li><const>#</const>: void cell</li>
-                    <li><const>.</const>: empty platform cell</li>
-                    <li><const>U</const>: platform cell with an Up arrow</li>
-                    <li><const>R</const>: platform cell with an Right arrow</li>
-<li><const>D</const>: platform cell with an Down arrow</li>
-<li><const>L</const>: platform cell with an Left arrow</li>
+                    <li>
+                        <const>#</const>: void cell
+                    </li>
+                    <li>
+                        <const>.</const>: empty platform cell
+                    </li>
+                    <li>
+                        <const>U</const>: platform cell with an Up arrow
+                    </li>
+                    <li>
+                        <const>R</const>: platform cell with an Right arrow
+                    </li>
+                    <li>
+                        <const>D</const>: platform cell with an Down arrow
+                    </li>
+                    <li>
+                        <const>L</const>: platform cell with an Left arrow
+                    </li>
                 </ul>
-</div>
-<div>
-<span class="statement-lineno">Next line:</span> an Integer <var>robotCount</var>, the total number of Automaton2000 robots,
-</div>
-<div>
-<span class="statement-lineno">Next <var>robotCount</var> lines:</span> for each Automaton2000 robot,
-        <ul style="padding-bottom: 0;">
-<li>
-2 Integers <var>X</var> and <var>Y</var>, its coordinates,
-</li>
-<li>
-1 Character <var>direction</var>, the direction if faces (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>).
-        </li>
-</ul>
-</div>
-      </div>
+            </div>
+            <div>
+                <span class="statement-lineno">Next line:</span> an Integer <var>robotCount</var>, the total number of Automaton2000 robots,
+            </div>
+            <div>
+                <span class="statement-lineno">Next <var>robotCount</var> lines:</span> for each Automaton2000 robot,
+                <ul style="padding-bottom: 0;">
+                    <li>
+                        2 Integers <var>X</var> and <var>Y</var>, its coordinates,
+                    </li>
+                    <li>
+                        1 Character <var>direction</var>, the direction if faces (<const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>).
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-
     <!-- Protocol block -->
     <div class="blk">
-      <div class="title">Game Output</div>
-      <div class="text">
-        <span class="statement-lineno">A single line</span> containing triplets of the form <action>X Y DIR</action> with <var>X Y</var> two integers and <var>DIR</var> a character, either <const>U</const>,<const>R</const>,<const>D</const> or <const>L</const>.
-        <br>
-      </div>
+        <div class="title">Game Output</div>
+        <div class="text">
+            <span class="statement-lineno">A single line</span> containing triplets of the form <action>X Y DIR</action> with <var>X Y</var> two integers and <var>DIR</var> a character, either <const>U</const>, <const>R</const>, <const>D</const> or <const>L</const>.
+        </div>
     </div>
-
     <!-- Protocol block -->
     <div class="blk">
-      <div class="title">Constraints</div>
-      <div class="text">1 ≤ <var>robotCount</var> ≤ 10.<br>
-        <br>Allotted response time to output is ≤ <const>1</const>s.</div>
+        <div class="title">Constraints</div>
+        <div class="text">
+            1 ≤ <var>robotCount</var> ≤ 10.<br>
+            <br>
+            Allotted response time to output is ≤<const>1</const>s.
+        </div>
     </div>
-  </div>
+</div>
