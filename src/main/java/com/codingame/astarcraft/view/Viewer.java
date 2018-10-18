@@ -104,7 +104,7 @@ public class Viewer {
                 boolean down = cell.nexts[DOWN].type != VOID;
                 boolean left = cell.nexts[LEFT].type != VOID;
                 boolean floor = type != VOID;
-                
+
                 if (y == 0 && (floor || up)) {
                     createPortal().setX(cx).setY(cy - CELL_HEIGHT / 2);
                 }
@@ -303,30 +303,30 @@ public class Viewer {
     private void createPath(Robot robot, Group sprite) {
         createPath(robot, sprite, false);
     }
-    
+
     private void createPath(Robot robot, Group sprite, boolean first) {
         int x = sprite.getX() + getArrowXOffsetFromDirection(robot.direction) * CELL_WIDTH / 6;
         int y = sprite.getY() + getArrowYOffsetFromDirection(robot.direction) * CELL_HEIGHT / 6;
-        
+
         Entity<?> entity = graphic.createSprite()
-            .setImage("path.png")
-            .setScale(PATH_SCALE)
-            .setTint(ROBOT_COLORS[robot.id])
-            .setRotation(getRotation(robot.direction))
-            .setAnchor(0.5)
-            .setX(x)
-            .setY(y)
-            .setAlpha(1.0)
-            .setVisible(true);
-        
+                .setImage("path.png")
+                .setScale(PATH_SCALE)
+                .setTint(ROBOT_COLORS[robot.id])
+                .setRotation(getRotation(robot.direction))
+                .setAnchor(0.5)
+                .setX(x)
+                .setY(y)
+                .setAlpha(1.0)
+                .setVisible(true);
+
         if (first) {
             Circle circle = graphic.createCircle().setFillAlpha(0.0).setLineColor(ROBOT_COLORS[robot.id]).setLineWidth(4).setX(x).setY(y).setRadius(20).setVisible(true).setAlpha(1.0);
-            
+
             entity = graphic.createGroup(entity, circle).setVisible(true).setZIndex(Z_PATH);
         } else {
             entity.setZIndex(Z_PATH);
         }
-        
+
         module.addPath(robot.id, entity);
     }
 
