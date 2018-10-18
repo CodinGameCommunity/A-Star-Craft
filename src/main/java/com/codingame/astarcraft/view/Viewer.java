@@ -262,8 +262,7 @@ public class Viewer {
         Group group = graphic.createGroup(sprite,
                 graphic.createSprite().setImage("light2.png").setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(0),
                 graphic.createSprite().setImage("white2.png").setAnchor(0.5).setZIndex(1),
-                graphic.createSprite().setImage("light1.png").setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(3),
-                graphic.createSprite().setImage("white1.png").setAnchor(0.5).setZIndex(4)
+                graphic.createSprite().setImage("light1.png").setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(3)
         ).setZIndex(Z_ROBOT).setScale(ROBOT_SCALE);
 
         Map<String, Object> params = new HashMap<>();
