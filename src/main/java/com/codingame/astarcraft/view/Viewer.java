@@ -123,7 +123,7 @@ public class Viewer {
                 }
 
                 if (floor) {
-                    graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(cx).setY(cy).setZIndex(Z_FLOOR)
+                    graphic.createSprite().setImage("floor" + random.nextInt(2)).setScale(TILE_SCALE).setX(cx).setY(cy).setZIndex(Z_FLOOR)
                             .setAnchor(0.5);
 
                     if (type != NONE) {
