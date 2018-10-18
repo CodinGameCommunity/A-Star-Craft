@@ -2,6 +2,11 @@ import { WIDTH, HEIGHT } from '../core/constants.js'
 import {lerp, unlerpUnclamped} from '../core/utils.js'
 import { api as entityModule } from '../entity-module/GraphicEntityModule.js'
 
+export const options = {
+  pathsAlwaysVisible: false,
+  resetPaths: () => {}
+}
+
 const OFFSET_X = 10
 const OFFSET_Y = 68
 const MAP_WIDTH = 19
@@ -60,8 +65,10 @@ function getMouseMoveFunc (tooltip, container, module) {
       var x = Math.floor(lerp(0, MAP_WIDTH, unlerpUnclamped(OFFSET_X, OFFSET_X + CELL_WIDTH * MAP_WIDTH, point.x)))
       var y = Math.floor(lerp(0, MAP_HEIGHT, unlerpUnclamped(OFFSET_Y, OFFSET_Y + CELL_HEIGHT * MAP_HEIGHT, point.y)))
 
-      for (let id in module.currentFrame.paths) {
-        module.currentFrame.paths[id].forEach(entity => entityModule.entities.get(entity).graphics.visible = false);
+      if (!options.pathsAlwaysVisible) {
+	      for (let id in module.currentFrame.paths) {
+	        module.currentFrame.paths[id].forEach(entity => entityModule.entities.get(entity).graphics.visible = false);
+	      }
       }
 
       if (showing.length || x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT) {
@@ -86,9 +93,11 @@ function getMouseMoveFunc (tooltip, container, module) {
           }
 
           // Show paths
-          const id = module.currentFrame.ownerships[show]
-          if (id !== undefined) {
-              module.currentFrame.paths[id].forEach(entity => entityModule.entities.get(entity).graphics.visible = true)
+          if (!options.pathsAlwaysVisible) {
+	          const id = module.currentFrame.ownerships[show]
+	          if (id !== undefined) {
+	              module.currentFrame.paths[id].forEach(entity => entityModule.entities.get(entity).graphics.visible = true)
+	          }
           }
         }
         tooltip.label.text = tooltipBlocks.join('\n──────────\n')
@@ -124,6 +133,13 @@ export class AStarCraftModule {
     }
     this.lastProgress = 1
     this.lastFrame = 0
+    this.pathEntities = [];
+    
+    options.resetPaths = () => {
+    	this.pathEntities.forEach(id => {
+    		entityModule.entities.get(id).graphics.visible = options.pathsAlwaysVisible;
+    	});
+    }
   }
 
   static get name () {
@@ -146,6 +162,7 @@ export class AStarCraftModule {
         }
 
         allPaths[key].push(paths[key]);
+        this.pathEntities.push(paths[key]);
     }
 
     Object.keys(tooltips).forEach(
@@ -173,12 +190,8 @@ export class AStarCraftModule {
     container.interactive = true
     container.mousemove = getMouseMoveFunc(this.tooltip, container, this)
     container.addChild(this.tooltip)
-
-    for (let id in this.previousFrame.paths) {
-      this.previousFrame.paths[id].forEach(entity => {
-        entityModule.entities.get(entity).graphics.visible = false
-      })
-    }
+    
+    options.resetPaths();
   }
 
   generateText (text, size, color, align) {
