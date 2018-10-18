@@ -37,15 +37,14 @@ public class Viewer {
     private static final int Z_ARROW = 4;
     private static final int Z_GRID = 5;
     private static final int Z_ROBOT = 6;
-    private static final int Z_ROBOT_MASK = 7;
-    private static final int Z_PORTAL = 8;
-    private static final int Z_PATH = 9;
+    private static final int Z_PORTAL = 7;
+    private static final int Z_PATH = 8;
     private static final int GRID_COLOR = 0xFFFFFF;
     private static final double GRID_ALPHA = 0.15;
     private static final double PORTAL_SCALE = CELL_WIDTH / 450.0;
     private static final int ROBOT_ANIMATION_DURATION = 2000;
 
-    private static final int[] ROBOT_COLORS = {0xb4141e, 0x0042ff, 0x1ca7ea, 0x331ac8, 0xebe129, 0xfe8a0e, 0x168000, 0xd0a6fc, 0x1f01c9, 0x525494};
+    private static final int[] ROBOT_COLORS = {0xff0000, 0x00ff00, 0x0000ff, 0xff00ff, 0xffff00, 0x00ffff, 0xff8888, 0x88ff88, 0x8888ff, 0x000000};
     private static final String[] ROBOT_IMAGES = new String[26];
 
     static {
@@ -261,8 +260,8 @@ public class Viewer {
                 .setDuration(ROBOT_ANIMATION_DURATION).start().setLoop(true).setZIndex(2);
 
         Group group = graphic.createGroup(sprite,
-                graphic.createSprite().setImage("white2.png").setAnchor(0.5).setZIndex(0),
-                graphic.createSprite().setImage("light2.png").setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(1),
+                graphic.createSprite().setImage("light2.png").setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(0),
+                graphic.createSprite().setImage("white2.png").setAnchor(0.5).setZIndex(1),
                 graphic.createSprite().setImage("light1.png").setTint(ROBOT_COLORS[id]).setAnchor(0.5).setZIndex(3),
                 graphic.createSprite().setImage("white1.png").setAnchor(0.5).setZIndex(4)
         ).setZIndex(Z_ROBOT).setScale(ROBOT_SCALE);
