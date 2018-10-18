@@ -106,6 +106,22 @@ public class Viewer {
                 boolean down = cell.nexts[DOWN].type != VOID;
                 boolean left = cell.nexts[LEFT].type != VOID;
                 boolean floor = type != VOID;
+                
+                if (y == 0 && (floor || up)) {
+                    createPortal().setX(cx).setY(cy - CELL_HEIGHT / 2);
+                }
+
+                if (x == MAP_WIDTH - 1 && (floor || right)) {
+                    createPortal().setX(cx + CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
+                }
+
+                if (y == MAP_HEIGHT - 1 && (floor || down)) {
+                    createPortal().setX(cx).setY(cy + CELL_HEIGHT / 2);
+                }
+
+                if (x == 0 && (floor || left)) {
+                    createPortal().setX(cx - CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
+                }
 
                 if (floor) {
                     graphic.createSprite().setImage("floor" + random.nextInt(2) + ".png").setScale(TILE_SCALE).setX(cx).setY(cy).setZIndex(Z_FLOOR)
@@ -114,22 +130,6 @@ public class Viewer {
                     if (type != NONE) {
                         createArrowSprite(cx, cy, type).setScale(ARROW_SCALE).setTint(0x888888);
                         startArrows.add(cell);
-                    }
-
-                    if (y == 0 && up) {
-                        createPortal().setX(cx).setY(cy - CELL_HEIGHT / 2);
-                    }
-
-                    if (x == MAP_WIDTH - 1 && right) {
-                        createPortal().setX(cx + CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
-                    }
-
-                    if (y == MAP_HEIGHT - 1 && down) {
-                        createPortal().setX(cx).setY(cy + CELL_HEIGHT / 2);
-                    }
-
-                    if (x == 0 && left) {
-                        createPortal().setX(cx - CELL_WIDTH / 2).setY(cy).setRotation(Math.PI * 0.5);
                     }
                 } else {
                     if (y != 0 && up) {
