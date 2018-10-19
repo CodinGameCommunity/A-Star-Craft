@@ -1,5 +1,21 @@
 package com.codingame.game;
 
+import static com.codingame.astarcraft.Constants.DEATH_INFINITE_LOOP;
+import static com.codingame.astarcraft.Constants.DEATH_VOID;
+import static com.codingame.astarcraft.Constants.MAP_HEIGHT;
+import static com.codingame.astarcraft.Constants.MAP_WIDTH;
+import static com.codingame.astarcraft.Constants.NONE;
+import static com.codingame.astarcraft.Constants.VOID;
+import static com.codingame.astarcraft.Constants.charToType;
+import static com.codingame.astarcraft.Constants.typeToChar;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.codingame.astarcraft.game.Engine;
 import com.codingame.astarcraft.game.Robot;
 import com.codingame.astarcraft.view.AStarCraftModule;
@@ -10,13 +26,6 @@ import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
 import com.google.inject.Inject;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.codingame.astarcraft.Constants.*;
 
 public class Referee extends AbstractReferee {
 
@@ -115,7 +124,7 @@ public class Referee extends AbstractReferee {
                 if (outputs == null) {
                     outputs = Collections.EMPTY_LIST;
                 }
-
+                Set<String> summaries = new HashSet<>();
                 if (outputs.isEmpty()) {
                     manager.addToGameSummary("No output");
                 } else {
@@ -123,12 +132,12 @@ public class Referee extends AbstractReferee {
 
                     for (int i = 0; i < output.length; i += 3) {
                         if (output.length <= i + 2) {
-                            manager.addToGameSummary("Element amount in the action sequence is not a multiple of 3");
+                            summaries.add("Element amount in the action sequence is not a multiple of 3");
                             continue;
                         }
 
                         if (!INTEGER_PATTERN.matcher(output[i]).matches() || !INTEGER_PATTERN.matcher(output[i + 1]).matches() || !ACTION_PATTERN.matcher(output[i + 2]).matches()) {
-                            manager.addToGameSummary(output[i] + " " + output[i + 1] + " " + output[i + 2] + " is not a valid action.");
+                            summaries.add(output[i] + " " + output[i + 1] + " " + output[i + 2] + " is not a valid action.");
                             continue;
                         }
 
@@ -137,28 +146,29 @@ public class Referee extends AbstractReferee {
                         String action = output[i + 2];
 
                         if (x < 0 || x >= MAP_WIDTH) {
-                            manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
+                            summaries.add(x + " " + y + " are not valid coordinates.");
                             continue;
                         }
 
                         if (y < 0 || y >= MAP_HEIGHT) {
-                            manager.addToGameSummary(x + " " + y + " are not valid coordinates.");
+                            summaries.add(x + " " + y + " are not valid coordinates.");
                             continue;
                         }
 
                         if (engine.get(x, y).type == VOID) {
-                            manager.addToGameSummary(x + " " + y + " is a void cell.");
+                            summaries.add(x + " " + y + " is a void cell.");
                             continue;
                         }
 
                         if (engine.get(x, y).type != NONE) {
-                            manager.addToGameSummary(x + " " + y + " already contains an arrow");
+                            summaries.add(x + " " + y + " already contains an arrow");
                             continue;
                         }
 
                         engine.apply(x, y, charToType(action.charAt(0)));
                     }
                 }
+                summaries.forEach(summary -> manager.addToGameSummary(summary));
 
                 viewer.updateMap();
             } catch (TimeoutException e) {
