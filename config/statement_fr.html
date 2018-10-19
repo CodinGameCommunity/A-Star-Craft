@@ -31,7 +31,7 @@
         <span>Règles</span>
     </h1>
     <div class="statement-rules-content">
-        <div>
+        <div style="padding-bottom: 20px;">
             Vous devez guider des robots <const>Automaton2000</const> en plaçant des flèches au premier tour. A chaque tour vous marquez autant de points qu'il y a de robots fonctionnels.
         </div>
         <strong>La carte</strong>
@@ -46,7 +46,7 @@
                 La cellule <const>X=0, Y=0</const> se trouve en haut à gauche.
             </li>
             <li>
-                Chaque cellule est d'un type parmis trois: plateforme, flèche et vide.
+                Chaque cellule est d'un type parmis trois : plateforme, flèche et vide.
             </li>
         </ul>
         <strong>Automaton2000</strong>
@@ -97,7 +97,7 @@
                 Le score est incrémenté de 1 pour chaque robot en vie.
             </li>
             <li>
-                Les Automaton2000 avancent d'une case dans la direction vers laquelle il fait face.
+                Les Automaton2000 avancent d'une case dans la direction vers laquelle ils font face.
             </li>
             <li>
                 Les Automaton2000 changent de direction s'ils sont sur une flèche.
@@ -108,7 +108,7 @@
         </ul>
         <div>
             <p>
-                Au premier tour Automaton2000 change de direction s'il est sur une flèche (i.e: vous pouvez changer la direction initiale d'Automaton2000 en plaçant une flèche sous lui).
+                Au premier tour Automaton2000 change de direction s'il est sur une flèche (i.e : vous pouvez changer la direction initiale d'Automaton2000 en plaçant une flèche sous lui).
             </p>
             <p>
                 Vous pouvez lancer des jeux de tests customisés dans l'IDE en sélectionnant le "Mode expert" dans les paramètres de l'IDE.
@@ -127,7 +127,7 @@
     </h1>
     <div class="statement-warning-content">
         <p>
-            <strong>N'oubliez pas de tester votre code avec les "Jeu de tests".</strong>. Vous pouvez soumettre votre code à tout moment pour recevoir un score sur les validateurs de test. Il y a une limite sur le nombre de soumissions par unité de temps. Votre soumission la plus récente sera utilisée pour le classement final.
+            <strong>N'oubliez pas de tester votre code avec les "Jeu de tests".</strong> Vous pouvez soumettre votre code à tout moment pour recevoir un score sur les validateurs de test. Il y a une limite sur le nombre de soumissions par unité de temps. Votre soumission la plus récente sera utilisée pour le classement final.
         </p>
         <p>
             N’hésitez pas à changer les paramètres graphiques pour mieux déboguer votre code (<img style="opacity:.8;background:#20252a;" height="18" src="https://www.codingame.com/servlet/fileservlet?id=3463235186409" width="18">).
@@ -146,9 +146,9 @@
         <div class="text">
             <div>
                 <span class="statement-lineno">
-                    <const>10</const> lignes:
+                    <const>10</const> lignes :
                 </span>
-                une chaîne de caractères de longueur <const>19</const> dont chaque caractère représente:
+                une chaîne de caractères de longueur <const>19</const> dont chaque caractère représente :
                 <ul style="padding-bottom: 0; padding-top:0;">
                     <li>
                         <const>#</const> : cellule de vide
@@ -163,7 +163,7 @@
                         <const>R</const> : cellule de plateforme avec une flèche vers la droite
                     </li>
                     <li>
-                        <const>D</const> : cellule de plateforme avec une flèche vers la bas
+                        <const>D</const> : cellule de plateforme avec une flèche vers le bas
                     </li>
                     <li>
                         <const>L</const> : cellule de plateforme avec une flèche vers la gauche
@@ -171,10 +171,10 @@
                 </ul>
             </div>
             <div>
-                <span class="statement-lineno">Ligne suivante:</span> un entier <var>robotCount</var>, le nombre total de robots Automaton2000,
+                <span class="statement-lineno">Ligne suivante :</span> un entier <var>robotCount</var>, le nombre total de robots Automaton2000,
             </div>
             <div>
-                <span class="statement-lineno"><var>robotCount</var> lignes suivantes:</span> pour chaque robot Automaton2000,
+                <span class="statement-lineno"><var>robotCount</var> lignes suivantes :</span> pour chaque robot Automaton2000,
                 <ul style="padding-bottom: 0;">
                     <li>
                         2 entiers <var>X</var> et <var>Y</var>, ses coordonnées,
@@ -198,10 +198,10 @@
         <div class="title">Contraintes</div>
         <div class="text">
             <p>
-                1 ≤ <var>robots</var> ≤ 10.
+                1 ≤ <var>robotCount</var> ≤ 10.
             </p>
             <p>
-                Temps de réponse ≤<const>1</const>s.
+                Temps de réponse ≤ <const>1s</const>.
             </p>
         </div>
     </div>
