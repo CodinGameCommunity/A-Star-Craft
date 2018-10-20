@@ -1,0 +1,16 @@
+...................
+...................
+...................
+U#DDDDDDD#DDDDDDD#U
+UU#DDDDD#U#DDDDD#UU
+UUU#DDD#UUU#DDD#UUU
+UUUU#D#UUUUU#D#UUUU
+UUUUU#UUUUUUU#UUUUU
+...................
+...................
+5
+1 2 U
+9 2 U
+17 2 U
+5 8 D
+13 8 D
